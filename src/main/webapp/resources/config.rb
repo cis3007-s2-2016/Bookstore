@@ -2,8 +2,7 @@ require 'compass/import-once/activate'
 require 'compass/import-once/activate'
 # Require any additional compass plugins here.
 
-
-http_path = "/"
+http_path = "resources/"
 css_dir = "stylesheets"
 sass_dir = "sass"
 images_dir = "images"
@@ -19,3 +18,12 @@ javascripts_dir = "javascripts"
 # line_comments = false
 
 preferred_syntax = :scss
+
+css_dir = "stylesheets" # by Compass.app 
+sass_dir = "sass" # by Compass.app 
+images_dir = "images" # by Compass.app 
+output_style = :compact # by Compass.app 
+relative_assets = true # by Compass.app 
+line_comments = false # by Compass.app 
+sass_options = {:debug_info=>false} # by Compass.app 
+sourcemap = false # by Compass.app 

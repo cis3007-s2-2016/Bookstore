@@ -1,3 +1,72 @@
 @import "bootstrap-compass";
 @import "bootstrap-variables";
 @import "bootstrap";
+
+//--------- CUSTOM CSS -----------
+@media (min-width: 992px){
+    #nav-search {
+        min-width: 300px;
+    }
+}
+@media (min-width: 1200px){
+    #nav-search {
+        min-width: 550px;
+    }
+}
+
+.golden-star {
+    color: #ffcc00;
+}
+
+.rating {
+    @extend .text-center;
+}
+
+.product-carousel-control {
+    @extend .carousel-control;
+    background-image:none !important;
+    color:#fff;
+    top:30%;
+    color:#428BCA;
+    bottom:auto;
+    padding-top:4px;
+    width:30px;
+    height:30px;
+    text-shadow:none;
+    opacity:1;
+
+}
+.product-carousel-control.right {
+    left:auto;
+    right:-40px;
+}
+.product-carousel-control.left {
+    right:auto;
+    left:-40px;
+}
+.product-thumbnail {
+    @extend .thumbnail;
+    border: none;
+}
+
+
+.tilt {
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.tilt:hover {
+    -webkit-transform: rotate(5deg);
+    -moz-transform: rotate(5deg);
+    -o-transform: rotate(5deg);
+    -ms-transform: rotate(5deg);
+    transform: rotate(5deg);
+}
+
+
+.footer-container {
+    background-color: $gray-lighter;
+}

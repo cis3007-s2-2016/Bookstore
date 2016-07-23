@@ -15,103 +15,218 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:bookstore="http://dukesbookstore"
-                template="./bookstoreTemplate.xhtml">
+                template="./bookstoreTemplate.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:define name="top"></ui:define> 
     <ui:define name="content">
 
-        <h:form>
-            <h:panelGrid columns="1"
-                         title="#{bundle.ChooseBook}" >
-                <h:outputText style="font-weight:bold" 
-                              value="#{bundle.ChooseBook}" />
-                <h:graphicImage id="mapImage" 
-                                name="book_all.jpg"
-                                library="images"
-                                alt="#{bundle.ChooseBook}"
-                                usemap="#bookMap" />
-                <bookstore:map id="bookMap" 
-                               current="map1" 
-                               immediate="true"
-                               action="bookstore">
-                    <f:actionListener 
-                        type="javaeetutorial.dukesbookstore.listeners.MapBookChangeListener" />
-                    <bookstore:area id="map1" value="#{Book201}" 
-                                    onmouseover="resources/images/book_201.jpg" 
-                                    onmouseout="resources/images/book_all.jpg" 
-                                    targetImage="mapImage"/>
-                    <bookstore:area id="map2" value="#{Book202}" 
-                                    onmouseover="resources/images/book_202.jpg"
-                                    onmouseout="resources/images/book_all.jpg" 
-                                    targetImage="mapImage"/>
-                    <bookstore:area id="map3" value="#{Book203}" 
-                                    onmouseover="resources/images/book_203.jpg" 
-                                    onmouseout="resources/images/book_all.jpg" 
-                                    targetImage="mapImage"/>
-                    <bookstore:area id="map4" value="#{Book205}" 
-                                    onmouseover="resources/images/book_205.jpg" 
-                                    onmouseout="resources/images/book_all.jpg" 
-                                    targetImage="mapImage"/>
-                    <bookstore:area id="map5" value="#{Book206}" 
-                                    onmouseover="resources/images/book_206.jpg" 
-                                    onmouseout="resources/images/book_all.jpg" 
-                                    targetImage="mapImage"/>
-                    <bookstore:area id="map6" value="#{Book207}" 
-                                    onmouseover="resources/images/book_207.jpg" 
-                                    onmouseout="resources/images/book_all.jpg" 
-                                    targetImage="mapImage"/>
-                </bookstore:map>
-            </h:panelGrid>
-        </h:form>
-        <h:form>
-            <table id="links" columns="3" width="800" role="presentation">
-                <tr>
-                    <td>
-                        <h:commandLink id="Duke" action="bookstore">
-                            <f:actionListener 
-                                type="javaeetutorial.dukesbookstore.listeners.LinkBookChangeListener" />
-                            <h:outputText value="#{bundle.Book201}"/>
-                        </h:commandLink>
-                    </td>
-                    <td>
-                        <h:commandLink id="Jeeves" action="bookstore">
-                            <f:actionListener 
-                                type="javaeetutorial.dukesbookstore.listeners.LinkBookChangeListener" />
-                            <h:outputText value="#{bundle.Book202}"/>
-                        </h:commandLink>
-                    </td>
-                    <td>
-                        <h:commandLink id="Masterson" action="bookstore">
-                            <f:actionListener 
-                                type="javaeetutorial.dukesbookstore.listeners.LinkBookChangeListener" />
-                            <h:outputText value="#{bundle.Book203}"/>
-                        </h:commandLink>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <h:commandLink id="Novation" action="bookstore">
-                            <f:actionListener 
-                                type="javaeetutorial.dukesbookstore.listeners.LinkBookChangeListener" />
-                            <h:outputText value="#{bundle.Book205}"/>
-                        </h:commandLink>
-                    </td>
-                    <td>
-                        <h:commandLink id="Thrilled" action="bookstore">
-                            <f:actionListener 
-                                type="javaeetutorial.dukesbookstore.listeners.LinkBookChangeListener" />
-                            <h:outputText value="#{bundle.Book206}"/>
-                        </h:commandLink>
-                    </td>
-                    <td>
-                        <h:commandLink id="Coding" action="bookstore">
-                            <f:actionListener 
-                                type="javaeetutorial.dukesbookstore.listeners.LinkBookChangeListener" />
-                            <h:outputText value="#{bundle.Book207}"/>
-                        </h:commandLink>
-                    </td>
-                </tr>
-            </table>
-        </h:form>
+
+
+
+
+
+        <div class="jumbotron">
+            <h1>Dukes Bookstore </h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in velit pretium, laoreet lectus vitae, ullamcorper erat. Curabitur vitae orci in lorem luctus fermentum.</p>
+            <p><a class="btn btn-primary btn-lg" href="#" role="button">Sign in</a></p>
+        </div>
+
+        <article>
+            <h2>New Releases</h2>
+            <div id="newReleasesCarousel" class="carousel slide" data-ride="carousel">
+
+                <ol class="carousel-indicators">
+                    <li data-target="#newReleasesCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#newReleasesCarousel" data-slide-to="1"></li>
+                </ol>
+
+                <div class="carousel-inner">
+                    <!-- Print out 2 rows of 6 product items-->
+                    <c:forEach var="i" begin="1" end="2">
+                        <div class="#{(i==1)?'active item':'item'}">
+                            <div class="row">
+                                <c:forEach begin="1" end="6">
+
+                                    <div class="col-md-2">
+                                        <div class="product-thumbnail">
+                                            <h:link><h:graphicImage class="tilt" name="book1.jpg" library="images" width="128" height="192"></h:graphicImage></h:link>
+                                            <div class="caption text-center">
+                                                Lord Of The Rings: The Two Towers
+                                                <div class="rating">
+                                                    <c:forEach var="i" begin="1" end="4">
+                                                    <i class="fa fa-star golden-star" aria-hidden="true"></i>
+                                                    </c:forEach>
+                                                    <i class="fa fa-star-o golden-star" aria-hidden="true"></i>
+                                                </div>
+                                                <p>
+                                                    <a href="#" class="btn btn-primary" role="button"><i class="fa fa-cart-plus" aria-hidden="true"></i> Buy</a> 
+                                                    <a href="#" class="btn btn-primary" role="button">
+                                                        <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>        
+                                    </div>
+                                </c:forEach>
+                            </div>
+                        </div>
+                    </c:forEach>
+
+                </div>
+
+                <a class="left product-carousel-control" href="#newReleasesCarousel" data-slide="prev"><i class="fa fa-chevron-left fa-2x"></i></a>
+                <a class="right product-carousel-control" href="#newReleasesCarousel" data-slide="next"><i class="fa fa-chevron-right fa-2x"></i></a>
+
+            </div><!-- End Carousel -->
+        </article>
+        
+        <article>
+            <h2>Most Popular</h2>
+            <div id="bestSellersCarousel" class="carousel slide" data-ride="carousel">
+
+                <ol class="carousel-indicators">
+                    <li data-target="#bestSellersCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#bestSellersCarousel" data-slide-to="1"></li>
+                </ol>
+
+                <div class="carousel-inner">
+                    <!-- Print out 2 rows of 6 product items-->
+                    <c:forEach var="i" begin="1" end="2">
+                        <div class="#{(i==1)?'active item':'item'}">
+                            <div class="row">
+                                <c:forEach begin="1" end="6">
+
+                                    <div class="col-md-2">
+                                        <div class="product-thumbnail">
+                                            <h:link><h:graphicImage class="tilt" name="book1.jpg" library="images" width="128" height="192"></h:graphicImage></h:link>
+                                            <div class="caption text-center">
+                                                Lord Of The Rings: The Two Towers
+                                                <div class="rating">
+                                                    <c:forEach var="i" begin="1" end="4">
+                                                    <i class="fa fa-star golden-star" aria-hidden="true"></i>
+                                                    </c:forEach>
+                                                    <i class="fa fa-star-o golden-star" aria-hidden="true"></i>
+                                                </div>
+                                                <p>
+                                                    <a href="#" class="btn btn-primary" role="button"><i class="fa fa-cart-plus" aria-hidden="true"></i> Buy</a> 
+                                                    <a href="#" class="btn btn-primary" role="button">
+                                                        <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>        
+                                    </div>
+                                </c:forEach>
+                            </div>
+                        </div>
+                    </c:forEach>
+
+                </div>
+
+                <a class="left product-carousel-control" href="#bestSellersCarousel" data-slide="prev"><i class="fa fa-chevron-left fa-2x"></i></a>
+                <a class="right product-carousel-control" href="#bestSellersCarousel" data-slide="next"><i class="fa fa-chevron-right fa-2x"></i></a>
+
+            </div><!-- End Carousel -->
+        </article>
+
+
     </ui:define>
+    <!--    <ui:define name="content">
+    
+            <h:form>
+                <h:panelGrid columns="1"
+                             title="#{bundle.ChooseBook}" >
+                    <h:outputText style="font-weight:bold" 
+                                  value="#{bundle.ChooseBook}" />
+                    <h:graphicImage id="mapImage" 
+                                    name="book_all.jpg"
+                                    library="images"
+                                    alt="#{bundle.ChooseBook}"
+                                    usemap="#bookMap" />
+                    <bookstore:map id="bookMap" 
+                                   current="map1" 
+                                   immediate="true"
+                                   action="bookstore">
+                        <f:actionListener 
+                            type="javaeetutorial.dukesbookstore.listeners.MapBookChangeListener" />
+                        <bookstore:area id="map1" value="#{Book201}" 
+                                        onmouseover="resources/images/book_201.jpg" 
+                                        onmouseout="resources/images/book_all.jpg" 
+                                        targetImage="mapImage"/>
+                        <bookstore:area id="map2" value="#{Book202}" 
+                                        onmouseover="resources/images/book_202.jpg"
+                                        onmouseout="resources/images/book_all.jpg" 
+                                        targetImage="mapImage"/>
+                        <bookstore:area id="map3" value="#{Book203}" 
+                                        onmouseover="resources/images/book_203.jpg" 
+                                        onmouseout="resources/images/book_all.jpg" 
+                                        targetImage="mapImage"/>
+                        <bookstore:area id="map4" value="#{Book205}" 
+                                        onmouseover="resources/images/book_205.jpg" 
+                                        onmouseout="resources/images/book_all.jpg" 
+                                        targetImage="mapImage"/>
+                        <bookstore:area id="map5" value="#{Book206}" 
+                                        onmouseover="resources/images/book_206.jpg" 
+                                        onmouseout="resources/images/book_all.jpg" 
+                                        targetImage="mapImage"/>
+                        <bookstore:area id="map6" value="#{Book207}" 
+                                        onmouseover="resources/images/book_207.jpg" 
+                                        onmouseout="resources/images/book_all.jpg" 
+                                        targetImage="mapImage"/>
+                    </bookstore:map>
+                </h:panelGrid>
+            </h:form>
+            <h:form>
+                <table id="links" columns="3" width="800" role="presentation">
+                    <tr>
+                        <td>
+                            <h:commandLink id="Duke" action="bookstore">
+                                <f:actionListener 
+                                    type="javaeetutorial.dukesbookstore.listeners.LinkBookChangeListener" />
+                                <h:outputText value="#{bundle.Book201}"/>
+                            </h:commandLink>
+                        </td>
+                        <td>
+                            <h:commandLink id="Jeeves" action="bookstore">
+                                <f:actionListener 
+                                    type="javaeetutorial.dukesbookstore.listeners.LinkBookChangeListener" />
+                                <h:outputText value="#{bundle.Book202}"/>
+                            </h:commandLink>
+                        </td>
+                        <td>
+                            <h:commandLink id="Masterson" action="bookstore">
+                                <f:actionListener 
+                                    type="javaeetutorial.dukesbookstore.listeners.LinkBookChangeListener" />
+                                <h:outputText value="#{bundle.Book203}"/>
+                            </h:commandLink>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h:commandLink id="Novation" action="bookstore">
+                                <f:actionListener 
+                                    type="javaeetutorial.dukesbookstore.listeners.LinkBookChangeListener" />
+                                <h:outputText value="#{bundle.Book205}"/>
+                            </h:commandLink>
+                        </td>
+                        <td>
+                            <h:commandLink id="Thrilled" action="bookstore">
+                                <f:actionListener 
+                                    type="javaeetutorial.dukesbookstore.listeners.LinkBookChangeListener" />
+                                <h:outputText value="#{bundle.Book206}"/>
+                            </h:commandLink>
+                        </td>
+                        <td>
+                            <h:commandLink id="Coding" action="bookstore">
+                                <f:actionListener 
+                                    type="javaeetutorial.dukesbookstore.listeners.LinkBookChangeListener" />
+                                <h:outputText value="#{bundle.Book207}"/>
+                            </h:commandLink>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
+        </ui:define>-->
 </ui:composition>

@@ -18,31 +18,118 @@
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <h:outputStylesheet library="stylesheets" name="styles.css"/>
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/stylesheets/styles.css"/>
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/stylesheets/font-awesome.css"/>
         <title>#{bundle.BookstoreTitle}</title>
     </h:head>
 
     <h:body>
+        <header>
+            <nav class="navbar navbar-inverse" role="navigation">
+                <div class="container">
+
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapsible">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#">Dukes Bookstore</a>
+                    </div>
+
+                    <div class="navbar-collapse collapse" id="navbar-collapsible">
+
+                        <ul class="nav navbar-nav navbar-left">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Shop <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-header">Categories</li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="">Fiction</a></li>
+                                    <li><a href="">Non-Fiction</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">Auction</a></li>
 
 
-        <div class="container">
+                            <!--                        <div class="navbar-form navbar-right btn-group">
+                                                        <button type="button" class="btn btn-default"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</button>
+                                                        <button type="button" class="btn btn-default"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart</button>
+                                                    </div>-->
 
-            <div id="top" class="top" align="center" 
-                 style="background-color: white;">
-                <h1>
-                    Duke's 
-                    <h:graphicImage name="duke.books.gif" 
-                                    library="images" alt="Duke holding books"/>
-                    Bookstore
-                </h1> 
-                <ui:insert name="top" />
-            </div>
+                            <li>
+                                <form class="navbar-form navbar-nav">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input id="nav-search" type="text" class="form-control" placeholder="Title, Author, Genre, ISBN"></input>
+                                            <span class="input-group-btn"><button class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>    </span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </li>
+                            <li><a href="#"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a></li>
+                            <li><a href="#"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </nav>
+        </header>
+
+
+        <main class="container">
+
 
             <div id="content" class="center_content" >
                 <ui:insert name="content" />
             </div>
 
-        </div> <!-- /container -->
+
+        </main> <!-- /container -->
+
+
+        <footer class="footer-container">
+            <hr />
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <ul class="list-unstyled">
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Contact and Support</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <ul class="list-unstyled">
+                            <li><a href="#">Shop</a></li>
+                            <li><a href="#">Auction</a></li>							
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <ul class="list-unstyled">
+                            <li><a href="#">My Dashboard</a></li>
+                            <li><a href="#">My Cart</a></li>						
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <ul class="list-unstyled">
+                            <li><a href="#">Help</a></li>
+                            <li><a href="#">Developer API</a></li>							
+                        </ul>
+                    </div>					
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-md-8">
+                        <a href="#">Terms of Service</a> | <a href="#">Privacy</a> | <a href="#">Security</a>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="muted pull-right">© 2016 USQ. All rights reserved</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
 
         <!-- Bootstrap JavaScript-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
