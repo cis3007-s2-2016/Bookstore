@@ -1,13 +1,4 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!--
-
-    Copyright (c) 2014 Oracle and/or its affiliates. All rights reserved.
-
-    You may not modify, use, reproduce, or distribute this software except in
-    compliance with  the terms of the License at:
-    http://java.net/projects/javaeetutorial/pages/BerkeleyLicense
-
--->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="#{localeBean.language}"
@@ -35,7 +26,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="#">Dukes Bookstore</a>
+                        <h:link class="navbar-brand" outcome="index" value="Dukes Bookstore"></h:link>
                     </div>
 
                     <div class="navbar-collapse collapse" id="navbar-collapsible">
@@ -51,13 +42,6 @@
                                 </ul>
                             </li>
                             <li><a href="#">Auction</a></li>
-
-
-                            <!--                        <div class="navbar-form navbar-right btn-group">
-                                                        <button type="button" class="btn btn-default"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</button>
-                                                        <button type="button" class="btn btn-default"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart</button>
-                                                    </div>-->
-
                             <li>
                                 <form class="navbar-form navbar-nav">
                                     <div class="form-group">
@@ -68,7 +52,7 @@
                                     </div>
                                 </form>
                             </li>
-                            <li><a href="#"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a></li>
+                            <li><h:link outcome="dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</h:link></li>
                             <li><a href="#"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart</a></li>
                         </ul>
                     </div>
