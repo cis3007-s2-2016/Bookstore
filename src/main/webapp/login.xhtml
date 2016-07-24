@@ -1,0 +1,60 @@
+
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:bookstore="http://dukesbookstore"
+                template="./bookstoreTemplate.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <ui:define name="top"></ui:define> 
+    <ui:define name="content">
+        <div class="login-body">
+            <div class="container">
+                <div class="row">
+                    <div id="login-form-container" class="col-sm-6 col-sm-offset-3">
+                        <div class="login-form-top">
+                            <div class="row vertical-align">
+                                <div class="col-sm-10">
+                                    <span class="h3">Login to #{bundle.BookstoreTitle}  </span>
+                                </div>
+                                <div clas="col-sm-2">
+                                    <i class="fa fa-lock fa-5x login-form-icon hide-when-small" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="login-form-bottom">
+                            <form>
+                                <div class="login-form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="login-username-icon"><i class="fa fa-user fa-fw" aria-hidden="true"></i></span>
+                                        <input type="text" id="login-username-input" class="login-input form-control" placeholder="Username or Email" aria-describedby="basic-addon1"></input>
+                                    </div>
+                                </div>
+                                <div class="login-form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="login-password-icon"><i class="fa fa-unlock-alt fa-fw" aria-hidden="true"></i></span>
+                                        <input type="password" id="login-password-input" class="login-input form-control" placeholder="Password" aria-describedby="basic-addon1"></input>
+                                    </div>
+                                </div>
+
+                                <button id="login-form-submitButton" type="submit" class="btn btn-primary">Log in</button>
+                            </form>
+                            <hr />
+                            <div>
+                                New to #{bundle.BookstoreTitle}?  <h:link outcome="signup"><button type="button" class="btn btn-link">Sign up now <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button></h:link>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ui:define>
+</ui:composition>
