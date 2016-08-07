@@ -1,0 +1,12 @@
+Books:	ISBN, author, title, description, format, publisher, publishDate, thumbnail, category, stockCount, rrp, costPrice, salePrice, dateAdded, dateModified, addedBy, modifiedBy
+Ratings: ID, isbn, userID, rating, reviewTitle, review, dateReveiwed
+users:	USERNAME, email, hashedPassword, firstName, LastName, addressLine1, addressLine2, city, state, postcode, receivesNotifications, receivesNewsletters
+staff:	STAFFID, hashedPassword, firstName, lastName, accessLevel
+wishlists: ID, user, isbn, dateWished
+auctionListings:  ID, seller, isbn, minimumStatingPrice, dateListed, dateModified, auctionEndDate, itemConditon, itemDescription, postagePrice, uploadedImage1, uploadedImage2, uploadedImage3, acceptedPaymentTypes, highestBid
+bids:	ID, bidder, auctionItem, bidPrice, timeStamp
+usedBooksListings:	ID, seller, price, itemConditon, itemDescription, postagePrice, acceptedPaymentTypes, uploadedImage1, uploadedImage2, uploadedImage3, dateListed, dateModified
+usedBookSales:	ID, usedBookListing, saleDate, buyer
+newSales:	ID, buyer, salePrice, saleDate, isbn, shippedDate
+auctionSales:	ID, winningBid, auctionListing, markedAsSent, markedAsPaid
+newAutionListingNotifications:	ISBN, USER_TO_NOTIFY
