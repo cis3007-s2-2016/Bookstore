@@ -41,7 +41,7 @@ public class CatalogBean extends AbstractBean implements Serializable {
      */
     public String add() {
         Book book = book();
-        cart.add(book.getBookId(), book);
+        cart.add(book.getISBN(), book);
         message(null, "ConfirmAdd", new Object[]{book.getTitle()});
 
         return ("bookcatalog");
@@ -79,7 +79,7 @@ public class CatalogBean extends AbstractBean implements Serializable {
         for (ShoppingCartItem item : results) {
             Book bd = (Book) item.getItem();
 
-            if ((bd.getBookId()).equals(book.getBookId())) {
+            if ((bd.getISBN()).equals(book.getISBN())) {
                 bookQuantity = item.getQuantity();
 
                 break;

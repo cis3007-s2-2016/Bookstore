@@ -37,15 +37,19 @@ public class BookRequestBean {
     public BookRequestBean() throws Exception {
     }
 
-    public void createBook(String bookId, String surname, String firstname,
-            String title, Double price, Boolean onsale, Integer calendarYear,
-            String description, Integer inventory) {
+    public void createBook(String isbn, String surname, String firstname,
+            String title, Double costPrice, Double retailPrice, Integer publishedYear,
+            String description, Integer stockLevel, String publisher,
+            String genre, String format) {
         try {
-            Book book = new Book(bookId, surname, firstname, title, price,
-                    onsale, calendarYear, description, inventory);
-            logger.log(Level.INFO, "Created book {0}", bookId);
+            Book book = new Book(isbn, surname, firstname, title,
+                    costPrice, retailPrice, publishedYear,
+                    description, stockLevel, publisher,
+                    genre, format);
+            
+            logger.log(Level.INFO, "Created book {0}", isbn);
             em.persist(book);
-            logger.log(Level.INFO, "Persisted book {0}", bookId);
+            logger.log(Level.INFO, "Persisted book {0}", isbn);
         } catch (Exception ex) {
             throw new EJBException(ex.getMessage());
         }
@@ -78,7 +82,7 @@ public class BookRequestBean {
             while (i.hasNext()) {
                 ShoppingCartItem sci = (ShoppingCartItem) i.next();
                 Book bd = (Book) sci.getItem();
-                String id = bd.getBookId();
+                String id = bd.getISBN();
                 int quantity = sci.getQuantity();
                 buyBook(id, quantity);
             }
@@ -93,11 +97,11 @@ public class BookRequestBean {
             Book requestedBook = em.find(Book.class, bookId);
 
             if (requestedBook != null) {
-                int inventory = requestedBook.getInventory();
+                int inventory = requestedBook.getStockLevel();
 
                 if ((inventory - quantity) >= 0) {
                     int newInventory = inventory - quantity;
-                    requestedBook.setInventory(newInventory);
+                    requestedBook.setStockLevel(newInventory);
                 } else {
                     throw new OrderException(
                             "Not enough of " + bookId

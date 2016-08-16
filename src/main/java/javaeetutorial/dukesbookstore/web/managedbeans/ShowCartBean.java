@@ -58,7 +58,7 @@ public class ShowCartBean extends AbstractBean implements Serializable {
      */
     public String remove() {
         Book book = (Book) item().getItem();
-        cart.remove(book.getBookId());
+        cart.remove(book.getISBN());
         setCartChanged(true);
         message(null, "ConfirmRemove", new Object[]{book.getTitle()});
 

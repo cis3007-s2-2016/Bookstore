@@ -58,7 +58,7 @@ public class BookstoreBean extends AbstractBean implements Serializable {
      */
     public String add() {
         Book book = getFeatured();
-        cart.add(book.getBookId(), book);
+        cart.add(book.getISBN(), book);
         message(null, "ConfirmAdd", new Object[]{book.getTitle()});
 
         return ("bookcatalog");
