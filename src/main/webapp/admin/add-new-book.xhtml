@@ -1,0 +1,166 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:v-on='vue.org'
+                xmlns:v-bind='vue.org'
+                template="./admin.template.xhtml">
+
+    <ui:define name="top"></ui:define> 
+    <ui:define name="content">
+        
+        <form id='addBookApp' class="form-horizontal">
+            <div class='row'>
+                <div class="col-sm-8">
+                    <div class="col-sm-8 col-sm-offset-3">
+                        <h1>Add Book To Catalouge:</h1>
+                        <h3>Book details:</h3>
+                        <br />
+                        <hr />
+                    </div>
+                </div>
+                <br />
+            </div>
+                            
+
+            <div class="row">
+
+                <div class="col-md-8">
+                    
+                        <div class="form-group">
+                            <label for="isbn" class="col-sm-3 control-label">ISBN:</label>
+                            <div class="col-sm-3">
+                                <input type="text" v-model="isbn" required="required" pattern="[0-9]{3}-?[0-9]{10}" class="form-control" id="isbn" placeholder="xxx-xxxxxxxxx" />
+                            </div>
+                            <div class="col-sm-1"></div>
+                            <div class="col-sm-3">
+                                <div class="btn btn-primary" v-on:click.prevent="autocompleteFromGoogleBooks" style="width:100%;"> 
+                                    Auto-Complete 
+                                    <i class="fa fa-spinner fa-spin fa-fw" v-show="loadingIcon"></i>
+                                    <i class="fa fa-bolt fa-fw" v-show="!loadingIcon"></i>
+                                </div>
+                                
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="title" class="col-sm-3 control-label">Title:</label>
+                            <div class="col-sm-8">
+                                <input type="text" v-model="title" required="required" class="form-control" id="title" placeholder="Book Title" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="author" class="col-sm-3 control-label">Author:</label>
+                            <div class="col-sm-8">
+                                <input type="text" v-model="author" required="required" class="form-control" id="author" placeholder="Author" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="category" class="col-sm-3 control-label">Category:</label>
+                            <div class="col-sm-8">
+                                <input type="text" v-model="category" required="required" class="form-control" id="catgory" placeholder="Category" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="publisher" class="col-sm-3 control-label">Publisher:</label>
+                            <div class="col-sm-8">
+                                <input type="text" v-model="publisher" required="required" class="form-control" id="publisher" placeholder="Publisher" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="publishDate" class="col-sm-3 control-label">Publish Date:</label>
+                            <div class="col-sm-5">
+                                <input type="date" v-model="publishDate" required="required" class="form-control" id="publishDate" />
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-md-3">
+                        <img width="200" height="320" v-bind:src="imageurl" />
+                        <input type="file"> </input>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="format" class="col-sm-2 control-label">Format:</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="format" required="required">
+                            <option>Hardcover</option>
+                            <option>Paperback</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description" class="col-sm-2 control-label">Synopsis:</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" v-model="description" required="required" id="description" rows="6" placeholder="Synopsis"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="costPrice" class="col-sm-2 control-label">Cost Price:</label>
+                    <div class="col-sm-2">
+                        <input type="number" required="required" min="0" step="0.01" class="form-control" id="costPrice" placeholder="Cost Price" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="retailPrice" class="col-sm-2 control-label">Retail Price:</label>
+                    <div class="col-sm-2">
+                        <input type="number" required="required" min="0" step="0.01" class="form-control" id="rrp" placeholder="Retail Price" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="stockCount" class="col-sm-2 control-label">Number in Stock:</label>
+                    <div class="col-sm-2">
+                        <input type="number" required="required" min="0" step="1" class="form-control" id="stockCount" placeholder="Number in stock" />
+                    </div>
+                </div>
+            <input class='btn btn-primary' type="submit" value="Add Book"></input>
+        </form>
+
+    </ui:define>
+    
+    <ui:define name='scripts'>
+        <script>
+            new Vue({
+                el: '#addBookApp',
+                data: {
+                    isbn: '',
+                    title: '',
+                    author: '',
+                    description: '',
+                    category: '',
+                    format: '',
+                    publisher: '',
+                    publishDate: '',
+                    imageurl: '',
+                    loadingIcon: false
+                },
+                methods: {
+                        autocompleteFromGoogleBooks: function (event) {
+                            var isbnNumbersOnly = this.isbn.replace('-','');
+                            var googleBooksApiURL = 'https://www.googleapis.com/books/v1/volumes?q=isbn:' + isbnNumbersOnly;
+                            
+                            this.loadingIcon = true;
+                            
+                            this.$http.get(googleBooksApiURL).then(function (response) {
+                                this.title = response.json().items[0].volumeInfo.title;
+                                this.author = response.json().items[0].volumeInfo.authors[0];
+                                this.description = response.json().items[0].volumeInfo.description;
+                                this.publisher = response.json().items[0].volumeInfo.publisher;
+                                this.category = response.json().items[0].volumeInfo.categories[0]; 
+                                this.imageurl = response.json().items[0].volumeInfo.imageLinks.thumbnail;
+                                this.loadingIcon = false;
+                            });
+                            
+                            
+                        }
+
+
+
+                    }
+                
+            });
+        </script>
+    </ui:define>
+</ui:composition>

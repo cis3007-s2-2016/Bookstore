@@ -1,0 +1,179 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:bookstore="http://dukesbookstore"
+                template="./bookstoreTemplate.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:v-on="http://www.vue.com"
+                xmlns:v-bind="http://www.vue.com"
+                xmlns:v-show="http://www.vue.com">
+
+    <ui:define name="top"></ui:define> 
+    <ui:define name="content">
+        <div class="container register-form-container" id="app">
+            <div id="app" class="row">
+                <div class="col-md-8 col-md-offset-2">
+                <!-- FORM HEADER -->
+                    <div class="login-form-top">
+                        <div class="row vertical-align">
+                            <div class="col-sm-10">
+                                <span class="h3">Sign up to #{bundle.BookstoreTitle}  </span>
+                            </div>
+                            <div clas="col-sm-2">
+                                <i class="fa fa-user-plus fa-5x login-form-icon hide-when-small" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FORM CONTENT -->
+                    <div class="login-form-bottom">
+
+
+
+                        <form class="form-horizontal" action="index.xhtml">
+
+
+
+                            <!-- email -->
+                            <div class="form-group">
+                                <label for="email" class="col-sm-3 control-label">Email:</label>
+                                <div class="input-group col-sm-8">
+                                    <input v-model="email" id="email" type="email" class="login-input form-control-camoflage" placeholder="email" aria-describedby="basic-addon1"></input>
+                                    <span class="input-group-addon-camoflage"><i class="fa  fa-fw {{ emailInvalid ? 'invalid-icon fa-exclamation-circle' : 'valid-icon fa-check' }}" aria-hidden="true"></i></span>
+                                </div>
+                            </div>
+
+                            <!-- password -->
+                            <div class="form-group">
+                                <label for="password1" class="col-sm-3 control-label">Password:</label>
+                                <div class="input-group col-sm-8">
+                                    <input id="password1" type="password" class="login-input form-control-camoflage" placeholder="password" aria-describedby="basic-addon1"></input>
+                                    <span class="input-group-addon-camoflage"><i class="fa fa-exclamation-circle fa-fw {{ password1Invalid ? 'invalid-icon fa-exclamation-circle' : 'valid-icon fa-check' }}" aria-hidden="true"></i></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="password2" class="col-sm-3 control-label"></label>
+                                <div class="input-group col-sm-8">
+                                    <input id="password2" type="password" class="login-input form-control-camoflage" placeholder="repeat password" aria-describedby="basic-addon1"></input>
+                                    <span class="input-group-addon-camoflage"><i class="fa fa-exclamation-circle fa-fw {{ password2Invalid ? 'invalid-icon fa-exclamation-circle' : 'valid-icon fa-check' }}" aria-hidden="true"></i></span>
+                                </div>
+                            </div>
+
+
+                            <hr />  <!-- - - - - - - -->
+
+                            <!-- name -->
+                            <div class="form-group">
+                                <label for="name" class="col-sm-3 control-label">Name:</label>
+                                <div class="input-group col-sm-8">
+                                    <input id="name" type="text" class="login-input form-control-camoflage" placeholder="Name" aria-describedby="basic-addon1"></input>
+                                    <span class="input-group-addon-camoflage"><i class="fa fa-exclamation-circle fa-fw danger" aria-hidden="true"></i></span>
+                                </div>
+                            </div>
+
+                            <!-- address -->
+                            <div class="form-group">
+                                <label for="address1" class="col-sm-3 control-label">{{billingIsShippingAddressCheckbox ? "" : "Shipping"}} Address:</label>
+                                <div class="input-group col-sm-8">
+                                    <input id="address1" type="text" class="login-input form-control-camoflage" placeholder="Address Line 1" aria-describedby="basic-addon1"></input>
+                                    <span class="input-group-addon-camoflage"><i class="fa fa-exclamation-circle fa-fw danger" aria-hidden="true"></i></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="address2" class="col-sm-3 control-label"></label>
+                                <div class="input-group col-sm-8">
+                                    <input id="address2" type="text" class="login-input form-control-camoflage" placeholder="Address Line 2" aria-describedby="basic-addon1"></input>
+                                    <span class="input-group-addon-camoflage"><i class="fa fa-exclamation-circle fa-fw danger" aria-hidden="true"></i></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="city" class="col-sm-3 control-label"></label>
+                                <div class="input-group col-sm-8">
+                                    <input id="city" type="text" class="login-input form-control-camoflage" placeholder="City" aria-describedby="basic-addon1"></input>
+                                    <span class="input-group-addon-camoflage"><i class="fa fa-exclamation-circle fa-fw danger" aria-hidden="true"></i></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="state" class="col-sm-3 control-label"></label>
+                                <div class="input-group col-sm-3" style="float:left;">
+                                    <input id="state" type="text" class="login-input form-control-camoflage" placeholder="State" aria-describedby="basic-addon1"></input>
+                                    <span class="input-group-addon-camoflage"><i class="fa fa-exclamation-circle fa-fw danger" aria-hidden="true"></i></span>
+                                </div>
+                                <div class="input-group col-sm-4 col-sm-offset-1" style="float:left;">
+                                    <input id="postcode" type="number" class="login-input form-control-camoflage" placeholder="Postcode" aria-describedby="basic-addon1"></input>
+                                    <span class="input-group-addon-camoflage"><i class="fa fa-exclamation-circle fa-fw danger" aria-hidden="true"></i></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-3 col-sm-10">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" checked="checked" v-model="billingIsShippingAddressCheckbox">#{bundle.AreAddessesSame}</input>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- Different shipping address -->
+                            <!-- address -->
+                            <div v-show="!billingIsShippingAddressCheckbox" transition="expand">
+                                <hr />
+                                <div class="form-group">
+                                    <label for="address1" class="col-sm-3 control-label">Billing Address:</label>
+                                    <div class="input-group col-sm-8">
+                                        <input id="address1" type="text" class="login-input form-control-camoflage" placeholder="Address Line 1" aria-describedby="basic-addon1"></input>
+                                        <span class="input-group-addon-camoflage"><i class="fa fa-exclamation-circle fa-fw danger" aria-hidden="true"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="address2" class="col-sm-3 control-label"></label>
+                                    <div class="input-group col-sm-8">
+                                        <input id="address2" type="text" class="login-input form-control-camoflage" placeholder="Address Line 2" aria-describedby="basic-addon1"></input>
+                                        <span class="input-group-addon-camoflage"><i class="fa fa-exclamation-circle fa-fw danger" aria-hidden="true"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="city" class="col-sm-3 control-label"></label>
+                                    <div class="input-group col-sm-8">
+                                        <input id="city" type="text" class="login-input form-control-camoflage" placeholder="City" aria-describedby="basic-addon1"></input>
+                                        <span class="input-group-addon-camoflage"><i class="fa fa-exclamation-circle fa-fw danger" aria-hidden="true"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="state" class="col-sm-3 control-label"></label>
+                                    <div class="input-group col-sm-3" style="float:left;">
+                                        <input id="state" type="text" class="login-input form-control-camoflage" placeholder="State" aria-describedby="basic-addon1"></input>
+                                        <span class="input-group-addon-camoflage"><i class="fa fa-exclamation-circle fa-fw" aria-hidden="true"></i></span>
+                                    </div>
+                                    <div class="input-group col-sm-4 col-sm-offset-1" style="float:left;">
+                                        <input id="postcode" v-model="postcode" v-on:keyup="validatePostcode" type="text" class="login-input form-control-camoflage" maxlength="4" placeholder="Postcode" aria-describedby="basic-addon1"></input>
+                                        <span class="input-group-addon-camoflage"><i class="fa  fa-fw {{ postcodeInvalid ? 'invalid-icon fa-exclamation-circle' : 'valid-icon fa-check' }}" aria-hidden="true"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+{{ $data | json }}
+
+
+
+
+
+                            <br /><button id="login-form-submitButton" type="submit" class="btn btn-primary col-sm-offset-5">Sign up!</button>
+                        </form>
+                        <hr />
+                        <div>
+                            Already registered with #{bundle.BookstoreTitle}?  <h:link outcome="login"><button type="button" class="btn btn-link">Login <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button></h:link>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+    <ui:define name="scripts">
+        <h:outputScript library="javascripts" name="register.js" />
+    </ui:define>
+</ui:composition>
