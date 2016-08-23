@@ -221,8 +221,11 @@ $login-form-background-bottom: #ffffff;
     padding: 1.7rem !important;
 }
 
-#login-form-submitButton {
-    /*width: 100%;*/
+.valid-icon {
+    color: $brand-success;
+}
+.invalid-icon {
+    // color: $brand-danger;
 }
 .login-form-group {
     @extend .form-group;

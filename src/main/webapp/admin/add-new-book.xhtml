@@ -4,7 +4,7 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:v-on='vue.org'
                 xmlns:v-bind='vue.org'
-                template="./admin.template.xhtml">
+                template="../WEB-INF/admin.template.xhtml">
 
     <ui:define name="top"></ui:define> 
     <ui:define name="content">
@@ -13,7 +13,7 @@
             <div class='row'>
                 <div class="col-sm-8">
                     <div class="col-sm-8 col-sm-offset-3">
-                        <h1>Add Book To Catalouge:</h1>
+                        <h1>Add Book To Catalogue:</h1>
                         <h3>Book details:</h3>
                         <br />
                         <hr />
@@ -26,22 +26,19 @@
             <div class="row">
 
                 <div class="col-md-8">
-                    
                         <div class="form-group">
                             <label for="isbn" class="col-sm-3 control-label">ISBN:</label>
                             <div class="col-sm-3">
                                 <input type="text" v-model="isbn" required="required" pattern="[0-9]{3}-?[0-9]{10}" class="form-control" id="isbn" placeholder="xxx-xxxxxxxxx" />
                             </div>
-                            <div class="col-sm-1"></div>
                             <div class="col-sm-3">
-                                <div class="btn btn-primary" v-on:click.prevent="autocompleteFromGoogleBooks" style="width:100%;"> 
+                                <div class="btn btn-primary" v-bind:class="isbnValid ? '' : 'disabled'" v-on:click.prevent="autocompleteFromGoogleBooks" style="width:100%;"> 
                                     Auto-Complete 
                                     <i class="fa fa-spinner fa-spin fa-fw" v-show="loadingIcon"></i>
                                     <i class="fa fa-bolt fa-fw" v-show="!loadingIcon"></i>
                                 </div>
                                 
                             </div>
-
                         </div>
                         <div class="form-group">
                             <label for="title" class="col-sm-3 control-label">Title:</label>
@@ -69,44 +66,56 @@
                         </div>
                         <div class="form-group">
                             <label for="publishDate" class="col-sm-3 control-label">Publish Date:</label>
-                            <div class="col-sm-5">
+                            <div class="col-sm-3">
                                 <input type="date" v-model="publishDate" required="required" class="form-control" id="publishDate" />
                             </div>
                         </div>
-
-
+                        <div class="form-group">
+                            <label for="format" class="col-sm-3 control-label">Format:</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" id="format" required="required">
+                                    <option>Hardcover</option>
+                                    <option>Paperback</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
+
+                    
 
                     <div class="col-md-3">
-                        <img width="200" height="320" v-bind:src="imageurl" />
-                        <input type="file"> </input>
+                        <img width="200" height="320" v-bind:src="thumbnail" />
+                        <input type="file" accept="image/*" v-on:change="updateThumbnail" v-model='localThumbnail'> </input>
+                        <br />
                     </div>
+                
                 </div>
-                <div class="form-group">
-                    <label for="format" class="col-sm-2 control-label">Format:</label>
-                    <div class="col-sm-3">
-                        <select class="form-control" id="format" required="required">
-                            <option>Hardcover</option>
-                            <option>Paperback</option>
-                        </select>
-                    </div>
-                </div>
+
+
+
                 <div class="form-group">
                     <label for="description" class="col-sm-2 control-label">Synopsis:</label>
                     <div class="col-sm-8">
                         <textarea class="form-control" v-model="description" required="required" id="description" rows="6" placeholder="Synopsis"></textarea>
                     </div>
                 </div>
+                <hr />
                 <div class="form-group">
                     <label for="costPrice" class="col-sm-2 control-label">Cost Price:</label>
                     <div class="col-sm-2">
-                        <input type="number" required="required" min="0" step="0.01" class="form-control" id="costPrice" placeholder="Cost Price" />
+                        <div class="input-group">
+                            <div class="input-group-addon">$</div>
+                            <input type="number" required="required" min="0" step="0.01" class="form-control" id="costPrice" placeholder="Cost Price" />
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="retailPrice" class="col-sm-2 control-label">Retail Price:</label>
                     <div class="col-sm-2">
-                        <input type="number" required="required" min="0" step="0.01" class="form-control" id="rrp" placeholder="Retail Price" />
+                        <div class="input-group">
+                            <div class="input-group-addon">$</div>
+                            <input type="number" required="required" min="0" step="0.01" class="form-control" id="rrp" placeholder="Retail Price" />
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -115,7 +124,13 @@
                         <input type="number" required="required" min="0" step="1" class="form-control" id="stockCount" placeholder="Number in stock" />
                     </div>
                 </div>
-            <input class='btn btn-primary' type="submit" value="Add Book"></input>
+                <hr />
+                <div class="form-group">
+                    <div class="col-sm-2 col-sm-offset-4">
+                        <input class='btn btn-primary' style="width:100%;" type="submit" value="Add Book"></input>
+                    </div>
+                </div>
+                <br />
         </form>
 
     </ui:define>
@@ -133,8 +148,16 @@
                     format: '',
                     publisher: '',
                     publishDate: '',
-                    imageurl: '',
-                    loadingIcon: false
+                    thumbnailFiles: '',
+                    thumbnail: '',
+                    loadingIcon: false,
+                    imageFileReader: new FileReader(),
+                    localThumbnail: ''
+                },
+                computed: {
+                    isbnValid: function(){
+                        return this.isbn.trim().match(/[0-9]{3}-?[0-9]{10}/g);
+                    }
                 },
                 methods: {
                         autocompleteFromGoogleBooks: function (event) {
@@ -149,17 +172,28 @@
                                 this.description = response.json().items[0].volumeInfo.description;
                                 this.publisher = response.json().items[0].volumeInfo.publisher;
                                 this.category = response.json().items[0].volumeInfo.categories[0]; 
-                                this.imageurl = response.json().items[0].volumeInfo.imageLinks.thumbnail;
+                                this.thumbnail = response.json().items[0].volumeInfo.imageLinks.thumbnail;
+                                this.localThumbnail = '';
                                 this.loadingIcon = false;
                             });
-                            
-                            
+                        },
+                        updateThumbnail: function(e){
+                            var files = e.target.files || e.dataTransfer.files;
+                            if (!files.length)
+                                return;
+                            this.createImage(files[0]);
+                        },
+                        createImage(file) {
+                            var image = new Image();
+                            var reader = new FileReader();
+                            var vm = this;
+
+                            reader.onload = (e) => {
+                                vm.thumbnail = e.target.result;
+                            };
+                            reader.readAsDataURL(file);
                         }
-
-
-
                     }
-                
             });
         </script>
     </ui:define>

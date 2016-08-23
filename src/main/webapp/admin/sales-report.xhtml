@@ -1,0 +1,99 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:v-on='vue.org'
+                xmlns:v-bind='vue.org'
+                template="../WEB-INF/admin.template.xhtml">
+
+    <ui:define name="top"></ui:define> 
+    <ui:define name="content">
+    	<div class='row'>
+	    	<div class='col-md-10 col-md-offset-1'>
+	    	<br />
+    			<canvas id="salesYTD" height="200" width="400" />
+	    	</div>
+    	</div>
+    </ui:define>
+    <ui:define name='scripts'>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.bundle.js' />
+    	<script>
+    	var ctx = $("#salesYTD");
+    	var salesYTDChart = new Chart(ctx, {
+		    type: 'line',
+		    data: {
+			    labels: ["January", "February", "March", "April", "May", "June", "July"],
+	    		datasets: [
+	    			{
+		            label: "Total Sales",
+		            fill: false,
+		            lineTension: 0.1,
+		            backgroundColor: "rgba(75,192,192,0.4)",
+		            borderColor: "rgba(75,192,192,1)",
+		            borderCapStyle: 'butt',
+		            borderDash: [],
+		            borderDashOffset: 0.0,
+		            borderJoinStyle: 'miter',
+		            pointBorderColor: "rgba(75,192,192,1)",
+		            pointBackgroundColor: "#fff",
+		            pointBorderWidth: 1,
+		            pointHoverRadius: 5,
+		            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+		            pointHoverBorderColor: "rgba(220,220,220,1)",
+		            pointHoverBorderWidth: 2,
+		            pointRadius: 1,
+		            pointHitRadius: 10,
+		            data: [65, 59, 80, 81, 56, 55, 40],
+		            spanGaps: false,
+	        		},
+	        		{
+		            label: "Auction Sales",
+		            fill: false,
+		            lineTension: 0.1,
+		            backgroundColor: "#247BA0",
+		            borderColor: "#247BA0",
+		            borderCapStyle: 'butt',
+		            borderDash: [],
+		            borderDashOffset: 0.0,
+		            borderJoinStyle: 'miter',
+		            pointBorderColor: "#247BA0",
+		            pointBackgroundColor: "#fff",
+		            pointBorderWidth: 1,
+		            pointHoverRadius: 5,
+		            pointHoverBackgroundColor: "r#247BA0",
+		            pointHoverBorderColor: "#247BA0",
+		            pointHoverBorderWidth: 2,
+		            pointRadius: 1,
+		            pointHitRadius: 10,
+		            data: [20, 33, 18, 28, 41, 8, 27],
+		            spanGaps: false,
+	        		},
+	        		{
+		            label: "New Sales",
+		            fill: false,
+		            lineTension: 0.1,
+		            backgroundColor: "#F25F5C",
+		            borderColor: "#F25F5C",
+		            borderCapStyle: 'butt',
+		            borderDash: [],
+		            borderDashOffset: 0.0,
+		            borderJoinStyle: 'miter',
+		            pointBorderColor: "#F25F5C",
+		            pointBackgroundColor: "#fff",
+		            pointBorderWidth: 1,
+		            pointHoverRadius: 5,
+		            pointHoverBackgroundColor: "#F25F5C",
+		            pointHoverBorderColor: "#F25F5C",
+		            pointHoverBorderWidth: 2,
+		            pointRadius: 1,
+		            pointHitRadius: 10,
+		            data: [45, 23, 62, 53, 15, 47, 13],
+		            spanGaps: false,
+	        		}
+	        	]
+	        },
+		    options: ''
+		});
+        </script>
+    </ui:define>
+</ui:composition>

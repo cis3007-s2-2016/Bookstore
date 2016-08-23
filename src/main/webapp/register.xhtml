@@ -3,7 +3,7 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:bookstore="http://dukesbookstore"
-                template="./bookstoreTemplate.xhtml"
+                template="WEB-INF/bookstore.template.xhtml"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:v-on="http://www.vue.com"
@@ -15,6 +15,7 @@
         <div class="container register-form-container" id="app">
             <div id="app" class="row">
                 <div class="col-md-8 col-md-offset-2">
+                
                 <!-- FORM HEADER -->
                     <div class="login-form-top">
                         <div class="row vertical-align">
@@ -26,90 +27,96 @@
                             </div>
                         </div>
                     </div>
+                    
                     <!-- FORM CONTENT -->
                     <div class="login-form-bottom">
-
-
-
                         <form class="form-horizontal" action="index.xhtml">
 
 
-
+                            <!-- name -->
+                            <div class="form-group has-feedback">
+                                <label for="firstname" class="col-sm-3 control-label">Name:</label>
+                                <div class="col-sm-8">
+                                    <input v-model="firstname" v-on:keyup="showFirstnameFeedback" id="firstname" type="text" class="form-control" placeholder="First Name" ></input>
+                                    <span class="form-control-feedback"><i v-bind:class='firstnameFeedback' aria-hidden="true"></i></span>
+                                </div>
+                            </div>
+                            <div class="form-group has-feedback">
+                                <label for="lastname" class="col-sm-3 control-label"></label>
+                                <div class="col-sm-8">
+                                    <input v-model="lastname" v-on:keyup="showLastnameFeedback" id="lastname" type="text" class="form-control" placeholder="Last Name" ></input>
+                                    <span class="form-control-feedback"><i v-bind:class='lastnameFeedback' aria-hidden="true"></i></span>
+                                </div>
+                            </div>
                             <!-- email -->
-                            <div class="form-group">
+                            <div class="form-group has-feedback">
                                 <label for="email" class="col-sm-3 control-label">Email:</label>
-                                <div class="input-group col-sm-8">
-                                    <input v-model="email" id="email" type="email" class="login-input form-control-camoflage" placeholder="email" aria-describedby="basic-addon1"></input>
-                                    <span class="input-group-addon-camoflage"><i class="fa  fa-fw {{ emailInvalid ? 'invalid-icon fa-exclamation-circle' : 'valid-icon fa-check' }}" aria-hidden="true"></i></span>
+                                <div class="col-sm-8">
+                                    <input v-model="email" v-on:keyup="showEmailFeedback" id="email" type="email" class="form-control" placeholder="joe@example.com" ></input>
+                                    <span class="form-control-feedback"><i v-bind:class='emailFeedback' aria-hidden="true"></i></span>
                                 </div>
                             </div>
-
                             <!-- password -->
-                            <div class="form-group">
+                            <div class="form-group has-feedback">
                                 <label for="password1" class="col-sm-3 control-label">Password:</label>
-                                <div class="input-group col-sm-8">
-                                    <input id="password1" type="password" class="login-input form-control-camoflage" placeholder="password" aria-describedby="basic-addon1"></input>
-                                    <span class="input-group-addon-camoflage"><i class="fa fa-exclamation-circle fa-fw {{ password1Invalid ? 'invalid-icon fa-exclamation-circle' : 'valid-icon fa-check' }}" aria-hidden="true"></i></span>
+                                <div class="col-sm-8">
+                                    <input v-model="password1" v-on:keyup="showPassword1Feedback" id="password1" type="password" class="form-control" placeholder="password"></input>
+                                    <span class="form-control-feedback"><i v-bind:class="password1Feedback" aria-hidden="true"></i></span>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group has-feedback">
                                 <label for="password2" class="col-sm-3 control-label"></label>
-                                <div class="input-group col-sm-8">
-                                    <input id="password2" type="password" class="login-input form-control-camoflage" placeholder="repeat password" aria-describedby="basic-addon1"></input>
-                                    <span class="input-group-addon-camoflage"><i class="fa fa-exclamation-circle fa-fw {{ password2Invalid ? 'invalid-icon fa-exclamation-circle' : 'valid-icon fa-check' }}" aria-hidden="true"></i></span>
+                                <div class="col-sm-8">
+                                    <input v-model="password2" v-on:keyup="showPassword2Feedback" id="password2" type="password" class="form-control" placeholder="repeat password"></input>
+                                    <span class="form-control-feedback"><i v-bind:class="password2Feedback" aria-hidden="true"></i></span>
                                 </div>
                             </div>
+                            
 
+                            
 
                             <hr />  <!-- - - - - - - -->
-
-                            <!-- name -->
-                            <div class="form-group">
-                                <label for="name" class="col-sm-3 control-label">Name:</label>
-                                <div class="input-group col-sm-8">
-                                    <input id="name" type="text" class="login-input form-control-camoflage" placeholder="Name" aria-describedby="basic-addon1"></input>
-                                    <span class="input-group-addon-camoflage"><i class="fa fa-exclamation-circle fa-fw danger" aria-hidden="true"></i></span>
-                                </div>
-                            </div>
-
                             <!-- address -->
-                            <div class="form-group">
-                                <label for="address1" class="col-sm-3 control-label">{{billingIsShippingAddressCheckbox ? "" : "Shipping"}} Address:</label>
-                                <div class="input-group col-sm-8">
-                                    <input id="address1" type="text" class="login-input form-control-camoflage" placeholder="Address Line 1" aria-describedby="basic-addon1"></input>
-                                    <span class="input-group-addon-camoflage"><i class="fa fa-exclamation-circle fa-fw danger" aria-hidden="true"></i></span>
+                            <div class="form-group has-feedback">
+                                <label for="shippingAddressLine1" class="col-sm-3 control-label">{{ billingSameAsShippingAddress ? '' : "Shipping" }} Address:</label>
+                                <div class="col-sm-8">
+                                    <input v-model="shippingAddressLine1" v-on:keyup="showShippingAddressLine1Feedback" id="shippingAddressLine1" type="text" class="form-control" placeholder="Address Line 1" ></input>
+                                    <span class="form-control-feedback"><i v-bind:class="shippingAddressLine1Feedback" aria-hidden="true"></i></span>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="address2" class="col-sm-3 control-label"></label>
-                                <div class="input-group col-sm-8">
-                                    <input id="address2" type="text" class="login-input form-control-camoflage" placeholder="Address Line 2" aria-describedby="basic-addon1"></input>
-                                    <span class="input-group-addon-camoflage"><i class="fa fa-exclamation-circle fa-fw danger" aria-hidden="true"></i></span>
+                            <div class="form-group has-feedback">
+                                <label for="shippingAddressLine2" class="col-sm-3 control-label"></label>
+                                <div class="col-sm-8">
+                                    <input v-model="shippingAddressLine2" v-on:keyup="showShippingAddressLine2Feedback" id="shippingAddressLine2" type="text" class="form-control" placeholder="Address Line 2" ></input>
+                                    <span class="form-control-feedback"><i v-bind:class="shippingAddressLine2Feedback" aria-hidden="true"></i></span>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="city" class="col-sm-3 control-label"></label>
-                                <div class="input-group col-sm-8">
-                                    <input id="city" type="text" class="login-input form-control-camoflage" placeholder="City" aria-describedby="basic-addon1"></input>
-                                    <span class="input-group-addon-camoflage"><i class="fa fa-exclamation-circle fa-fw danger" aria-hidden="true"></i></span>
+                            <div class="form-group has-feedback">
+                                <label for="shippingCity" class="col-sm-3 control-label"></label>
+                                <div class="col-sm-8">
+                                    <input v-model="shippingCity" v-on:keyup="showShippingCityFeedback" id="shippingCity" type="text" class="form-control" placeholder="city" ></input>
+                                    <span class="form-control-feedback"><i v-bind:class="shippingCityFeedback" ></i></span>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="state" class="col-sm-3 control-label"></label>
-                                <div class="input-group col-sm-3" style="float:left;">
-                                    <input id="state" type="text" class="login-input form-control-camoflage" placeholder="State" aria-describedby="basic-addon1"></input>
-                                    <span class="input-group-addon-camoflage"><i class="fa fa-exclamation-circle fa-fw danger" aria-hidden="true"></i></span>
+                            <div class="form-group has-feedback">
+                                <label for="shippingState" class="col-sm-3 control-label"></label>
+                                <div class="col-sm-8">
+                                    <input v-model="shippingState" v-on:keyup="showShippingStateFeedback" id="shippingState" type="text" class="form-control" placeholder="state" ></input>
+                                    <span class="form-control-feedback"><i v-bind:class="shippingStateFeedback"></i></span>
                                 </div>
-                                <div class="input-group col-sm-4 col-sm-offset-1" style="float:left;">
-                                    <input id="postcode" type="number" class="login-input form-control-camoflage" placeholder="Postcode" aria-describedby="basic-addon1"></input>
-                                    <span class="input-group-addon-camoflage"><i class="fa fa-exclamation-circle fa-fw danger" aria-hidden="true"></i></span>
+                            </div>
+                            <div class="form-group has-feedback">
+                                <label for="shippingPostcode" class="col-sm-3 control-label"></label>
+                                <div class="col-sm-8">
+                                    <input v-model="shippingPostcode" v-on:keyup="showShippingPostcodeFeedback" id="shippingPostcode" type="text" class="form-control" placeholder="postcode" ></input>
+                                    <span class="form-control-feedback"><i v-bind:class="shippingPostcodeFeedback" aria-hidden="true"></i></span>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-3 col-sm-10">
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" checked="checked" v-model="billingIsShippingAddressCheckbox">#{bundle.AreAddessesSame}</input>
+                                            <input type="checkbox" v-model="billingSameAsShippingAddress">Billing and Shipping addresses are the same</input>
                                         </label>
                                     </div>
                                 </div>
@@ -118,49 +125,44 @@
 
                             <!-- Different shipping address -->
                             <!-- address -->
-                            <div v-show="!billingIsShippingAddressCheckbox" transition="expand">
-                                <hr />
-                                <div class="form-group">
-                                    <label for="address1" class="col-sm-3 control-label">Billing Address:</label>
-                                    <div class="input-group col-sm-8">
-                                        <input id="address1" type="text" class="login-input form-control-camoflage" placeholder="Address Line 1" aria-describedby="basic-addon1"></input>
-                                        <span class="input-group-addon-camoflage"><i class="fa fa-exclamation-circle fa-fw danger" aria-hidden="true"></i></span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="address2" class="col-sm-3 control-label"></label>
-                                    <div class="input-group col-sm-8">
-                                        <input id="address2" type="text" class="login-input form-control-camoflage" placeholder="Address Line 2" aria-describedby="basic-addon1"></input>
-                                        <span class="input-group-addon-camoflage"><i class="fa fa-exclamation-circle fa-fw danger" aria-hidden="true"></i></span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="city" class="col-sm-3 control-label"></label>
-                                    <div class="input-group col-sm-8">
-                                        <input id="city" type="text" class="login-input form-control-camoflage" placeholder="City" aria-describedby="basic-addon1"></input>
-                                        <span class="input-group-addon-camoflage"><i class="fa fa-exclamation-circle fa-fw danger" aria-hidden="true"></i></span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="state" class="col-sm-3 control-label"></label>
-                                    <div class="input-group col-sm-3" style="float:left;">
-                                        <input id="state" type="text" class="login-input form-control-camoflage" placeholder="State" aria-describedby="basic-addon1"></input>
-                                        <span class="input-group-addon-camoflage"><i class="fa fa-exclamation-circle fa-fw" aria-hidden="true"></i></span>
-                                    </div>
-                                    <div class="input-group col-sm-4 col-sm-offset-1" style="float:left;">
-                                        <input id="postcode" v-model="postcode" v-on:keyup="validatePostcode" type="text" class="login-input form-control-camoflage" maxlength="4" placeholder="Postcode" aria-describedby="basic-addon1"></input>
-                                        <span class="input-group-addon-camoflage"><i class="fa  fa-fw {{ postcodeInvalid ? 'invalid-icon fa-exclamation-circle' : 'valid-icon fa-check' }}" aria-hidden="true"></i></span>
-                                    </div>
+                            <div v-show="!billingSameAsShippingAddress">
+                            <hr />
+                            <div class="form-group has-feedback">
+                                <label for="billingAddressLine1" class="col-sm-3 control-label">Billing Address:</label>
+                                <div class="col-sm-8">
+                                    <input v-model="billingAddressLine1" v-on:keyup="showBillingAddressLine1Feedback" id="billingAddressLine1" type="text" class="form-control" placeholder="Address Line 1" ></input>
+                                    <span class="form-control-feedback"><i v-bind:class="billingAddressLine1Feedback" aria-hidden="true"></i></span>
                                 </div>
                             </div>
-
-
-
-{{ $data | json }}
-
-
-
-
+                            <div class="form-group has-feedback">
+                                <label for="billingAddressLine2" class="col-sm-3 control-label"></label>
+                                <div class="col-sm-8">
+                                    <input v-model="billingAddressLine2" v-on:keyup="showBillingAddressLine2Feedback" id="billingAddressLine2" type="text" class="form-control" placeholder="Address Line 2" ></input>
+                                    <span class="form-control-feedback"><i v-bind:class="billingAddressLine2Feedback" aria-hidden="true"></i></span>
+                                </div>
+                            </div>
+                            <div class="form-group has-feedback">
+                                <label for="billingCity" class="col-sm-3 control-label"></label>
+                                <div class="col-sm-8">
+                                    <input v-model="billingCity" v-on:keyup="showBillingCityFeedback" id="billingCity" type="text" class="form-control" placeholder="billingCity" ></input>
+                                    <span class="form-control-feedback"><i v-bind:class="billingCityFeedback" aria-hidden="true"></i></span>
+                                </div>
+                            </div>
+                            <div class="form-group has-feedback">
+                                <label for="billingState" class="col-sm-3 control-label"></label>
+                                <div class="col-sm-8">
+                                    <input v-model="billingState" v-on:keyup="showBillingStateFeedback" id="billingState" type="text" class="form-control" placeholder="billingState" ></input>
+                                    <span class="form-control-feedback"><i v-bind:class="billingStateFeedback" aria-hidden="true"></i></span>
+                                </div>
+                            </div>
+                            <div class="form-group has-feedback">
+                                <label for="billingPostcode" class="col-sm-3 control-label"></label>
+                                <div class="col-sm-8">
+                                    <input v-model="billingPostcode" v-on:keyup="showBillingStateFeedback" id="billingPostcode" type="text" class="form-control" placeholder="billingPostcode" ></input>
+                                    <span class="form-control-feedback"><i v-bind:class="billingStateFeedback" aria-hidden="true"></i></span>
+                                </div>
+                            </div>
+                            </div>
 
                             <br /><button id="login-form-submitButton" type="submit" class="btn btn-primary col-sm-offset-5">Sign up!</button>
                         </form>
@@ -175,5 +177,169 @@
     </ui:define>
     <ui:define name="scripts">
         <h:outputScript library="javascripts" name="register.js" />
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    email: '',
+                    firstname: '',
+                    lastname: '',
+                    password1: '',
+                    password2: '',
+                    shippingAddressLine1: '',
+                    shippingAddressLine2: '',
+                    shippingPostcode: '',
+                    shippingCity: '',
+                    shippingState: '',
+                    billingAddressLine1: '',
+                    billingAddressLine2: '',
+                    billingPostcode: '',
+                    billingCity: '',
+                    billingState: '',
+                    billingSameAsShippingAddress: true,
+                    valid: 'fa fa-fw valid-icon fa-check',
+                    invalid: 'fa fa-fw invalid-icon fa-exclamation-circle',
+                    emailFeedback: '',
+                    firstnameFeedback: '',
+                    lastnameFeedback: '',
+                    password1Feedback: '',
+                    password2Feedback: '',
+                    shippingCityFeedback: '',
+                    shippingStateFeedback: '',
+                    shippingAddressLine1Feedback: '',
+                    shippingPostcodeFeedback: '',
+                    shippingAddressLine2Feedback: '',
+                    billingCityFeedback: '',
+                    billingStateFeedback: '',
+                    billingAddressLine1Feedback: '',
+                    billingPostcodeFeedback: '',
+                    billingAddressLine2Feedback: '',
+                    validStates: ['act', 'nsw', 'qld', 'vic', 'tas', 'wa', 'sa', 'nt', 'australian capital territory', 'queensland', 'new south wales', 'south australia', 'western australia', 'tasmania', 'northern territory', 'victoria']
+                },
+                methods: {
+                    showEmailFeedback: function(){
+                        if ( this.email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/) )
+                        {
+                            this.emailFeedback = this.valid;
+                        } else {
+                            this.emailFeedback =  this.invalid;
+                        };
+                    },
+                    showFirstnameFeedback: function(){
+                        if ( this.firstname.trim().match(/^[a-zA-Z]{2,20}$/) )
+                        {
+                            this.firstnameFeedback = this.valid;
+                        } else {
+                            this.firstnameFeedback =  this.invalid;
+                        };
+                    },
+                    showLastnameFeedback: function(){
+                        if ( this.lastname.trim().match(/^[a-zA-Z]{2,20}$/) )
+                        {
+                            this.lastnameFeedback = this.valid;
+                        } else {
+                            this.lastnameFeedback =  this.invalid;
+                        };
+                    },
+                    showPassword1Feedback: function(){
+                        if ( this.password1.match(/^[a-zA-Z0-9]{6,40}$/) )
+                        {
+                            this.password1Feedback = this.valid;
+                        } else {
+                            this.password1Feedback =  this.invalid;
+                        };
+                    },
+                    showPassword2Feedback: function(){
+                        if ( this.password2 === this.password1 )
+                        {
+                            this.password2Feedback = this.valid;
+                        } else {
+                            this.password2Feedback =  this.invalid;
+                        };
+                    },
+                    showShippingAddressLine1Feedback: function(){
+                        if ( this.shippingAddressLine1.trim().match(/^[0-9A-Za-z \-\/\']{4,40}$/) )
+                        {
+                            this.shippingAddressLine1Feedback = this.valid;
+                        } else {
+                            this.shippingAddressLine1Feedback =  this.invalid;
+                        };
+                    },
+                    showShippingAddressLine2Feedback: function(){
+                        if ( this.shippingAddressLine2.trim().match(/^[0-9A-Za-z \-\/']{0,40}$/) )
+                        {
+                            this.shippingAddressLine2Feedback = this.valid;
+                        } else {
+                            this.shippingAddressLine2Feedback =  this.invalid;
+                        };
+                    },
+                    showShippingStateFeedback: function(){
+                        if ( this.validStates.indexOf(this.shippingState.toLowerCase().trim()) >= 0 )
+                        {
+                            this.shippingStateFeedback = this.valid;
+                        } else {
+                            this.shippingStateFeedback =  this.invalid;
+                        };
+                    },
+                    showShippingPostcodeFeedback: function(){
+                        if ( this.shippingPostcode.trim().match(/^[0-9]{4}$/) )
+                        {
+                            this.shippingPostcodeFeedback = this.valid;
+                        } else {
+                            this.shippingPostcodeFeedback =  this.invalid;
+                        };
+                    },
+                    showShippingCityFeedback: function(){
+                        if ( this.shippingCity.trim().match(/^[a-zA-Z \-']{3,40}$/) )
+                        {
+                            this.shippingCityFeedback = this.valid;
+                        } else {
+                            this.shippingCityFeedback =  this.invalid;
+                        };
+                    },
+                    showBillingAddressLine1Feedback: function(){
+                        if ( this.billingAddressLine1.trim().match(/^[0-9A-Za-z \-\/\']{4,40}$/) )
+                        {
+                            this.billingAddressLine1Feedback = this.valid;
+                        } else {
+                            this.billingAddressLine1Feedback =  this.invalid;
+                        };
+                    },
+                    showBillingAddressLine2Feedback: function(){
+                        if ( this.billingAddressLine2.trim().match(/^[0-9A-Za-z \-\/']{0,40}$/) )
+                        {
+                            this.billingAddressLine2Feedback = this.valid;
+                        } else {
+                            this.billingAddressLine2Feedback =  this.invalid;
+                        };
+                    },
+                    showBillingStateFeedback: function(){
+                        if ( this.validStates.indexOf(this.billingState.toLowerCase().trim()) >= 0 )
+                        {
+                            this.billingStateFeedback = this.valid;
+                        } else {
+                            this.billingStateFeedback =  this.invalid;
+                        };
+                    },
+                    showBillingPostcodeFeedback: function(){
+                        if ( this.billingPostcode.trim().match(/^[0-9]{4}$/) )
+                        {
+                            this.billingPostcodeFeedback = this.valid;
+                        } else {
+                            this.billingPostcodeFeedback =  this.invalid;
+                        };
+                    },
+                    showBillingCityFeedback: function(){
+                        if ( this.billingCity.trim().match(/^[a-zA-Z \-']{3,40}$/) )
+                        {
+                            this.billingCityFeedback = this.valid;
+                        } else {
+                            this.billingCityFeedback =  this.invalid;
+                        };
+                    }
+                }
+            });
+        </script>
+        
     </ui:define>
 </ui:composition>
