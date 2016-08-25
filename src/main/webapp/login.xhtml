@@ -27,17 +27,22 @@
                             </div>
                         </div>
                         <div class="login-form-bottom">
-                            <form>
+                            <form method="post" name="j_security_check">
+                                <c:if test="#{param['error'] == 'true'}">
+                                    <div class="alert alert-danger" role="alert">
+                                        <strong>Oh Snap!</strong> The username or password is incorrect. Please try again.
+                                    </div>
+                                </c:if>
                                 <div class="login-form-group">
                                     <div class="input-group">
                                         <span class="input-group-addon" id="login-username-icon"><i class="fa fa-user fa-fw" aria-hidden="true"></i></span>
-                                        <input type="text" id="login-username-input" class="login-input form-control" placeholder="Username or Email" aria-describedby="basic-addon1"></input>
+                                        <input type="text" name='j_username' id="login-username-input" class="login-input form-control" placeholder="Username or Email" aria-describedby="basic-addon1"></input>
                                     </div>
                                 </div>
                                 <div class="login-form-group">
                                     <div class="input-group">
                                         <span class="input-group-addon" id="login-password-icon"><i class="fa fa-unlock-alt fa-fw" aria-hidden="true"></i></span>
-                                        <input type="password" id="login-password-input" class="login-input form-control" placeholder="Password" aria-describedby="basic-addon1"></input>
+                                        <input type="password" name='j_password' id="login-password-input" class="login-input form-control" placeholder="Password" aria-describedby="basic-addon1"></input>
                                     </div>
                                 </div>
 
