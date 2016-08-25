@@ -6,24 +6,31 @@
 package javaeetutorial.dukesbookstore.entity;
 
 import java.io.Serializable;
+import java.util.TreeSet;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
  * @author Kyle.Lewer
  */
 @Entity
-public class BookOrder implements Serializable {
+public class MemberAuction extends MemberSale implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private Payment payment;
+    @OneToMany
+    private TreeSet<MemberAuctionBid> bids; 
+    
+    private String auctionStatus;
+    private Float reserve;
+
     public Long getId() {
         return id;
     }
@@ -32,6 +39,30 @@ public class BookOrder implements Serializable {
         this.id = id;
     }
 
+    public TreeSet<MemberAuctionBid> getBids() {
+        return bids;
+    }
+
+    public void setBids(TreeSet<MemberAuctionBid> bids) {
+        this.bids = bids;
+    }
+
+    public String getAuctionStatus() {
+        return auctionStatus;
+    }
+
+    public void setAuctionStatus(String auctionStatus) {
+        this.auctionStatus = auctionStatus;
+    }
+
+    public Float getReserve() {
+        return reserve;
+    }
+
+    public void setReserve(Float reserve) {
+        this.reserve = reserve;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -42,10 +73,10 @@ public class BookOrder implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof BookOrder)) {
+        if (!(object instanceof MemberAuction)) {
             return false;
         }
-        BookOrder other = (BookOrder) object;
+        MemberAuction other = (MemberAuction) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -54,7 +85,7 @@ public class BookOrder implements Serializable {
 
     @Override
     public String toString() {
-        return "javaeetutorial.dukesbookstore.entity.BookOrder[ id=" + id + " ]";
+        return "javaeetutorial.dukesbookstore.entity.Auction[ id=" + id + " ]";
     }
     
 }

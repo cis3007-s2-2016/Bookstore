@@ -5,74 +5,57 @@
  */
 package javaeetutorial.dukesbookstore.entity;
 
+import java.io.InvalidObjectException;
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.logging.Logger;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 /**
  *
  * @author Kyle.Lewer
  */
 @Entity
-public class MemberSale implements Serializable {
+public class MemberAuctionBid implements Serializable, Comparable<MemberAuctionBid> {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    private String ISBN;
+
+   
+    private Float amount;
+    private Float bidValue;
+
+
     @ManyToOne
-    private Member buyer;
+    private MemberAuction auction;
     
-    @ManyToOne
-    private Member seller;
-    
-    @OneToOne
-    private Payment payment;
-    
-    private Date dateListed;
-    private String bookCondition;
-    private Float salePrice;
-
-    public String getISBN() {
-        return ISBN;
+    public Float getSalePrice() {
+        return bidValue;
     }
 
-    public void setISBN(String ISBN) {
-        this.ISBN = ISBN;
+    public void setSalePrice(Float salePrice) {
+        this.bidValue = salePrice;
+    }
+    public Float getAmount() {
+        return amount;
     }
 
-    public Date getDateListed() {
-        return dateListed;
+    public void setAmount(Float amount) {
+        this.amount = amount;
     }
 
-    public void setDateListed(Date dateListed) {
-        this.dateListed = dateListed;
+    public MemberAuction getAuction() {
+        return auction;
     }
 
-    public String getBookCondition() {
-        return bookCondition;
+    public void setAuction(MemberAuction auction) {
+        this.auction = auction;
     }
-
-    public void setBookCondition(String bookCondition) {
-        this.bookCondition = bookCondition;
-    }
-
-    public Float getPostage() {
-        return postage;
-    }
-
-    public void setPostage(Float postage) {
-        this.postage = postage;
-    }
-    private Float postage;
-    
     public Long getId() {
         return id;
     }
@@ -91,10 +74,10 @@ public class MemberSale implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof MemberSale)) {
+        if (!(object instanceof MemberAuctionBid)) {
             return false;
         }
-        MemberSale other = (MemberSale) object;
+        MemberAuctionBid other = (MemberAuctionBid) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -103,7 +86,21 @@ public class MemberSale implements Serializable {
 
     @Override
     public String toString() {
-        return "javaeetutorial.dukesbookstore.entity.MemberSale[ id=" + id + " ]";
+        return "javaeetutorial.dukesbookstore.entity.Bid[ id=" + id + " ]";
+    }
+
+    @Override
+    public int compareTo(MemberAuctionBid otherBid) {
+        // Ideally we only want to compare bids on the same auction
+        if(otherBid.auction.equals(this.auction)){
+            //descending order
+            return Float.compare(this.amount, otherBid.amount);
+        }
+        else
+        {
+            System.err.println("Only bids of the same auction should be compared");
+            return 0;
+        }
     }
     
 }

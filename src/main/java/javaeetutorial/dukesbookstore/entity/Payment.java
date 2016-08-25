@@ -28,7 +28,6 @@ public class Payment implements Serializable {
     private String paymentStatus;
     private Float amount;
     private Float commission;
-    private Long payeeId;
     
     
 
