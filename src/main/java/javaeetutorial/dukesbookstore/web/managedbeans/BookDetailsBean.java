@@ -28,7 +28,7 @@ public class BookDetailsBean extends AbstractBean implements Serializable {
     public String add() {
         Book book = (Book) context().getExternalContext()
                 .getSessionMap().get("selected");
-        cart.add(book.getBookId(), book);
+        cart.add(book.getISBN(), book);
         message(null, "ConfirmAdd", new Object[]{book.getTitle()});
 
         return ("bookcatalog");

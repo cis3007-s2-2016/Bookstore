@@ -81,7 +81,7 @@ public class ShoppingCart extends AbstractBean implements Serializable {
         for (ShoppingCartItem item : getItems()) {
             Book bookDetails = (Book) item.getItem();
 
-            amount += (item.getQuantity() * bookDetails.getPrice());
+            amount += (item.getQuantity() * bookDetails.getCostPrice());
         }
 
         return roundOff(amount);
