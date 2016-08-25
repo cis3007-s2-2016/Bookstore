@@ -24,33 +24,31 @@ public class Book implements Serializable {
     private static final long serialVersionUID = -4146681491856848089L;
     @Id
     @NotNull
-    private String isbn;
+    private String ISBN;
     
     //Refractor out to author entity
     private String surname;
     private String firstname;
     
     private String title;
-    private Double costPrice;
-    private Double retailPrice;
+    private Float costPrice;
+    private Float retailPrice;
     private Integer pubYear;
     private String publisher;
     private String description;
     private Integer stockLevel;
     private String genre; 
-
-   
     private String format;
 
     public Book() {
     }
 
-    public Book(String isbn, String surname, String firstname,
-            String title, Double costPrice, Double retailPrice, Integer publishedYear,
+    public Book(String ISBN, String surname, String firstname,
+            String title, Float costPrice, Float retailPrice, Integer publishedYear,
             String description, Integer stockLevel, String publisher,
             String genre, String format) {
         
-        this.isbn = isbn;
+        this.ISBN = ISBN;
         this.surname = surname;
         this.firstname = firstname;
         this.title = title;
@@ -64,8 +62,8 @@ public class Book implements Serializable {
         this.format = format;
     }
 
-    public Book(String isbn) {
-        this.isbn = isbn;
+    public Book(String ISBN) {
+        this.ISBN = ISBN;
         /**
          @TODO Do magical book information scrape 
          */
@@ -74,7 +72,7 @@ public class Book implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (isbn != null ? isbn.hashCode() : 0);
+        hash += (ISBN != null ? ISBN.hashCode() : 0);
         return hash;
     }
 
@@ -84,23 +82,23 @@ public class Book implements Serializable {
             return false;
         }
         Book other = (Book) object;
-        return this.isbn != null || this.isbn == null 
-                && other.isbn == null || this.isbn.equals(other.isbn);
+        return this.ISBN != null || this.ISBN == null 
+                && other.ISBN == null || this.ISBN.equals(other.ISBN);
     }
 
     @Override
     public String toString() {
-        return "bookstore.entities.Book[ bookId=" + isbn + " ]";
+        return "bookstore.entities.Book[ bookId=" + ISBN + " ]";
     }
     
     //Getter and setters
     // ===============================================================
         public String getISBN() {
-        return isbn;
+        return ISBN;
     }
 
     public void setISBN(String bookId) {
-        this.isbn = bookId;
+        this.ISBN = bookId;
     }
     /**
      * @deprecated author will be moved to it's own entity
@@ -136,17 +134,17 @@ public class Book implements Serializable {
     public void setTitle(String title) {
         this.title = title;
     }
-    public Double getCostPrice() {
+    public Float getCostPrice() {
         return costPrice;
     }
-    public void setCostPrice(Double price) {
+    public void setCostPrice(Float price) {
         this.costPrice = price;
     }
-    public void setRetailPrice(Double price)
+    public void setRetailPrice(Float price)
     {
         this.retailPrice = price;
     }
-    public Double getRetailPrice()
+    public Float getRetailPrice()
     {
         return retailPrice;
     }

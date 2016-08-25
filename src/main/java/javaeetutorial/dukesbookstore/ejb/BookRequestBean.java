@@ -38,7 +38,7 @@ public class BookRequestBean {
     }
 
     public void createBook(String isbn, String surname, String firstname,
-            String title, Double costPrice, Double retailPrice, Integer publishedYear,
+            String title, Float costPrice, Float retailPrice, Integer publishedYear,
             String description, Integer stockLevel, String publisher,
             String genre, String format) {
         try {

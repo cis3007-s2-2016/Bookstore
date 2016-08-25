@@ -6,6 +6,7 @@
 package javaeetutorial.dukesbookstore.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,14 +18,71 @@ import javax.persistence.Table;
  * @author kyle.lewer
  */
 @Entity
-@Table(name="PlatformMembers") //Member was a reserved keyword in Persistence API
-public class PlatformMember implements Serializable {
+@Table(name="Members")
+public class Member implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
     private String username;
+    private String password;
+    private String firstName;
+    private String surname;
+    private String email;
+    private Timestamp joinDate;
+    private String deliveryAddress;
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Timestamp getJoinDate() {
+        return joinDate;
+    }
+
+    public void setJoinDate(Timestamp joinDate) {
+        this.joinDate = joinDate;
+    }
+
+    public String getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
+    }
+    
+    
+    
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
     
     public Long getId() {
         return id;
@@ -49,10 +107,10 @@ public class PlatformMember implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PlatformMember)) {
+        if (!(object instanceof Member)) {
             return false;
         }
-        PlatformMember other = (PlatformMember) object;
+        Member other = (Member) object;
         return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 

@@ -43,7 +43,6 @@ public class ConfigBean {
 //        request.createBook("207", "Coding", "Happy",
 //                "Java Intermediate Bytecodes", 30.95, true,
 //                2010, "What a cool book.", 20);
-        System.out.println("I Did a thing");
 
     }
 }
