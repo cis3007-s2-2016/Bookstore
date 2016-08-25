@@ -6,22 +6,38 @@
 package javaeetutorial.dukesbookstore.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
  * @author Kyle.Lewer
  */
 @Entity
+@Table(name="seller_reviews")
 public class SellerReview implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @ManyToOne
+    private Member reviewed;
+    @ManyToOne
+    private Member reviewee;
+    
+    @Temporal(value = TemporalType.DATE)
+    private Date reviewDate;
+    
+    private String review;
+    private Float rating;
 
     public Long getId() {
         return id;
@@ -31,6 +47,48 @@ public class SellerReview implements Serializable {
         this.id = id;
     }
 
+    public Member getReviewed() {
+        return reviewed;
+    }
+
+    public void setReviewed(Member reviewed) {
+        this.reviewed = reviewed;
+    }
+
+    public Member getReviewee() {
+        return reviewee;
+    }
+
+    public void setReviewee(Member reviewee) {
+        this.reviewee = reviewee;
+    }
+
+    public Date getReviewDate() {
+        return reviewDate;
+    }
+
+    public void setReviewDate(Date reviewDate) {
+        this.reviewDate = reviewDate;
+    }
+
+    public String getReview() {
+        return review;
+    }
+
+    public void setReview(String review) {
+        this.review = review;
+    }
+
+    public Float getRating() {
+        return rating;
+    }
+
+    public void setRating(Float rating) {
+        this.rating = rating;
+    }
+    
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;

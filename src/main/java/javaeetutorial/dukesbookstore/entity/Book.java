@@ -18,18 +18,13 @@ import javax.validation.constraints.NotNull;
  * <p>Entity class for bookstore example.</p>
  */
 @Entity
-@Table(name="Books")
+@Table(name="books")
 public class Book implements Serializable {
 
     private static final long serialVersionUID = -4146681491856848089L;
     @Id
     @NotNull
     private String ISBN;
-    
-    //Refractor out to author entity
-    private String surname;
-    private String firstname;
-    
     private String title;
     private Float costPrice;
     private Float retailPrice;
@@ -49,8 +44,6 @@ public class Book implements Serializable {
             String genre, String format) {
         
         this.ISBN = ISBN;
-        this.surname = surname;
-        this.firstname = firstname;
         this.title = title;
         this.publisher = publisher;
         this.costPrice = costPrice;
@@ -100,34 +93,7 @@ public class Book implements Serializable {
     public void setISBN(String bookId) {
         this.ISBN = bookId;
     }
-    /**
-     * @deprecated author will be moved to it's own entity
-     * @return the surname of the book author
-     */
-    public String getSurname() {
-        return surname;
-    }
-    /**
-     * @deprecated author will be moved to it's own entity
-     * @param surname sets the surname of the book author
-     */
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-    /**
-     * @deprecated author will be moved to it's own entity
-     * @return 
-     */
-    public String getFirstname() {
-        return firstname;
-    }
-    /**
-     * @deprecated author will be moved to it's own entity
-     * @param firstname 
-     */
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
+
     public String getTitle() {
         return title;
     }

@@ -13,19 +13,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author Kyle.Lewer
  */
 @Entity
+@Table(name="member_auction_bids")
 public class MemberAuctionBid implements Serializable, Comparable<MemberAuctionBid> {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
    
     private Float amount;
     private Float bidValue;

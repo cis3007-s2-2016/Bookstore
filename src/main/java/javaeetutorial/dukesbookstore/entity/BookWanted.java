@@ -6,12 +6,11 @@
 package javaeetutorial.dukesbookstore.entity;
 
 import java.io.Serializable;
-import java.util.TreeSet;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -19,18 +18,20 @@ import javax.persistence.Table;
  * @author Kyle.Lewer
  */
 @Entity
-@Table(name="member_auctions")
-public class MemberAuction extends MemberSale implements Serializable {
+@Table(name="books_wanted")
+public class BookWanted implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    
-    private String auctionStatus;
-    private Float reserve;
-
+    @ManyToOne
+    private Member member;
+    @ManyToOne
+    private Book wants;
+    //a book in this
+    private String bookCondition;
+    private Boolean shouldNotify;
     public Long getId() {
         return id;
     }
@@ -39,20 +40,28 @@ public class MemberAuction extends MemberSale implements Serializable {
         this.id = id;
     }
 
-    public String getAuctionStatus() {
-        return auctionStatus;
+    public Member getMember() {
+        return member;
     }
 
-    public void setAuctionStatus(String auctionStatus) {
-        this.auctionStatus = auctionStatus;
+    public void setMember(Member member) {
+        this.member = member;
     }
 
-    public Float getReserve() {
-        return reserve;
+    public Book getWants() {
+        return wants;
     }
 
-    public void setReserve(Float reserve) {
-        this.reserve = reserve;
+    public void setWants(Book wants) {
+        this.wants = wants;
+    }
+
+    public String getBookCondition() {
+        return bookCondition;
+    }
+
+    public void setBookCondition(String bookCondition) {
+        this.bookCondition = bookCondition;
     }
     
     @Override
@@ -65,10 +74,10 @@ public class MemberAuction extends MemberSale implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof MemberAuction)) {
+        if (!(object instanceof BookWanted)) {
             return false;
         }
-        MemberAuction other = (MemberAuction) object;
+        BookWanted other = (BookWanted) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -77,7 +86,7 @@ public class MemberAuction extends MemberSale implements Serializable {
 
     @Override
     public String toString() {
-        return "javaeetutorial.dukesbookstore.entity.Auction[ id=" + id + " ]";
+        return "javaeetutorial.dukesbookstore.entity.BookWanted[ id=" + id + " ]";
     }
     
 }

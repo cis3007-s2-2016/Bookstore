@@ -6,12 +6,11 @@
 package javaeetutorial.dukesbookstore.entity;
 
 import java.io.Serializable;
-import java.util.TreeSet;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -19,18 +18,17 @@ import javax.persistence.Table;
  * @author Kyle.Lewer
  */
 @Entity
-@Table(name="member_auctions")
-public class MemberAuction extends MemberSale implements Serializable {
+@Table(name="member_interests")
+public class MemberInterest implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     
-    private String auctionStatus;
-    private Float reserve;
-
+    @ManyToOne
+    private Member interested;
+    private String genre;
     public Long getId() {
         return id;
     }
@@ -39,20 +37,20 @@ public class MemberAuction extends MemberSale implements Serializable {
         this.id = id;
     }
 
-    public String getAuctionStatus() {
-        return auctionStatus;
+    public Member getInterested() {
+        return interested;
     }
 
-    public void setAuctionStatus(String auctionStatus) {
-        this.auctionStatus = auctionStatus;
+    public void setInterested(Member interested) {
+        this.interested = interested;
     }
 
-    public Float getReserve() {
-        return reserve;
+    public String getGenre() {
+        return genre;
     }
 
-    public void setReserve(Float reserve) {
-        this.reserve = reserve;
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
     
     @Override
@@ -65,10 +63,10 @@ public class MemberAuction extends MemberSale implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof MemberAuction)) {
+        if (!(object instanceof MemberInterest)) {
             return false;
         }
-        MemberAuction other = (MemberAuction) object;
+        MemberInterest other = (MemberInterest) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -77,7 +75,7 @@ public class MemberAuction extends MemberSale implements Serializable {
 
     @Override
     public String toString() {
-        return "javaeetutorial.dukesbookstore.entity.Auction[ id=" + id + " ]";
+        return "javaeetutorial.dukesbookstore.entity.MemberInterest[ id=" + id + " ]";
     }
     
 }
