@@ -1,0 +1,149 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:v-on='vue.org'
+                xmlns:v-bind='vue.org'
+                template="../WEB-INF/admin.template.xhtml">
+
+    <ui:define name="top"></ui:define> 
+    <ui:define name="content">
+
+        <div class="row">
+            <div class="col-md-3">
+        	   <canvas id="newVsUsedSalesCount" class="pieChart" width="100" height="100"></canvas>
+            </div>
+            <div class="col-md-3">
+               <canvas id="categoryPopularity" class="pieChart" width="100" height="100"></canvas>
+            </div>
+            <div class="col-md-3">
+               <canvas id="auctionsSettled" class="pieChart" width="100" height="100"></canvas>
+            </div>
+            <div class="col-md-3">
+               <canvas id="activeUsers" class="pieChart" width="100" height="100"></canvas>
+            </div>
+        </div>
+    </ui:define>
+	<ui:define name='scripts'>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.bundle.js' />
+	<script>
+        
+        var ctx = $("#newVsUsedSalesCount");
+        var myChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['New books sold this month', 'Used books sold this month'],
+                datasets: [{
+                    data: [238,607],
+                backgroundColor: [
+                    "#FF6384",
+                    "#FFCE56"
+                ],
+                hoverBackgroundColor: [
+                    "#FF6384",
+                    "#FFCE56"
+                ]
+                }]
+            },
+            options: {
+                legend: {
+                    display: false
+                },
+                title: {
+                    text: "Monthy Sales Volume",
+                    display: true
+                }
+            }
+        });
+        var ctx = $("#auctionsSettled");
+        var myChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Items sold at auction', 'Itemsthat failed to sell at auction'],
+                datasets: [{
+                    data: [38,5],
+                backgroundColor: [
+                    "#FF6384",
+                    "#36A2EB"
+                ],
+                hoverBackgroundColor: [
+                    "#FF6384",
+                    "#36A2EB"
+                ]
+                }]
+            },
+            options: {
+                legend: {
+                    display: false
+                },
+                title: {
+                    text: "Auctions Settled",
+                    display: true
+                }
+            }
+        });
+        var ctx = $("#categoryPopularity");
+        var myChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['New books sold this month', 'Used books sold this month'],
+                datasets: [{
+                    data: [35,19,4,70,80],
+                backgroundColor: [
+                "#36A2EB",
+                    "#FF6384",
+                    "#FFCE56",
+                    "#36A2EB",
+                    "#FF6384",
+                    "#FFCE56"
+                ],
+                hoverBackgroundColor: [
+                "#36A2EB",
+                    "#FF6384",
+                    "#FFCE56",
+                    "#36A2EB",
+                    "#FF6384",
+                    "#FFCE56"
+                ]
+                }]
+            },
+            options: {
+                legend: {
+                    display: false
+                },
+                title: {
+                    text: "Category Sales Quantity",
+                    display: true
+                }
+            }
+        });
+        var ctx = $("#activeUsers");
+        var myChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Active', 'Inactive'],
+                datasets: [{
+                    data: [8,2],
+                backgroundColor: [
+                    "#36A2EB",
+                    "#FFCE56"
+                ],
+                hoverBackgroundColor: [
+                    "#36A2EB",
+                    "#FFCE56"
+                ]
+                }]
+            },
+            options: {
+                legend: {
+                    display: false
+                },
+                title: {
+                    text: "Active Users",
+                    display: true
+                }
+            }
+        });
+	</script>
+	</ui:define>
+</ui:composition>

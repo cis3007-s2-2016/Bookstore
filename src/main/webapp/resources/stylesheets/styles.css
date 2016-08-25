@@ -36,6 +36,10 @@ sub { bottom: -0.25em; }
 
 img { border: 0; }
 
+.valid-icon {
+    color: #5cb85c;
+}
+
 svg:not(:root) { overflow: hidden; }
 
 figure { margin: 1em 40px; }

@@ -6,7 +6,7 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:bookstore="http://dukesbookstore"
-                template="./bookstoreTemplate.xhtml"
+                template="WEB-INF/bookstore.template.xhtml"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
@@ -45,7 +45,7 @@
                             </form>
                             <hr />
                             <div>
-                                New to #{bundle.BookstoreTitle}?  <h:link outcome="signup"><button type="button" class="btn btn-link">Sign up now <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button></h:link>
+                                New to #{bundle.BookstoreTitle}?  <h:link outcome="register"><button type="button" class="btn btn-link">Sign up now <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button></h:link>
                             </div>
                         </div>
 

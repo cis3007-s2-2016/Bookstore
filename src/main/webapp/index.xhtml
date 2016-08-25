@@ -15,7 +15,7 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:bookstore="http://dukesbookstore"
-                template="./bookstoreTemplate.xhtml"
+                template="WEB-INF/bookstore.template.xhtml"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
@@ -30,7 +30,7 @@
         <div class="jumbotron">
             <h1>Dukes Bookstore </h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in velit pretium, laoreet lectus vitae, ullamcorper erat. Curabitur vitae orci in lorem luctus fermentum.</p>
-            <p><a class="btn btn-primary btn-lg" href="#" role="button">Sign in</a></p>
+            <p><h:link outcome="login" class="btn btn-primary btn-lg">Sign in</h:link></p>
         </div>
 
         <article>
