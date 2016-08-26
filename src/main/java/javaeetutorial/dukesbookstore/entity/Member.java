@@ -7,10 +7,12 @@ package javaeetutorial.dukesbookstore.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -32,7 +34,11 @@ public class Member implements Serializable {
     private String surname;
     private String email;
     private Timestamp joinDate;
+    private String billingAddress;
     private String deliveryAddress;
+    
+    @ManyToMany(mappedBy = "groupMembers")
+    private List<PrivilageGroup> groups;
 
     public String getFirstName() {
         return firstName;
@@ -93,6 +99,14 @@ public class Member implements Serializable {
         return username;
     }
 
+    public List<PrivilageGroup> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<PrivilageGroup> groups) {
+        this.groups = groups;
+    }
+    
     public void setId(Long id) {
         this.id = id;
     }

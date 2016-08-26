@@ -20,8 +20,8 @@ import javax.persistence.Table;
  * @author Kyle.Lewer
  */
 @Entity
-@Table(name="member_auction_bids")
-public class MemberAuctionBid implements Serializable, Comparable<MemberAuctionBid> {
+@Table(name="auction_bids")
+public class AuctionBid implements Serializable, Comparable<AuctionBid> {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -33,7 +33,7 @@ public class MemberAuctionBid implements Serializable, Comparable<MemberAuctionB
 
 
     @ManyToOne
-    private MemberAuction auction;
+    private Auction auction;
     
     public Float getSalePrice() {
         return bidValue;
@@ -50,11 +50,11 @@ public class MemberAuctionBid implements Serializable, Comparable<MemberAuctionB
         this.amount = amount;
     }
 
-    public MemberAuction getAuction() {
+    public Auction getAuction() {
         return auction;
     }
 
-    public void setAuction(MemberAuction auction) {
+    public void setAuction(Auction auction) {
         this.auction = auction;
     }
     public Long getId() {
@@ -75,10 +75,10 @@ public class MemberAuctionBid implements Serializable, Comparable<MemberAuctionB
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof MemberAuctionBid)) {
+        if (!(object instanceof AuctionBid)) {
             return false;
         }
-        MemberAuctionBid other = (MemberAuctionBid) object;
+        AuctionBid other = (AuctionBid) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -91,7 +91,7 @@ public class MemberAuctionBid implements Serializable, Comparable<MemberAuctionB
     }
 
     @Override
-    public int compareTo(MemberAuctionBid otherBid) {
+    public int compareTo(AuctionBid otherBid) {
         // Ideally we only want to compare bids on the same auction
         if(otherBid.auction.equals(this.auction)){
             //descending order

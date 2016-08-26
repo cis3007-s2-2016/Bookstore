@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javaeetutorial.dukesbookstore.entity.Author;
 import javaeetutorial.dukesbookstore.entity.Book;
 import javaeetutorial.dukesbookstore.exception.BookNotFoundException;
 import javaeetutorial.dukesbookstore.exception.BooksNotFoundException;
@@ -40,12 +41,12 @@ public class BookRequestBean {
     public void createBook(String isbn, String surname, String firstname,
             String title, Float costPrice, Float retailPrice, Integer publishedYear,
             String description, Integer stockLevel, String publisher,
-            String genre, String format) {
+            String genre, String format, List<Author> bookAuthors) {
         try {
             Book book = new Book(isbn, surname, firstname, title,
                     costPrice, retailPrice, publishedYear,
                     description, stockLevel, publisher,
-                    genre, format);
+                    genre, format, bookAuthors);
             
             logger.log(Level.INFO, "Created book {0}", isbn);
             em.persist(book);

@@ -6,11 +6,13 @@
 package javaeetutorial.dukesbookstore.entity;
 
 import java.io.Serializable;
+import java.sql.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -18,17 +20,60 @@ import javax.persistence.Table;
  * @author Kyle.Lewer
  */
 @Entity
-@Table(name="book_authors")
-public class BookAuthor implements Serializable {
+@Table(name="sales")
+public class Sale implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    private String ISBN;
     @ManyToOne
-    private Book book;
+    private Member buyer;
+    
     @ManyToOne
-    private Author author;
+    private Member seller;
+    
+    @OneToOne
+    private Payment payment;
+    
+    private Date dateListed;
+    private String bookCondition;
+    private Float salePrice;
+
+    public String getISBN() {
+        return ISBN;
+    }
+
+    public void setISBN(String ISBN) {
+        this.ISBN = ISBN;
+    }
+
+    public Date getDateListed() {
+        return dateListed;
+    }
+
+    public void setDateListed(Date dateListed) {
+        this.dateListed = dateListed;
+    }
+
+    public String getBookCondition() {
+        return bookCondition;
+    }
+
+    public void setBookCondition(String bookCondition) {
+        this.bookCondition = bookCondition;
+    }
+
+    public Float getPostage() {
+        return postage;
+    }
+
+    public void setPostage(Float postage) {
+        this.postage = postage;
+    }
+    private Float postage;
     
     public Long getId() {
         return id;
@@ -37,21 +82,7 @@ public class BookAuthor implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    public Book getBook() {
-        return book;
-    }
 
-    public void setBook(Book book) {
-        this.book = book;
-    }
-
-    public Author getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(Author author) {
-        this.author = author;
-    }
     @Override
     public int hashCode() {
         int hash = 0;
@@ -62,10 +93,10 @@ public class BookAuthor implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof BookAuthor)) {
+        if (!(object instanceof Sale)) {
             return false;
         }
-        BookAuthor other = (BookAuthor) object;
+        Sale other = (Sale) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -74,7 +105,7 @@ public class BookAuthor implements Serializable {
 
     @Override
     public String toString() {
-        return "javaeetutorial.dukesbookstore.entity.BookAuthor[ id=" + id + " ]";
+        return "javaeetutorial.dukesbookstore.entity.MemberSale[ id=" + id + " ]";
     }
     
 }

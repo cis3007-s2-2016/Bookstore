@@ -6,10 +6,14 @@
 package javaeetutorial.dukesbookstore.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -26,6 +30,11 @@ public class Author implements Serializable {
     private Long id;
     private String givenNames;
     private String surname;
+    @ManyToMany
+    @JoinTable(name="book_authors")
+    private List<Book> authoredBooks;
+
+
     
     public Long getId() {
         return id;
@@ -50,7 +59,13 @@ public class Author implements Serializable {
     public void setSurname(String surname) {
         this.surname = surname;
     }
+    public List<Book> getAuthoredBooks() {
+        return authoredBooks;
+    }
 
+    public void setAuthoredBooks(List<Book> authoredBooks) {
+        this.authoredBooks = authoredBooks;
+    }
     @Override
     public int hashCode() {
         int hash = 0;

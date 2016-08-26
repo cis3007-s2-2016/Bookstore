@@ -6,11 +6,12 @@
 package javaeetutorial.dukesbookstore.entity;
 
 import java.io.Serializable;
+import java.util.TreeSet;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -18,20 +19,18 @@ import javax.persistence.Table;
  * @author Kyle.Lewer
  */
 @Entity
-@Table(name="member_privalage_groups")
-public class MemberPrivilageGroup implements Serializable {
+@Table(name="auctions")
+public class Auction extends Sale implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     
-    @ManyToOne
-    private PrivilageGroup group;
-    
-    @ManyToOne
-    private Member groupMember;
-    
+    private String auctionStatus;
+    private Float reserve;
+
     public Long getId() {
         return id;
     }
@@ -40,20 +39,20 @@ public class MemberPrivilageGroup implements Serializable {
         this.id = id;
     }
 
-    public PrivilageGroup getGroup() {
-        return group;
+    public String getAuctionStatus() {
+        return auctionStatus;
     }
 
-    public void setGroup(PrivilageGroup group) {
-        this.group = group;
+    public void setAuctionStatus(String auctionStatus) {
+        this.auctionStatus = auctionStatus;
     }
 
-    public Member getGroupMember() {
-        return groupMember;
+    public Float getReserve() {
+        return reserve;
     }
 
-    public void setGroupMember(Member groupMember) {
-        this.groupMember = groupMember;
+    public void setReserve(Float reserve) {
+        this.reserve = reserve;
     }
     
     @Override
@@ -66,10 +65,10 @@ public class MemberPrivilageGroup implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof MemberPrivilageGroup)) {
+        if (!(object instanceof Auction)) {
             return false;
         }
-        MemberPrivilageGroup other = (MemberPrivilageGroup) object;
+        Auction other = (Auction) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -78,7 +77,7 @@ public class MemberPrivilageGroup implements Serializable {
 
     @Override
     public String toString() {
-        return "javaeetutorial.dukesbookstore.entity.MemberPrivilageGroup[ id=" + id + " ]";
+        return "javaeetutorial.dukesbookstore.entity.Auction[ id=" + id + " ]";
     }
     
 }

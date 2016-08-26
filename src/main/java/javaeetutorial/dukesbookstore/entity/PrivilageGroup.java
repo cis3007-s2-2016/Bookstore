@@ -6,10 +6,13 @@
 package javaeetutorial.dukesbookstore.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -27,6 +30,10 @@ public class PrivilageGroup implements Serializable {
     private Long id;
     private String groupname;
     
+    @ManyToMany
+    @JoinTable(name="privilage_group_members")
+    private List<Member> groupMembers;
+    
     public Long getId() {
         return id;
     }
@@ -42,6 +49,22 @@ public class PrivilageGroup implements Serializable {
         return hash;
     }
 
+    public String getGroupname() {
+        return groupname;
+    }
+
+    public void setGroupname(String groupname) {
+        this.groupname = groupname;
+    }
+
+    public List<Member> getGroupMembers() {
+        return groupMembers;
+    }
+
+    public void setGroupMembers(List<Member> groupMembers) {
+        this.groupMembers = groupMembers;
+    }
+    
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set

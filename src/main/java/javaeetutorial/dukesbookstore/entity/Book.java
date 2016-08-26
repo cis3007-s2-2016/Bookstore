@@ -8,8 +8,11 @@
 package javaeetutorial.dukesbookstore.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.MappedSuperclass;
 //import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -34,14 +37,16 @@ public class Book implements Serializable {
     private Integer stockLevel;
     private String genre; 
     private String format;
-
+    
+    @ManyToMany(mappedBy = "authoredBooks")
+    private List<Author> bookAuthors;
     public Book() {
     }
 
     public Book(String ISBN, String surname, String firstname,
             String title, Float costPrice, Float retailPrice, Integer publishedYear,
             String description, Integer stockLevel, String publisher,
-            String genre, String format) {
+            String genre, String format, List<Author> bookAuthors) {
         
         this.ISBN = ISBN;
         this.title = title;
@@ -53,6 +58,8 @@ public class Book implements Serializable {
         this.stockLevel = stockLevel;
         this.genre = genre;
         this.format = format;
+        this.bookAuthors = bookAuthors;
+        
     }
 
     public Book(String ISBN) {
@@ -150,4 +157,21 @@ public class Book implements Serializable {
     public void setFormat(String format) {
         this.format = format;
     }
+
+    public Integer getPubYear() {
+        return pubYear;
+    }
+
+    public void setPubYear(Integer pubYear) {
+        this.pubYear = pubYear;
+    }
+
+    public List<Author> getBookAuthors() {
+        return bookAuthors;
+    }
+
+    public void setBookAuthors(List<Author> bookAuthors) {
+        this.bookAuthors = bookAuthors;
+    }
+    
 }
