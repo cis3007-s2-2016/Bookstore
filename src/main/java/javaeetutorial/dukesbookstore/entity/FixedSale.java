@@ -6,56 +6,26 @@
 package javaeetutorial.dukesbookstore.entity;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.OneToMany;
 
 /**
  *
  * @author Kyle.Lewer
  */
 @Entity
-@Table(name="sales")
-public class Sale implements Serializable {
+public class FixedSale implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    protected Long id;
-    
-    @ManyToOne
-    private Member buyer;
-    
-    @ManyToOne
-    private Member seller;
-    
-    @OneToOne
-    private Payment payment;
-    
-    private Date dateListed;
-
-    public Date getDateListed() {
-        return dateListed;
-    }
-
-    public void setDateListed(Date dateListed) {
-        this.dateListed = dateListed;
-    }
-    public Float getPostage() {
-        return postage;
-    }
-
-    public void setPostage(Float postage) {
-        this.postage = postage;
-    }
-    private Float postage;
-    
+    private Long id;
+    @OneToMany
+    private List<FixedSaleItem> saleItems;
     public Long getId() {
         return id;
     }
@@ -74,10 +44,10 @@ public class Sale implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Sale)) {
+        if (!(object instanceof FixedSale)) {
             return false;
         }
-        Sale other = (Sale) object;
+        FixedSale other = (FixedSale) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -86,7 +56,12 @@ public class Sale implements Serializable {
 
     @Override
     public String toString() {
-        return "javaeetutorial.dukesbookstore.entity.MemberSale[ id=" + id + " ]";
+        return "javaeetutorial.dukesbookstore.entity.FixedSale[ id=" + id + " ]";
+    }
+    
+    public Double getSalePrice(){
+        // use java 8 lambda stuff, think of this like a 
+        return saleItems.stream().mapToDouble(FixedSaleItem::getSalePrice).sum();
     }
     
 }

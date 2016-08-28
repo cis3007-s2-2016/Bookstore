@@ -21,7 +21,9 @@ import javax.ejb.Startup;
 public class ConfigBean {
 
     @EJB
-    private BookRequestBean request;
+    private BookRequestBean bookRequest;
+    @EJB
+    private PreferenceRequestBean preferenceRequest;
 
     @PostConstruct
     public void createData() {
@@ -44,5 +46,22 @@ public class ConfigBean {
 //                "Java Intermediate Bytecodes", 30.95, true,
 //                2010, "What a cool book.", 20);
 
+        //Notification Preferences
+        preferenceRequest.createPreference("pref.notify.auction.complete",
+                "If a user has this preference they will recieve a notification when auctions they are involved in are complete");
+        preferenceRequest.createPreference("pref.notify.auction.outbid",
+                "If a user has this preference they will be notified when they have been outbid");
+        preferenceRequest.createPreference("pref.notify.wishlist.auction", 
+                "If a user has this preference they will be notified when an item on their wishlist is listed for auction");
+        preferenceRequest.createPreference("pref.notify.wishlist.sale", 
+                "If a user has this preference they will be notified when an item on their wishlist is listed for sale");
+        preferenceRequest.createPreference("pref.notify.auction.expire",
+                "If a user has this preference they will be notified when their auction(s) expires");
+        preferenceRequest.createPreference("pref.notify.interest.newitem.avaliable",
+                "If a user has this preference they will be notified when a new item exists in a genre they are interested");
+        //Notification methods
+        preferenceRequest.createPreference("pref.notify.method.email", 
+                "If a user has this preference they will be notified by email");
+        
     }
 }

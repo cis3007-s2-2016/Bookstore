@@ -6,23 +6,18 @@
 package javaeetutorial.dukesbookstore.entity;
 
 import java.io.Serializable;
-import java.sql.Date;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
 /**
  *
  * @author Kyle.Lewer
  */
 @Entity
-@Table(name="sales")
-public class Sale implements Serializable {
+public class SaleItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -30,31 +25,25 @@ public class Sale implements Serializable {
     protected Long id;
     
     @ManyToOne
-    private Member buyer;
-    
-    @ManyToOne
-    private Member seller;
-    
-    @OneToOne
-    private Payment payment;
-    
-    private Date dateListed;
+    private Book item;
+    private String itemCondition;
+    private int amount;
 
-    public Date getDateListed() {
-        return dateListed;
+    public String getItemCondition() {
+        return itemCondition;
     }
 
-    public void setDateListed(Date dateListed) {
-        this.dateListed = dateListed;
-    }
-    public Float getPostage() {
-        return postage;
+    public void setItemCondition(String itemCondition) {
+        this.itemCondition = itemCondition;
     }
 
-    public void setPostage(Float postage) {
-        this.postage = postage;
+    public int getAmount() {
+        return amount;
     }
-    private Float postage;
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
     
     public Long getId() {
         return id;
@@ -64,6 +53,14 @@ public class Sale implements Serializable {
         this.id = id;
     }
 
+    public Book getItem() {
+        return item;
+    }
+
+    public void setItem(Book item) {
+        this.item = item;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -74,10 +71,10 @@ public class Sale implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Sale)) {
+        if (!(object instanceof SaleItem)) {
             return false;
         }
-        Sale other = (Sale) object;
+        SaleItem other = (SaleItem) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -86,7 +83,7 @@ public class Sale implements Serializable {
 
     @Override
     public String toString() {
-        return "javaeetutorial.dukesbookstore.entity.MemberSale[ id=" + id + " ]";
+        return "javaeetutorial.dukesbookstore.entity.SaleItem[ id=" + id + " ]";
     }
     
 }
