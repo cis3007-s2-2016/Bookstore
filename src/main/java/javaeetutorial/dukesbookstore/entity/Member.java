@@ -7,6 +7,7 @@ package javaeetutorial.dukesbookstore.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,9 +34,15 @@ public class Member implements Serializable {
     private String firstName;
     private String surname;
     private String email;
-    private Timestamp joinDate;
+    private Date joinDate;
     private String billingAddress;
     private String deliveryAddress;
+    
+    @ManyToMany
+    private List<Interest> userInterests;
+    
+    @ManyToMany
+    private List<Preference> userPreferences;
     
     @ManyToMany(mappedBy = "groupMembers")
     private List<PrivilageGroup> groups;
@@ -64,11 +71,11 @@ public class Member implements Serializable {
         this.email = email;
     }
 
-    public Timestamp getJoinDate() {
+    public Date getJoinDate() {
         return joinDate;
     }
 
-    public void setJoinDate(Timestamp joinDate) {
+    public void setJoinDate(Date joinDate) {
         this.joinDate = joinDate;
     }
 
@@ -111,6 +118,30 @@ public class Member implements Serializable {
         this.id = id;
     }
 
+    public String getBillingAddress() {
+        return billingAddress;
+    }
+
+    public void setBillingAddress(String billingAddress) {
+        this.billingAddress = billingAddress;
+    }
+
+    public List<Preference> getUserPreferences() {
+        return userPreferences;
+    }
+
+    public void setUserPreferences(List<Preference> userPreferences) {
+        this.userPreferences = userPreferences;
+    }
+
+    public List<Interest> getUserInterests() {
+        return userInterests;
+    }
+
+    public void setUserInterests(List<Interest> userInterests) {
+        this.userInterests = userInterests;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

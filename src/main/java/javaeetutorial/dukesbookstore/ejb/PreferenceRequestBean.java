@@ -5,7 +5,9 @@
  */
 package javaeetutorial.dukesbookstore.ejb;
 
+import java.util.List;
 import java.util.logging.Logger;
+import javaeetutorial.dukesbookstore.entity.Member;
 import javaeetutorial.dukesbookstore.entity.Preference;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -32,6 +34,10 @@ public class PreferenceRequestBean {
         pref.setPreferenceDescription(description);
         
         em.persist(pref);
+    }
+    
+    public List<Preference> getMemberPreferences(Member mem) {
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
 }
