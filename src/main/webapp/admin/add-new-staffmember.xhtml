@@ -1,0 +1,97 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:v-on='vue.org'
+                xmlns:v-bind='vue.org'
+                template="../WEB-INF/templates/admin.template.xhtml">
+
+    <ui:define name="top"></ui:define> 
+    <ui:define name="content">
+        <h:form class="form-horizontal" id='addStaffApp'>
+            <div class='row'>
+                <div class="col-sm-8">
+                    <div class="col-sm-8 col-sm-offset-3">
+                        <h1>Add new staff member:</h1>
+                        <h3>Staff details:</h3>
+                        <br />
+                        <hr />
+                    </div>
+                </div>
+                <br />
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-8">
+                    <!-- name -->
+                    <div class="form-group has-feedback">
+                        <label for="firstname" class="col-sm-3 control-label">Name:</label>
+                        <div class="col-sm-8">
+                            <h:inputText value="#{newUserBean.firstname}" required="true" class="form-control">
+                                <f:passThroughAttribute name="type" value="text" />
+                                <f:passThroughAttribute name="v-model" value="firstname" />
+                                <f:passThroughAttribute name="v-on:keyup" value="showFirstnameFeedback" />
+                                <f:passThroughAttribute name="placeholder" value="First Name" />
+                            </h:inputText>
+                            <span class="form-control-feedback"><i v-bind:class='firstnameFeedback' aria-hidden="true"></i></span>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <label for="lastname" class="col-sm-3 control-label"></label>
+                        <div class="col-sm-8">
+                            <h:inputText value="#{newUserBean.lastname}" required="true" class="form-control">
+                                <f:passThroughAttribute name="type" value="text" />
+                                <f:passThroughAttribute name="v-model" value="lastname" />
+                                <f:passThroughAttribute name="v-on:keyup" value="showLastnameFeedback" />
+                                <f:passThroughAttribute name="placeholder" value="Last Name" />
+                            </h:inputText>
+                            <span class="form-control-feedback"><i v-bind:class='lastnameFeedback' aria-hidden="true"></i></span>
+                        </div>
+                    </div>
+                    <!-- email -->
+                    <div class="form-group has-feedback">
+                        <label for="email" class="col-sm-3 control-label">Email:</label>
+                        <div class="col-sm-8">
+                            <h:inputText value="#{newUserBean.email}" required="true" class="form-control">
+                                <f:passThroughAttribute name="type" value="email" />
+                                <f:passThroughAttribute name="v-model" value="email" />
+                                <f:passThroughAttribute name="v-on:keyup" value="showEmailFeedback" />
+                                <f:passThroughAttribute name="placeholder" value="name@example.com" />
+                            </h:inputText>
+                            <span class="form-control-feedback"><i v-bind:class='emailFeedback' aria-hidden="true"></i></span>
+                        </div>
+                    </div>
+                    <!-- password -->
+                    <div class="form-group has-feedback">
+                        <label for="password1" class="col-sm-3 control-label">Password:</label>
+                        <div class="col-sm-8">
+                            <h:inputText value="#{newUserBean.password}" required="true" class="form-control">
+                                <f:passThroughAttribute name="type" value="password" />
+                                <f:passThroughAttribute name="v-model" value="password1" />
+                                <f:passThroughAttribute name="v-on:keyup" value="showPassword1Feedback" />
+                                <f:passThroughAttribute name="placeholder" value="password" />
+                            </h:inputText>
+                            <span class="form-control-feedback"><i v-bind:class="password1Feedback" aria-hidden="true"></i></span>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <label for="password2" class="col-sm-3 control-label"></label>
+                        <div class="col-sm-8">
+                            <h:inputText value="#{newUserBean.password2}" required="true" class="form-control">
+                                <f:passThroughAttribute name="type" value="password" />
+                                <f:passThroughAttribute name="v-model" value="password2" />
+                                <f:passThroughAttribute name="v-on:keyup" value="showPassword2Feedback" />
+                                <f:passThroughAttribute name="placeholder" value="repeat password" />
+                            </h:inputText>
+                            <span class="form-control-feedback"><i v-bind:class="password2Feedback" aria-hidden="true"></i></span>
+                        </div>
+                    </div>
+                    <br />
+                    <h:commandButton action="#{newUserBean.createAdmin()}" value="Create Staff Member" class="btn btn-primary  col-sm-offset-5" type="submit"/>
+                </div>
+            </div>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

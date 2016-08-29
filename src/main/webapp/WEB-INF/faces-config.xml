@@ -245,5 +245,13 @@
             <value>604,323,748,569</value>
         </managed-property>
     </managed-bean>
-
+    <managed-bean>
+        <managed-bean-name>newUserBean</managed-bean-name>
+        <managed-bean-class>javaeetutorial.dukesbookstore.web.managedbeans.NewUserBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>userDetails</managed-bean-name>
+        <managed-bean-class>javaeetutorial.dukesbookstore.web.managedbeans.userDetails</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope></managed-bean>
 </faces-config>

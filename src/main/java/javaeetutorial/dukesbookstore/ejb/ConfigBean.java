@@ -7,10 +7,13 @@
  */
 package javaeetutorial.dukesbookstore.ejb;
 
+import javaeetutorial.dukesbookstore.entity.Member;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 
 /**
  * <p>Singleton bean that initializes the book database for the bookstore
@@ -20,29 +23,29 @@ import javax.ejb.Startup;
 @Startup
 public class ConfigBean {
 
-    @EJB
-    private BookRequestBean request;
+    @PersistenceContext(unitName = "bookstorePU")
+    EntityManager em;
+    
+    
 
     @PostConstruct
     public void createData() {
-//        request.createBook("201", "Duke", "",
-//                "My Early Years: Growing Up on *7",
-//                30.75, false, 2005, "What a cool book.", 20);
-//        request.createBook("202", "Jeeves", "",
-//                "Web Servers for Fun and Profit", 40.75, true,
-//                2010, "What a cool book.", 20);
-//        request.createBook("203", "Masterson", "Webster",
-//                "Web Components for Web Developers",
-//                27.75, false, 2010, "What a cool book.", 20);
-//        request.createBook("205", "Novation", "Kevin",
-//                "From Oak to Java: The Revolution of a Language",
-//                10.75, true, 2008, "What a cool book.", 20);
-//        request.createBook("206", "Thrilled", "Ben",
-//                "The Green Project: Programming for Consumer Devices",
-//                30.00, true, 2008, "What a cool book.", 20);
-//        request.createBook("207", "Coding", "Happy",
-//                "Java Intermediate Bytecodes", 30.95, true,
-//                2010, "What a cool book.", 20);
-
+        Member admin = new Member("admin", "admin", "admin");
+        admin.setFirstName("Adminstrator");
+        em.persist(admin);
+        
+        Member customer = new Member("user@dukes.com", "password", "customer");
+        customer.setFirstName("John");
+        customer.setSurname("Doe");
+        customer.setShippingAddressLine1("Unit 3");
+        customer.setShippingAddressLine2("123 Fake Street");
+        customer.setShippingCity("Fakeville");
+        customer.setShippingState("QLD");
+        customer.setShippingPostcode("4000");
+        customer.setBillingAddressLine1("100 North Road");
+        customer.setBillingCity("Darwin");
+        customer.setBillingState("Northern Territory");
+        customer.setBillingPostcode("7654");
+        em.persist(customer);
     }
 }

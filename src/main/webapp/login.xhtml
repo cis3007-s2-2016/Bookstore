@@ -6,7 +6,7 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:bookstore="http://dukesbookstore"
-                template="WEB-INF/bookstore.template.xhtml"
+                template="WEB-INF/templates/bookstore.template.xhtml"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
@@ -27,7 +27,7 @@
                             </div>
                         </div>
                         <div class="login-form-bottom">
-                            <form method="post" name="j_security_check">
+                            <form method="post" action="j_security_check">
                                 <c:if test="#{param['error'] == 'true'}">
                                     <div class="alert alert-danger" role="alert">
                                         <strong>Oh Snap!</strong> The username or password is incorrect. Please try again.

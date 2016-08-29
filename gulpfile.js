@@ -5,7 +5,7 @@ var sourcemaps = require('gulp-sourcemaps');
 
 
 gulp.task('sass', function() {
-    return gulp.src('src/main/webapp/resources/sass/main.scss')
+    return gulp.src('src/main/webapp/WEB-INF/sass/main.scss')
     	.pipe(sourcemaps.init())
         .pipe(sass({includePaths:['node_modules/bootstrap-sass/assets/stylesheets/']}))
         .pipe(rename('styles.css'))
