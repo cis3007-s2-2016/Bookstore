@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package javaeetutorial.dukesbookstore.ejb;
+import javaeetutorial.dukesbookstore.entity.Member;
 import javax.ejb.Remote;
 /**
  *
@@ -29,4 +30,6 @@ public interface MemberManager {
     	String billingState,
     	String billingPostcode
     );
+    
+    public Member find(String email);
 }

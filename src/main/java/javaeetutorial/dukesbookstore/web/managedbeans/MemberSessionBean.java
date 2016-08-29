@@ -32,6 +32,7 @@ public class MemberSessionBean implements Serializable{
     private String username;
     private String password;
 
+    
     public Member getUser() {
         return user;
     }
@@ -56,21 +57,6 @@ public class MemberSessionBean implements Serializable{
         this.password = password;
     }
 
-    public String login() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        try {
-            System.out.println("attempt login with: " + this.getUsername() + "/" + this.getPassword());
-            request.login(this.getUsername(), this.getPassword());
-        } catch (Exception e) {
-            System.out.println("Failed because:  " + e.getMessage());
-            context.addMessage(null, new FacesMessage("Login failed."));
-            return "/index";
-        }
-        setUser((Member) entityManager.createQuery("SELECT u FROM Member u WHERE u.email = " + this.getUsername()).getSingleResult());
-        return "admin/index";
-    }
-
     public String logout() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         session.invalidate();
@@ -89,4 +75,5 @@ public class MemberSessionBean implements Serializable{
         }
         return this.getUser().getPermissionGroup().equalsIgnoreCase("customer");
     }
+    
 }

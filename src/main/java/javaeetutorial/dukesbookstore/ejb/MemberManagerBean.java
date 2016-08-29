@@ -10,6 +10,7 @@ import javaeetutorial.dukesbookstore.entity.Member;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -83,6 +84,12 @@ public class MemberManagerBean implements MemberManager {
         entityManager.persist(member);
         return member.getId();
     }
-
+    
+    @Override
+    public Member find(String email){
+        TypedQuery<Member> query = entityManager.createQuery("SELECT u FROM Member u WHERE u.email=:email", Member.class);
+        query.setParameter("email", email);
+        return query.getSingleResult();
+    }
     
 }
