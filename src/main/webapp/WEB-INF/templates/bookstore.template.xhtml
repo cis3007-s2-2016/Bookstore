@@ -53,7 +53,7 @@
                                 </form>
                             </li>
                             <li>
-                                <h:link outcome="login" rendered="#{empty request.remoteUser}"><i class="fa fa-user" aria-hidden="true"></i> Login </h:link>
+                                <h:link outcome="/login" rendered="#{empty request.remoteUser}"><i class="fa fa-user" aria-hidden="true"></i> Login </h:link>
                                 <h:link outcome="/dashboard" rendered="#{memberSessionBean.customer}"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</h:link>
                                 <h:link outcome="/admin/activity-summary" rendered="#{memberSessionBean.admin}"><i class="fa fa-tachometer" aria-hidden="true"></i> Admin</h:link>
                             </li>
@@ -77,8 +77,7 @@
 
 
         <main class="container">
-
-
+            <h3>#{memberSessionBean.firstname()}</h3>
             <div id="content" class="center_content" >
                 <ui:insert name="content" />
             </div>

@@ -27,27 +27,33 @@
                             </div>
                         </div>
                         <div class="login-form-bottom">
-                            <form method="post" action="j_security_check">
+                            
                                 <c:if test="#{param['error'] == 'true'}">
                                     <div class="alert alert-danger" role="alert">
                                         <strong>Oh Snap!</strong> The username or password is incorrect. Please try again.
                                     </div>
                                 </c:if>
+                            <h:form>
                                 <div class="login-form-group">
                                     <div class="input-group">
                                         <span class="input-group-addon" id="login-username-icon"><i class="fa fa-user fa-fw" aria-hidden="true"></i></span>
-                                        <input type="text" name='j_username' id="login-username-input" class="login-input form-control" placeholder="Username or Email" aria-describedby="basic-addon1"></input>
+                                        <h:inputText value="#{memberSessionBean.username}" class="login-input form-control">
+                                            <f:passThroughAttribute name="autofocus" value="autofocus"/>
+                                            <f:passThroughAttribute name='placeholder' value='email'/>
+                                        </h:inputText>
                                     </div>
                                 </div>
                                 <div class="login-form-group">
                                     <div class="input-group">
                                         <span class="input-group-addon" id="login-password-icon"><i class="fa fa-unlock-alt fa-fw" aria-hidden="true"></i></span>
-                                        <input type="password" name='j_password' id="login-password-input" class="login-input form-control" placeholder="Password" aria-describedby="basic-addon1"></input>
+                                        <h:inputSecret value="#{memberSessionBean.password}" class="login-input form-control" >
+                                            <f:passThroughAttribute name='placeholder' value="password"/>
+                                        </h:inputSecret>
                                     </div>
                                 </div>
 
-                                <button id="login-form-submitButton" type="submit" class="btn btn-primary">Log in</button>
-                            </form>
+                                <h:commandButton action="#{memberSessionBean.login()}" id="login-form-submitButton" class="btn btn-primary" value="Log in" />
+                            </h:form>
                             <hr />
                             <div>
                                 New to #{bundle.BookstoreTitle}?  <h:link outcome="register"><button type="button" class="btn btn-link">Sign up now <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button></h:link>
