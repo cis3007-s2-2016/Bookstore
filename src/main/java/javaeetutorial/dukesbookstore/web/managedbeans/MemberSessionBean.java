@@ -90,12 +90,13 @@ public class MemberSessionBean implements Serializable{
     }
     
     public String firstname(){
-        if (this.getUser() != null){
-            return this.getUser().getFirstName();
+        String name;
+        try {
+            name = ((Member) this.getSession().getAttribute("user")).getFirstName();
+        } catch (Exception e){
+            return "";
         }
-        else{
-            return "no user";
-        }
+        return name;
     }
     
     
@@ -114,7 +115,6 @@ public class MemberSessionBean implements Serializable{
             this.setUser(this.getMemberManager().find(getUsername()));
             this.setSession(request.getSession());
             this.getSession().setAttribute("user", this.getUser());
-            this.getAuthenticatedUser();
 
             if (isAdmin()) {
                 nextPage = "/admin/add-new-book";
@@ -145,12 +145,7 @@ public class MemberSessionBean implements Serializable{
         }
         return "/bookreceipt";
     }
-    
-    @Produces
-    @com.forest.qualifiers.LoggedIn
-    public Member getAuthenticatedUser() {
-        return (Member) this.getSession().getAttribute("user");
-    }
+
     
     public boolean isAdmin(){
         if (this.getUser() == null){
