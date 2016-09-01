@@ -9,6 +9,7 @@ package javaeetutorial.dukesbookstore.ejb;
 
 import javaeetutorial.dukesbookstore.entity.Member;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
@@ -63,21 +64,21 @@ public class ConfigBean {
 
 
         //Notification Preferences
-        preferenceRequest.createPreference("pref.notify.auction.complete",
-                "If a user has this preference they will recieve a notification when auctions they are involved in are complete");
-        preferenceRequest.createPreference("pref.notify.auction.outbid",
-                "If a user has this preference they will be notified when they have been outbid");
-        preferenceRequest.createPreference("pref.notify.wishlist.auction", 
-                "If a user has this preference they will be notified when an item on their wishlist is listed for auction");
-        preferenceRequest.createPreference("pref.notify.wishlist.sale", 
-                "If a user has this preference they will be notified when an item on their wishlist is listed for sale");
-        preferenceRequest.createPreference("pref.notify.auction.expire",
-                "If a user has this preference they will be notified when their auction(s) expires");
-        preferenceRequest.createPreference("pref.notify.interest.newitem.avaliable",
-                "If a user has this preference they will be notified when a new item exists in a genre they are interested");
-        //Notification methods
-        preferenceRequest.createPreference("pref.notify.method.email", 
-                "If a user has this preference they will be notified by email");
+//        preferenceRequest.createPreference("pref.notify.auction.complete",
+//                "If a user has this preference they will recieve a notification when auctions they are involved in are complete");
+//        preferenceRequest.createPreference("pref.notify.auction.outbid",
+//                "If a user has this preference they will be notified when they have been outbid");
+//        preferenceRequest.createPreference("pref.notify.wishlist.auction",
+//                "If a user has this preference they will be notified when an item on their wishlist is listed for auction");
+//        preferenceRequest.createPreference("pref.notify.wishlist.sale",
+//                "If a user has this preference they will be notified when an item on their wishlist is listed for sale");
+//        preferenceRequest.createPreference("pref.notify.auction.expire",
+//                "If a user has this preference they will be notified when their auction(s) expires");
+//        preferenceRequest.createPreference("pref.notify.interest.newitem.avaliable",
+//                "If a user has this preference they will be notified when a new item exists in a genre they are interested");
+//        //Notification methods
+//        preferenceRequest.createPreference("pref.notify.method.email",
+//                "If a user has this preference they will be notified by email");
         
 
     public void setEm(EntityManager em) {

@@ -35,6 +35,7 @@ public class MemberSessionBean implements Serializable{
     private Member user;
     private String username;
     private String password;
+    private HttpSession session;
 
     
     public Member getUser() {
@@ -77,8 +78,14 @@ public class MemberSessionBean implements Serializable{
         this.memberManager = memberManager;
     }
 
-    
-    
+    public HttpSession getSession() {
+        return session;
+    }
+
+    public void setSession(HttpSession session) {
+        this.session = session;
+    }
+
     public MemberSessionBean(){
     }
     
@@ -94,6 +101,7 @@ public class MemberSessionBean implements Serializable{
     
     public String login(){
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+
         String nextPage;
 
         try {
@@ -104,6 +112,8 @@ public class MemberSessionBean implements Serializable{
             //System.out.println("Succesfully logged in user: " + this.getUsername());
 
             this.setUser(this.getMemberManager().find(getUsername()));
+            this.setSession(request.getSession());
+            this.getSession().setAttribute("user", this.getUser());
             this.getAuthenticatedUser();
 
             if (isAdmin()) {
@@ -139,7 +149,7 @@ public class MemberSessionBean implements Serializable{
     @Produces
     @com.forest.qualifiers.LoggedIn
     public Member getAuthenticatedUser() {
-        return user;
+        return (Member) this.getSession().getAttribute("user");
     }
     
     public boolean isAdmin(){

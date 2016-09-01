@@ -195,7 +195,14 @@ public class Member implements Serializable {
         this.userInterests = userInterests;
     }
 
-    
+    public Timestamp getJoinDate() {
+        return joinDate;
+    }
+
+    public void setJoinDate(Timestamp joinDate) {
+        this.joinDate = joinDate;
+    }
+
     public void setId(Long id) { this.id = id; }
 
     
