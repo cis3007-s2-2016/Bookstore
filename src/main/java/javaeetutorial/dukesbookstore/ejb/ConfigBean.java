@@ -24,7 +24,7 @@ import javax.persistence.PersistenceContext;
 public class ConfigBean {
 
     @PersistenceContext(unitName = "bookstorePU")
-    EntityManager em;
+    private EntityManager em;
     
     
 
@@ -32,7 +32,7 @@ public class ConfigBean {
     public void createData() {
         Member admin = new Member("admin", "admin", "admin");
         admin.setFirstName("Adminstrator");
-        em.persist(admin);
+        this.getEm().persist(admin);
         
         Member customer = new Member("user@dukes.com", "password", "customer");
         customer.setFirstName("John");
@@ -46,6 +46,18 @@ public class ConfigBean {
         customer.setBillingCity("Darwin");
         customer.setBillingState("Northern Territory");
         customer.setBillingPostcode("7654");
-        em.persist(customer);
+        this.getEm().persist(customer);
+    }
+
+    public ConfigBean() throws Exception{
+
+    }
+
+    public EntityManager getEm() {
+        return em;
+    }
+
+    public void setEm(EntityManager em) {
+        this.em = em;
     }
 }

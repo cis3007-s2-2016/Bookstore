@@ -91,5 +91,9 @@ public class MemberManagerBean implements MemberManager {
         query.setParameter("email", email);
         return query.getSingleResult();
     }
+
+    public MemberManagerBean(){
+
+    }
     
 }

@@ -101,7 +101,7 @@ public class MemberSessionBean implements Serializable{
                 this.getUsername(),
                 this.getPassword());
 
-            System.out.println("Succesfully logged in user: " + this.getUsername());
+            //System.out.println("Succesfully logged in user: " + this.getUsername());
 
             this.setUser(this.getMemberManager().find(getUsername()));
             this.getAuthenticatedUser();
@@ -112,7 +112,7 @@ public class MemberSessionBean implements Serializable{
                 nextPage = "/index";
             }
         } catch (Exception e) {
-            System.out.println("Failed to authenticate user: " + this.getUsername() +" with password: " + this.getPassword() + "  :  " + e.getLocalizedMessage());
+            //System.out.println("Failed to authenticate user: " + this.getUsername() +" with password: " + this.getPassword() + "  :  " + e.getLocalizedMessage());
             nextPage = "/login.xhtml?error=true";
         }
 
@@ -130,7 +130,7 @@ public class MemberSessionBean implements Serializable{
         
             this.setUser(null);
         } catch (Exception e){
-            System.out.println("failed to logout user: " + e.getLocalizedMessage());
+            //System.out.println("failed to logout user: " + e.getLocalizedMessage());
             return "/index";
         }
         return "/bookreceipt";
@@ -154,6 +154,6 @@ public class MemberSessionBean implements Serializable{
         }
         return this.getUser().getPermissionGroup().equalsIgnoreCase("customer");
     }
-    
+
 }
  
