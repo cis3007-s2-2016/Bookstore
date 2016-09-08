@@ -8,13 +8,15 @@ package javaeetutorial.dukesbookstore.entity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Kyle.Lewer
  */
 @Entity
-class FixedSaleItem extends SaleItem implements Serializable{
+@XmlRootElement
+public class FixedSaleItem extends SaleItem implements Serializable{
 
     private static final long serialVersionUID = 1L;
     

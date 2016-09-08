@@ -16,12 +16,15 @@ import javax.persistence.MappedSuperclass;
 //import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * <p>Entity class for bookstore example.</p>
  */
 @Entity
 @Table(name="books")
+@XmlRootElement
 public class Book implements Serializable {
 
     private static final long serialVersionUID = -4146681491856848089L;
@@ -166,6 +169,7 @@ public class Book implements Serializable {
         this.pubYear = pubYear;
     }
 
+    @XmlTransient
     public List<Author> getBookAuthors() {
         return bookAuthors;
     }

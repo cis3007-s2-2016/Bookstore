@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -21,6 +22,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="auction_bids")
+@XmlRootElement
 public class AuctionBid implements Serializable, Comparable<AuctionBid> {
 
     private static final long serialVersionUID = 1L;

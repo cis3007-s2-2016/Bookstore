@@ -15,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -22,6 +24,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name ="authors")
+@XmlRootElement
 public class Author implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -59,6 +62,7 @@ public class Author implements Serializable {
     public void setSurname(String surname) {
         this.surname = surname;
     }
+    @XmlTransient
     public List<Book> getAuthoredBooks() {
         return authoredBooks;
     }

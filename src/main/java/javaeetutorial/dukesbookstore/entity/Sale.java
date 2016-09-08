@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -22,6 +23,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="sales")
+@XmlRootElement
 public class Sale implements Serializable {
 
     private static final long serialVersionUID = 1L;
