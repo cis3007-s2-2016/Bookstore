@@ -25,7 +25,7 @@ import javax.ws.rs.core.MediaType;
  * @author Kyle.Lewer
  */
 @Stateless
-@Path("javaeetutorial.dukesbookstore.entity.auctionbid")
+@Path("/entity/auctionbid")
 public class AuctionBidFacadeREST extends AbstractFacade<AuctionBid> {
 
     @PersistenceContext(unitName = "bookstorePU")

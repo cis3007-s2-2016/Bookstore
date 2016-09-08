@@ -25,7 +25,7 @@ import javax.ws.rs.core.MediaType;
  * @author Kyle.Lewer
  */
 @Stateless
-@Path("javaeetutorial.dukesbookstore.entity.bookreview")
+@Path("/entity/bookreview")
 public class BookReviewFacadeREST extends AbstractFacade<BookReview> {
 
     @PersistenceContext(unitName = "bookstorePU")
