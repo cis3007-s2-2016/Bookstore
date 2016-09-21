@@ -8,6 +8,7 @@ package javaeetutorial.dukesbookstore.service;
 import java.util.List;
 import javaeetutorial.dukesbookstore.entity.AuctionBid;
 import javax.ejb.Stateless;
+import javax.enterprise.context.SessionScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
@@ -27,7 +28,6 @@ import javax.ws.rs.core.MediaType;
 @Stateless
 @Path("/entity/auctionbid")
 public class AuctionBidFacadeREST extends AbstractFacade<AuctionBid> {
-
     @PersistenceContext(unitName = "bookstorePU")
     private EntityManager em;
 
