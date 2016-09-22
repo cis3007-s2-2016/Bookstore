@@ -6,8 +6,8 @@
 package javaeetutorial.dukesbookstore.entity;
 
 import java.io.Serializable;
-import java.sql.Date;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,41 +29,126 @@ public class Sale implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    protected Long id;
-    
+    protected Long      id;
     @ManyToOne
-    private Member buyer;
-    
+    private Book        ISBN;
+    private String      saleType; //auction or sale
+    private String      itemCondition;
+    private int         postage;
+    private int         startPrice;
+    private int         salePrice;
+    private int         reservePrice;
+    private int         duration;
     @ManyToOne
-    private Member seller;
-    
+    private Member      buyerId;
+    @ManyToOne
+    private Member      sellerId;
     @OneToOne
-    private Payment payment;
-    
-    private Date dateListed;
+    private Payment     paymentId;    
+    private LocalDateTime        dateListed;
 
-    public Date getDateListed() {
-        return dateListed;
-    }
-
-    public void setDateListed(Date dateListed) {
-        this.dateListed = dateListed;
-    }
-    public Float getPostage() {
-        return postage;
-    }
-
-    public void setPostage(Float postage) {
-        this.postage = postage;
-    }
-    private Float postage;
-    
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Book getISBN() {
+        return ISBN;
+    }
+
+    public void setISBN(Book ISBN) {
+        this.ISBN = ISBN;
+    }
+
+    public String getSaleType() {
+        return saleType;
+    }
+
+    public void setSaleType(String saleType) {
+        this.saleType = saleType;
+    }
+
+    public String getItemCondition() {
+        return itemCondition;
+    }
+
+    public void setItemCondition(String itemCondition) {
+        this.itemCondition = itemCondition;
+    }
+
+    public int getPostage() {
+        return postage;
+    }
+
+    public void setPostage(int postage) {
+        this.postage = postage;
+    }
+
+    public int getStartPrice() {
+        return startPrice;
+    }
+
+    public void setStartPrice(int startPrice) {
+        this.startPrice = startPrice;
+    }
+
+    public int getSalePrice() {
+        return salePrice;
+    }
+
+    public void setSalePrice(int salePrice) {
+        this.salePrice = salePrice;
+    }
+
+    public int getReservePrice() {
+        return reservePrice;
+    }
+
+    public void setReservePrice(int reservePrice) {
+        this.reservePrice = reservePrice;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public Member getBuyerId() {
+        return buyerId;
+    }
+
+    public void setBuyerId(Member buyerId) {
+        this.buyerId = buyerId;
+    }
+
+    public Member getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(Member sellerId) {
+        this.sellerId = sellerId;
+    }
+
+    public Payment getPaymentId() {
+        return paymentId;
+    }
+
+    public void setPaymentId(Payment paymentId) {
+        this.paymentId = paymentId;
+    }
+
+    public LocalDateTime getLocalDateTimeListed() {
+        return dateListed;
+    }
+
+    public void setLocalDateTimeListed(LocalDateTime dateListed) {
+        this.dateListed = dateListed;
     }
 
     @Override
@@ -90,5 +175,9 @@ public class Sale implements Serializable {
     public String toString() {
         return "javaeetutorial.dukesbookstore.entity.MemberSale[ id=" + id + " ]";
     }
-    
+    //@Override
+    public String toString(LocalDateTime dateListed) {
+        SimpleDateFormat formatter = new SimpleDateFormat( "MM/dd/yyyy HH:mm:ss" );
+        return formatter.format( dateListed ) ;   
+    }
 }
