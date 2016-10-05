@@ -6,46 +6,57 @@
 package javaeetutorial.dukesbookstore.entity;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Kyle.Lewer
- * 
+ * @author amanda hugnkiss
  */
-
 @Entity
-@Table(name="auction_bids")
+@Table(name = "auction_bid")
 @XmlRootElement
- public class AuctionBid implements Serializable { //, Comparable<AuctionBid> {
+@NamedQueries({
+    @NamedQuery(name = "AuctionBid.findAll", query = "SELECT a FROM AuctionBid a"),
+    @NamedQuery(name = "AuctionBid.findById", query = "SELECT a FROM AuctionBid a WHERE a.id = :id"),
+    @NamedQuery(name = "AuctionBid.findByBidvalue", query = "SELECT a FROM AuctionBid a WHERE a.bidvalue = :bidvalue")})
+public class AuctionBid implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ID")
     private Long id;
-    
+    @Lob
+    @Column(name = "BIDTIME")
+    private byte[] bidtime;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "BIDVALUE")
+    private Float bidvalue;
+    @JoinColumn(name = "MEMBERID_ID", referencedColumnName = "ID")
     @ManyToOne
-    private Sale saleId;
-    
+    private Member memberidId;
+    @JoinColumn(name = "SALEID_ID", referencedColumnName = "ID")
     @ManyToOne
-    private Member memberId;
-    
-    private LocalDateTime bidTime;
-    
-    private Float bidValue;
+    private Sale saleidId;
 
+    public AuctionBid() {
+    }
 
-//    @ManyToOne
-//    private Auction auction;
+    public AuctionBid(Long id) {
+        this.id = id;
+    }
 
     public Long getId() {
         return id;
@@ -55,45 +66,37 @@ import javax.xml.bind.annotation.XmlRootElement;
         this.id = id;
     }
 
-    public Sale getSaleId() {
-        return saleId;
+    public byte[] getBidtime() {
+        return bidtime;
     }
 
-    public void setSaleId(Sale saleId) {
-        this.saleId = saleId;
+    public void setBidtime(byte[] bidtime) {
+        this.bidtime = bidtime;
     }
 
-    public Member getMemberId() {
-        return memberId;
+    public Float getBidvalue() {
+        return bidvalue;
     }
 
-    public void setMemberId(Member memberId) {
-        this.memberId = memberId;
+    public void setBidvalue(Float bidvalue) {
+        this.bidvalue = bidvalue;
     }
 
-    public LocalDateTime getBidTime() {
-        return bidTime;
+    public Member getMemberidId() {
+        return memberidId;
     }
 
-    public void setBidTime(LocalDateTime bidTime) {
-        this.bidTime = bidTime;
+    public void setMemberidId(Member memberidId) {
+        this.memberidId = memberidId;
     }
 
-    public Float getBidValue() {
-        return bidValue;
+    public Sale getSaleidId() {
+        return saleidId;
     }
 
-    public void setBidValue(Float bidValue) {
-        this.bidValue = bidValue;
+    public void setSaleidId(Sale saleidId) {
+        this.saleidId = saleidId;
     }
-   
-//    public Auction getAuction() {
-//        return auction;
-//    }
-//
-//    public void setAuction(Auction auction) {
-//        this.auction = auction;
-//    }
 
     @Override
     public int hashCode() {
@@ -114,30 +117,10 @@ import javax.xml.bind.annotation.XmlRootElement;
         }
         return true;
     }
- 
-    //@Override
-    public String toString(LocalDateTime bidTime) {
-        SimpleDateFormat formatter = new SimpleDateFormat( "MM/dd/yyyy HH:mm:ss" );
-        return formatter.format( bidTime ) ; 
-        //return "javaeetutorial.dukesbookstore.entity.Bid[ id=" + id + " ]";
+
+    @Override
+    public String toString() {
+        return "jpa.entities.AuctionBid[ id=" + id + " ]";
     }
-    //@Override
-    public String toString(Long id) {
-        return "javaeetutorial.dukesbookstore.entity.Bid[ id=" + id + " ]";
-    }
-    
-//    @Override
-//    public int compareTo(AuctionBid otherBid) {
-//        // Ideally we only want to compare bids on the same auction
-//        if(otherBid.auction.equals(this.auction)){
-//            //descending order
-//            return Float.compare(this.amount, otherBid.amount);
-//        }
-//        else
-//        {
-//            System.err.println("Only bids of the same auction should be compared");
-//            return 0;
-//        }
-//    }
     
 }
