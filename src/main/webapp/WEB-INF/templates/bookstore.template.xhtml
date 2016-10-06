@@ -56,6 +56,7 @@
                                 <h:link outcome="/login" rendered="#{empty request.remoteUser}"><i class="fa fa-user" aria-hidden="true"></i> Login </h:link>
                                 <h:link outcome="/dashboard" rendered="#{memberSessionBean.customer}"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</h:link>
                                 <h:link outcome="/admin/activity-summary" rendered="#{memberSessionBean.admin}"><i class="fa fa-tachometer" aria-hidden="true"></i> Admin</h:link>
+                                
                             </li>
                             <li>
                                 <h:link outcome="/bookshowcart" rendered="#{!memberSessionBean.admin}">
@@ -63,9 +64,7 @@
                                 </h:link>
                             </li>
                             <li>
-                                <h:link outcome="#{memberSessionBean.logout()}" rendered="#{not empty request.remoteUser}">
-                                     Logout
-                                </h:link>
+                                <h:form rendered="#{memberSessionBean.customer ||memberSessionBean.admin}"><h:commandLink action="#{memberSessionBean.logout()}" rendered="#{memberSessionBean.customer || memberSessionBean.admin}"><i class="fa fa-external-link-square" aria-hidden="true"></i> Logout </h:commandLink></h:form>
                             </li>
 
                         </ul>
@@ -129,10 +128,7 @@
 
 
         <!-- Bootstrap JavaScript-->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <h:outputScript library="javascripts" name="bootstrap.js" />
-        <h:outputScript library="javascripts" name="vue.js" />
-        <ui:insert name="scripts" />
+        <ui:include src="scripts.xhtml" />
     </h:body>
 
 </html>

@@ -167,12 +167,14 @@
                             this.loadingIcon = true;
                             
                             this.$http.get(googleBooksApiURL).then(function (response) {
-                                this.title = response.json().items[0].volumeInfo.title;
-                                this.author = response.json().items[0].volumeInfo.authors[0];
-                                this.description = response.json().items[0].volumeInfo.description;
-                                this.publisher = response.json().items[0].volumeInfo.publisher;
-                                this.category = response.json().items[0].volumeInfo.categories[0]; 
-                                this.thumbnail = response.json().items[0].volumeInfo.imageLinks.thumbnail;
+                                console.log(response);
+                                this.title = response.body.items[0].volumeInfo.title;
+                                this.author = response.body.items[0].volumeInfo.authors[0];
+                                this.description = response.body.items[0].volumeInfo.description;
+                                this.publisher = response.body.items[0].volumeInfo.publisher;
+                                this.publishDate = response.body.items[0].volumeInfo.publishedDate;
+                                this.category = response.body.items[0].volumeInfo.categories[0]; 
+                                this.thumbnail = response.body.items[0].volumeInfo.imageLinks.thumbnail;
                                 this.localThumbnail = '';
                                 this.loadingIcon = false;
                             });

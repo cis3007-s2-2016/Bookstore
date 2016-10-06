@@ -99,7 +99,6 @@ public class MemberSessionBean implements Serializable{
         return name;
     }
     
-    
     public String login(){
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
 
@@ -143,7 +142,7 @@ public class MemberSessionBean implements Serializable{
             //System.out.println("failed to logout user: " + e.getLocalizedMessage());
             return "/index";
         }
-        return "/bookreceipt";
+        return "/index";
     }
 
     

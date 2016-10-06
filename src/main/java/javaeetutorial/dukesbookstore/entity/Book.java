@@ -31,6 +31,7 @@ public class Book implements Serializable {
     @Id
     @NotNull
     private String ISBN;
+    
     private String title;
     private Float costPrice;
     private Float retailPrice;
@@ -95,8 +96,7 @@ public class Book implements Serializable {
     }
     
     //Getter and setters
-    // ===============================================================
-        public String getISBN() {
+    public String getISBN() {
         return ISBN;
     }
 

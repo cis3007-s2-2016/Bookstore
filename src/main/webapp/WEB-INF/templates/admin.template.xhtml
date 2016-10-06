@@ -10,7 +10,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/stylesheets/styles.css" />
 
-        <title>#{bundle.BookstoreTitle} - ADMIN CONTROL PANEL</title></head>
+        <title>#{bundle.BookstoreTitle} - ADMINISTRATOR CONTROL PANEL</title></head>
         <body id="dashboard-body">
 
 
@@ -54,6 +54,9 @@
                                 <h:link outcome="/admin/activity-summary" rendered="#{memberSessionBean.admin}"><i class="fa fa-tachometer" aria-hidden="true"></i> Admin</h:link>
                             </li>
                         <li><a href="#"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart</a></li>
+                        <li>
+                            <h:form class="white-override no-padding" rendered="#{memberSessionBean.customer || memberSessionBean.admin}"><h:commandLink action="#{memberSessionBean.logout()}" rendered="#{memberSessionBean.admin || memberSessionBean.customer}"><i class="fa fa-external-link-square" aria-hidden="true"></i> Logout </h:commandLink></h:form>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -111,11 +114,7 @@
         </div>
 
         <!-- SCRIPTS -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <h:outputScript library="javascripts" name="bootstrap.js" />
-        <h:outputScript library="javascripts" name="vue.js" />
-        <script src="https://cdn.jsdelivr.net/vue.resource/0.9.3/vue-resource.min.js"></script>
-        <ui:insert name="scripts" />
+        <ui:include src="scripts.xhtml" />
         
     </body>
 </html>

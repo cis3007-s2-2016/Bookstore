@@ -5,10 +5,16 @@
  */
 package javaeetutorial.dukesbookstore.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import javaeetutorial.dukesbookstore.web.managedbeans.MemberSessionBean;
 import javax.enterprise.context.SessionScoped;
 import javax.persistence.EntityManager;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import javax.xml.ws.http.HTTPException;
 
 /**
@@ -20,8 +26,13 @@ public abstract class AbstractFacade<T> {
 // use stateful memberSession to check if the user is a customer
     // if the application required large scale and to be distributed across multiple services
     // this would need to be transitioned to a stateless authentication method
-    @SessionScoped
-    MemberSessionBean memberSession;
+    @Context
+    HttpServletResponse response;
+    
+    @Context
+    SecurityContext security;
+    
+    private static final Logger logger = Logger.getLogger("dukesbookstore.service.AbstractFacade");
     
     private Class<T> entityClass;
 
@@ -32,46 +43,52 @@ public abstract class AbstractFacade<T> {
     protected abstract EntityManager getEntityManager();
     
     public void create(T entity) {
-        if(memberSession.isCustomer())
-            getEntityManager().persist(entity);
-        else
-            throw new HTTPException(401);
+        if(! security.isSecure())
+        {
+            response.setStatus(Response.Status.UNAUTHORIZED.getStatusCode());
+            return;
+        }
+        
+        getEntityManager().persist(entity);
     }
 
     public void edit(T entity) {
-        if(memberSession.isCustomer())
-            getEntityManager().merge(entity);
-        else
-            throw new HTTPException(401);
+        if(! security.isSecure()){
+            response.setStatus(Response.Status.UNAUTHORIZED.getStatusCode());
+            return;
+        }
+        getEntityManager().merge(entity);
     }
-
+    
     public void remove(T entity) {
-        if(memberSession.isCustomer())
+        if(isLoggedInUser())
             getEntityManager().remove(getEntityManager().merge(entity));
         else
-            throw new HTTPException(401);
+            response.setStatus(Response.Status.UNAUTHORIZED.getStatusCode());
     }
 
     public T find(Object id) {
-        if(memberSession.isCustomer())
+        if(isLoggedInUser())
             return getEntityManager().find(entityClass, id);
         else
-            throw new HTTPException(401);
+            response.setStatus(Response.Status.UNAUTHORIZED.getStatusCode());
+            
+        throw new HTTPException(401);
     }
 
     public List<T> findAll() {
-        if(memberSession.isCustomer()){
+        if(isLoggedInUser()){
             javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
             cq.select(cq.from(entityClass));
             return getEntityManager().createQuery(cq).getResultList();
         }else{
-            throw new HTTPException(401);
+            response.setStatus(Response.Status.UNAUTHORIZED.getStatusCode());
         }
+        throw new HTTPException(401);
     }
 
     public List<T> findRange(int[] range) {
-        if(memberSession.isCustomer())
-        {
+        if(isLoggedInUser()){
             javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
             cq.select(cq.from(entityClass));
             javax.persistence.Query q = getEntityManager().createQuery(cq);
@@ -79,20 +96,29 @@ public abstract class AbstractFacade<T> {
             q.setFirstResult(range[0]);
             return q.getResultList();
         }else{
-            throw new HTTPException(401);
+            response.setStatus(Response.Status.UNAUTHORIZED.getStatusCode());
         }
+        throw new HTTPException(401);
     }
 
     public int count() {
-        if(memberSession.isCustomer()){
+        if(isLoggedInUser()){
             javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
             javax.persistence.criteria.Root<T> rt = cq.from(entityClass);
             cq.select(getEntityManager().getCriteriaBuilder().count(rt));
             javax.persistence.Query q = getEntityManager().createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
         } else {
+            response.setStatus(Response.Status.UNAUTHORIZED.getStatusCode());
             throw new HTTPException(401);
         }
+        
+    }
+    
+    private boolean isLoggedInUser()
+    {
+        return (security.isUserInRole("admin") 
+                || security.isUserInRole("customer"));
     }
     
 }
