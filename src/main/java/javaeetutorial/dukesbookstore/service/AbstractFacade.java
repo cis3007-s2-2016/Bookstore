@@ -43,28 +43,34 @@ public abstract class AbstractFacade<T> {
     protected abstract EntityManager getEntityManager();
     
     public void create(T entity) {
-        if(! security.isSecure())
+        if(! isLoggedInUser())
         {
             response.setStatus(Response.Status.UNAUTHORIZED.getStatusCode());
             return;
         }
-        
-        getEntityManager().persist(entity);
+        if(! getEntityManager().contains(entity))
+        {
+            getEntityManager().persist(entity);
+            getEntityManager().flush();
+        }
     }
 
     public void edit(T entity) {
-        if(! security.isSecure()){
+        if(! isLoggedInUser()){
             response.setStatus(Response.Status.UNAUTHORIZED.getStatusCode());
             return;
         }
         getEntityManager().merge(entity);
+        getEntityManager().flush();
     }
     
     public void remove(T entity) {
-        if(isLoggedInUser())
+        if(isLoggedInUser()){
             getEntityManager().remove(getEntityManager().merge(entity));
-        else
+            getEntityManager().flush();
+        }else{
             response.setStatus(Response.Status.UNAUTHORIZED.getStatusCode());
+        }
     }
 
     public T find(Object id) {
