@@ -26,25 +26,13 @@ import javax.servlet.http.HttpSession;
 @SessionScoped
 public class MemberSessionBean implements Serializable{
 
-    @PersistenceContext(unitName="bookstorePU")
-    private EntityManager entityManager;
-    
     @EJB
     MemberManager memberManager;
-    
-    private Member user;
+
     private String username;
     private String password;
-    private HttpSession session;
 
-    
-    public Member getUser() {
-        return user;
-    }
 
-    public void setUser(Member user) {
-        this.user = user;
-    }
 
     public String getUsername() {
         return this.username;
@@ -62,42 +50,11 @@ public class MemberSessionBean implements Serializable{
         this.password = password;
     }
 
-    public EntityManager getEntityManager() {
-        return entityManager;
-    }
-
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
-
-    public MemberManager getMemberManager() {
-        return memberManager;
-    }
-
-    public void setMemberManager(MemberManager memberManager) {
-        this.memberManager = memberManager;
-    }
-
-    public HttpSession getSession() {
-        return session;
-    }
-
-    public void setSession(HttpSession session) {
-        this.session = session;
-    }
 
     public MemberSessionBean(){
     }
     
-    public String firstname(){
-        String name;
-        try {
-            name = ((Member) this.getSession().getAttribute("user")).getFirstName();
-        } catch (Exception e){
-            return "";
-        }
-        return name;
-    }
+
     
     
     public String login(){
@@ -110,19 +67,16 @@ public class MemberSessionBean implements Serializable{
                 this.getUsername(),
                 this.getPassword());
 
-            //System.out.println("Succesfully logged in user: " + this.getUsername());
 
-            this.setUser(this.getMemberManager().find(getUsername()));
-            this.setSession(request.getSession());
-            this.getSession().setAttribute("user", this.getUser());
 
-            if (isAdmin()) {
-                nextPage = "/admin/add-new-book";
-            } else {
+            request.getSession().setAttribute("user", this.user());
+
+            //if (isAdmin()) {
+            //    nextPage = "/admin/add-new-book";
+            //} else {
                 nextPage = "/index";
-            }
+            //}
         } catch (Exception e) {
-            //System.out.println("Failed to authenticate user: " + this.getUsername() +" with password: " + this.getPassword() + "  :  " + e.getLocalizedMessage());
             nextPage = "/login.xhtml?error=true";
         }
 
@@ -137,10 +91,8 @@ public class MemberSessionBean implements Serializable{
         
             request.logout();
             session.invalidate();
-        
-            this.setUser(null);
+
         } catch (Exception e){
-            //System.out.println("failed to logout user: " + e.getLocalizedMessage());
             return "/index";
         }
         return "/bookreceipt";
@@ -148,16 +100,37 @@ public class MemberSessionBean implements Serializable{
 
     
     public boolean isAdmin(){
-        if (this.getUser() == null){
-            return false;
-        } 
-        return this.getUser().getPermissionGroup().equalsIgnoreCase("admin");
-    }
-    public boolean isCustomer(){
-        if (this.getUser() == null){
+        try {
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            return request.isUserInRole("admin");
+        } catch (Exception e){
             return false;
         }
-        return this.getUser().getPermissionGroup().equalsIgnoreCase("customer");
+    }
+    public boolean isCustomer(){
+        try {
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            return request.isUserInRole("customer");
+        } catch (Exception e){
+            return false;
+        }
+    }
+
+    public Member user(){
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        try {
+            return (Member) request.getAttribute("user");
+        } catch (Exception e) {
+            throw new RuntimeException("No current user logged in");
+        }
+    }
+
+    public String firstname(){
+        try {
+            return this.user().getFirstName();
+        } catch (Exception e){
+            return e.getMessage();
+        }
     }
 
 }
