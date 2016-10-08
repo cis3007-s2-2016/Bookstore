@@ -65,6 +65,10 @@
                             </li>
                             <li>
                                 <h:form rendered="#{memberSessionBean.customer ||memberSessionBean.admin}"><h:commandLink action="#{memberSessionBean.logout()}" rendered="#{memberSessionBean.customer || memberSessionBean.admin}"><i class="fa fa-external-link-square" aria-hidden="true"></i> Logout </h:commandLink></h:form>
+
+                                <!--<h:link outcome="#{memberSessionBean.logout()}">-->
+                                     <!--Logout-->
+                                <!--</h:link>-->
                             </li>
 
                         </ul>
@@ -76,7 +80,7 @@
 
 
         <main class="container">
-            <h3>#{memberSessionBean.firstname()}</h3>
+            <h3>Name: #{memberSessionBean.firstname()}</h3>
             <div id="content" class="center_content" >
                 <ui:insert name="content" />
             </div>
