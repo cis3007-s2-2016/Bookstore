@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<!-- @author amanda hugnkiss 
+
+ not implemented
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditSalesTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditSalesLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{salesController.selected.id}" title="#{bundle.EditSalesTitle_id}" required="true" requiredMessage="#{bundle.EditSalesRequiredMessage_id}"/>
+                    <h:outputLabel value="#{bundle.EditSalesLabel_datelisted}" for="datelisted" />
+                    <h:inputText id="datelisted" value="#{salesController.selected.datelisted}" title="#{bundle.EditSalesTitle_datelisted}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditSalesLabel_duration}" for="duration" />
+                    <h:inputText id="duration" value="#{salesController.selected.duration}" title="#{bundle.EditSalesTitle_duration}" />
+                    <h:outputLabel value="#{bundle.EditSalesLabel_itemcondition}" for="itemcondition" />
+                    <h:inputText id="itemcondition" value="#{salesController.selected.itemcondition}" title="#{bundle.EditSalesTitle_itemcondition}" />
+                    <h:outputLabel value="#{bundle.EditSalesLabel_postage}" for="postage" />
+                    <h:inputText id="postage" value="#{salesController.selected.postage}" title="#{bundle.EditSalesTitle_postage}" />
+                    <h:outputLabel value="#{bundle.EditSalesLabel_reserveprice}" for="reserveprice" />
+                    <h:inputText id="reserveprice" value="#{salesController.selected.reserveprice}" title="#{bundle.EditSalesTitle_reserveprice}" />
+                    <h:outputLabel value="#{bundle.EditSalesLabel_saleprice}" for="saleprice" />
+                    <h:inputText id="saleprice" value="#{salesController.selected.saleprice}" title="#{bundle.EditSalesTitle_saleprice}" />
+                    <h:outputLabel value="#{bundle.EditSalesLabel_saletype}" for="saletype" />
+                    <h:inputText id="saletype" value="#{salesController.selected.saletype}" title="#{bundle.EditSalesTitle_saletype}" />
+                    <h:outputLabel value="#{bundle.EditSalesLabel_startprice}" for="startprice" />
+                    <h:inputText id="startprice" value="#{salesController.selected.startprice}" title="#{bundle.EditSalesTitle_startprice}" />
+                    <h:outputLabel value="#{bundle.EditSalesLabel_buyeridId}" for="buyeridId" />
+                    <h:selectOneMenu id="buyeridId" value="#{salesController.selected.buyeridId}" title="#{bundle.EditSalesTitle_buyeridId}" >
+                        <f:selectItems value="#{membersController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditSalesLabel_isbnIsbn}" for="isbnIsbn" />
+                    <h:selectOneMenu id="isbnIsbn" value="#{salesController.selected.isbnIsbn}" title="#{bundle.EditSalesTitle_isbnIsbn}" >
+                        <f:selectItems value="#{booksController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditSalesLabel_paymentidId}" for="paymentidId" />
+                    <h:selectOneMenu id="paymentidId" value="#{salesController.selected.paymentidId}" title="#{bundle.EditSalesTitle_paymentidId}" >
+                        <f:selectItems value="#{paymentsController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditSalesLabel_selleridId}" for="selleridId" />
+                    <h:selectOneMenu id="selleridId" value="#{salesController.selected.selleridId}" title="#{bundle.EditSalesTitle_selleridId}" >
+                        <f:selectItems value="#{membersController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{salesController.update}" value="#{bundle.EditSalesSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditSalesViewLink}"/>
+                <br />
+                <h:commandLink action="#{salesController.prepareList}" value="#{bundle.EditSalesShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditSalesIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
+-->

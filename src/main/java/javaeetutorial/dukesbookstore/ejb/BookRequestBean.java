@@ -1,4 +1,3 @@
-
 package javaeetutorial.dukesbookstore.ejb;
 
 import java.util.Collection;
@@ -33,7 +32,7 @@ public class BookRequestBean {
     }
 
     public void createBook(String isbn, String surname, String firstname,
-            String title, Float costPrice, Float retailPrice, Integer publishedYear,
+            String title, double costPrice, double retailPrice, Integer publishedYear,
             String description, Integer stockLevel, String publisher,
             String genre, String format, List<Author> bookAuthors) {
         try {

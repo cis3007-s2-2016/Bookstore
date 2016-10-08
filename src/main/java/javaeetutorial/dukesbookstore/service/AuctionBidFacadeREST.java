@@ -49,11 +49,11 @@ public class AuctionBidFacadeREST extends AbstractFacade<AuctionBid> {
         super.edit(entity);
     }
 
-    @DELETE
-    @Path("{id}")
-    public void remove(@PathParam("id") Long id) {
-        super.remove(super.find(id));
-    }
+//    @DELETE
+//    @Path("{id}")
+//    public void remove(@PathParam("id") Long id) {
+//        super.remove(super.find(id));
+//    }
 
     @GET
     @Path("{id}")
