@@ -5,64 +5,97 @@
  */
 package javaeetutorial.dukesbookstore.entity;
 
-import java.io.InvalidObjectException;
 import java.io.Serializable;
-import java.util.logging.Logger;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Kyle.Lewer
+ * @author amanda hugnkiss
  */
 @Entity
-@Table(name="auction_bids")
-public class AuctionBid implements Serializable, Comparable<AuctionBid> {
+@Table(name = "auction_bid")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "AuctionBid.findAll", query = "SELECT a FROM AuctionBid a"),
+    @NamedQuery(name = "AuctionBid.findById", query = "SELECT a FROM AuctionBid a WHERE a.id = :id"),
+    @NamedQuery(name = "AuctionBid.findByBidvalue", query = "SELECT a FROM AuctionBid a WHERE a.bidvalue = :bidvalue")})
+public class AuctionBid implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ID")
     private Long id;
-   
-    private Float amount;
-    private Float bidValue;
-
-
+    @Lob
+    @Column(name = "BIDTIME")
+    private byte[] bidtime;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "BIDVALUE")
+    private Float bidvalue;
+    @JoinColumn(name = "MEMBERID_ID", referencedColumnName = "ID")
     @ManyToOne
-    private Auction auction;
-    
-    public Float getSalePrice() {
-        return bidValue;
+    private Member memberidId;
+    @JoinColumn(name = "SALEID_ID", referencedColumnName = "ID")
+    @ManyToOne
+    private Sale saleidId;
+
+    public AuctionBid() {
     }
 
-    public void setSalePrice(Float salePrice) {
-        this.bidValue = salePrice;
-    }
-    public Float getAmount() {
-        return amount;
+    public AuctionBid(Long id) {
+        this.id = id;
     }
 
-    public void setAmount(Float amount) {
-        this.amount = amount;
-    }
-
-    public Auction getAuction() {
-        return auction;
-    }
-
-    public void setAuction(Auction auction) {
-        this.auction = auction;
-    }
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public byte[] getBidtime() {
+        return bidtime;
+    }
+
+    public void setBidtime(byte[] bidtime) {
+        this.bidtime = bidtime;
+    }
+
+    public Float getBidvalue() {
+        return bidvalue;
+    }
+
+    public void setBidvalue(Float bidvalue) {
+        this.bidvalue = bidvalue;
+    }
+
+    public Member getMemberidId() {
+        return memberidId;
+    }
+
+    public void setMemberidId(Member memberidId) {
+        this.memberidId = memberidId;
+    }
+
+    public Sale getSaleidId() {
+        return saleidId;
+    }
+
+    public void setSaleidId(Sale saleidId) {
+        this.saleidId = saleidId;
     }
 
     @Override
@@ -87,21 +120,7 @@ public class AuctionBid implements Serializable, Comparable<AuctionBid> {
 
     @Override
     public String toString() {
-        return "javaeetutorial.dukesbookstore.entity.Bid[ id=" + id + " ]";
-    }
-
-    @Override
-    public int compareTo(AuctionBid otherBid) {
-        // Ideally we only want to compare bids on the same auction
-        if(otherBid.auction.equals(this.auction)){
-            //descending order
-            return Float.compare(this.amount, otherBid.amount);
-        }
-        else
-        {
-            System.err.println("Only bids of the same auction should be compared");
-            return 0;
-        }
+        return "jpa.entities.AuctionBid[ id=" + id + " ]";
     }
     
 }

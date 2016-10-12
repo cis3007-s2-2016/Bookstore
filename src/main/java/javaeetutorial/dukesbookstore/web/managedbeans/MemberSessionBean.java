@@ -77,7 +77,6 @@ public class MemberSessionBean implements Serializable{
     
 
     
-    
     public String login(){
         try {
             this.setUser(memberManager.find(this.getUsername()));

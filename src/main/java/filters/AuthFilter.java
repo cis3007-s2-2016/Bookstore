@@ -21,6 +21,7 @@ public class AuthFilter implements Filter {
 
     private String[][] protectedUrls =  {
             {"/admin/(.*)", "admin"},
+            {"/rest/(.*)", "admin,customer"},
             {"/checkout\\.xhtml", "customer"}
     };
 
@@ -45,11 +46,16 @@ public class AuthFilter implements Filter {
                         if (resp instanceof HttpServletResponse) {
                             req.getRequestDispatcher("/login.xhtml").forward(req, resp);
                         }
-                    } else if (!this.sessionBean.hasPermissionGroup(this.getProtectedUrls()[i][1])) {
+                    } else {
+                        String allowedGroups[] = this.getProtectedUrls()[i][1].split(",");
+                        for (String allowedGroup : allowedGroups) {
+                            if (!this.sessionBean.hasPermissionGroup(allowedGroup)) {
+                                chain.doFilter(req, resp);
+                            }
+                        }
                         ((HttpServletResponse) resp).sendError(403);
                     }
                 }
-
             }
             chain.doFilter(req, resp);
         } catch (Exception e){

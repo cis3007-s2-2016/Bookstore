@@ -41,7 +41,7 @@
                                     <li><a href="">Non-Fiction</a></li>
                                 </ul>
                             </li>
-                            <li><a href="#">Auction</a></li>
+                            <li><a href="sales/List.xhtml">Member Sales</a></li>
                             <li>
                                 <form class="navbar-form navbar-nav">
                                     <div class="form-group">
@@ -60,6 +60,8 @@
                                     <i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart
                                 </h:link>
                             </li>
+
+
                             <c:if test="#{memberSession.loggedIn}">
                                 <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -107,7 +109,7 @@
                     <div class="col-md-3">
                         <ul class="list-unstyled">
                             <li><a href="#">Shop</a></li>
-                            <li><a href="#">Auction</a></li>							
+                            <li><a href="sales/List.xhtml">Member Sales</a></li>							
                         </ul>
                     </div>
                     <div class="col-md-3">
@@ -137,10 +139,7 @@
 
 
         <!-- Bootstrap JavaScript-->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <h:outputScript library="javascripts" name="bootstrap.js" />
-        <h:outputScript library="javascripts" name="vue.js" />
-        <ui:insert name="scripts" />
+        <ui:include src="scripts.xhtml" />
     </h:body>
 
 </html>

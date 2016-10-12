@@ -34,6 +34,8 @@
         <glassfish.domain.name>domain1</glassfish.domain.name>
         <glassfish.home>${glassfish.home.prefix}/glassfish4</glassfish.home>
         <integration.container.id>glassfish4x</integration.container.id>
+        <!-- So that all jersey dependencies use the same version -->
+        <jersey.version>1.19</jersey.version>
     </properties>
 
 
@@ -162,6 +164,24 @@
             <version>${javaee.api.version}</version>
             <scope>provided</scope>
         </dependency>
+        <!-- JERSEY DEPENDENCIES -->
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-servlet</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-json</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+
+        <!-- END JERSEY DEPENDENCIES -->
     </dependencies>
 
 

@@ -20,6 +20,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -27,6 +29,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="members")
+@XmlRootElement
 public class Member implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -179,6 +182,7 @@ public class Member implements Serializable {
         return id;
     }
 
+    @XmlTransient
     public List<Preference> getUserPreferences() {
         return userPreferences;
     }
@@ -187,6 +191,7 @@ public class Member implements Serializable {
         this.userPreferences = userPreferences;
     }
 
+    @XmlTransient
     public List<Interest> getUserInterests() {
         return userInterests;
     }

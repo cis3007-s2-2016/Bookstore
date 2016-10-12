@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -22,6 +23,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name="seller_reviews")
+@XmlRootElement
 public class SellerReview implements Serializable {
 
     private static final long serialVersionUID = 1L;

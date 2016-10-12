@@ -1,0 +1,109 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:bookstore="http://dukesbookstore"
+                template="../WEB-INF/templates/bookstore.template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:v-on="http://www.vue.com"
+                xmlns:v-bind="http://www.vue.com"
+                xmlns:v-show="http://www.vue.com">
+    
+<!-- @author amanda hugnkiss -->
+    
+    <ui:define name="top"></ui:define>
+    <ui:define name="content">
+        <div class="container register-form-container" id="app">
+            <div id="app" class="row">
+                <div><!-- class="col-md-8 col-md-offset-2">  -->
+
+                <!-- FORM HEADER -->
+                    <div class="sale-form-top">
+                        <div class="row vertical-align">
+                            <div class="col-sm-10">
+                                <span class="h3">#{bundle.CreateSalesTitle}</span>
+                            </div>
+                            <div clas="col-sm-2">
+                                <i class="fa fa-tag fa-5x login-form-icon hide-when-small" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>                    
+
+                    <!-- FORM CONTENT -->
+                    <div class="sale-form-bottom">
+                        
+                        <f:view>
+                        <h:form class="form-horizontal">      
+                            
+                            <h:panelGroup id="messagePanel" layout="block">
+                                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                            </h:panelGroup>
+
+                            <!-- itemcondition -->
+                            <div class="form-group has-feedback">                                
+                                <h:outputLabel value="#{bundle.CreateSalesLabel_itemcondition}" for="itemcondition" class="col-sm-3 control-label"/>
+                                <div class="col-sm-8">
+                                    <h:selectOneListbox id="itemcondition" value="#{salesController.selected.itemcondition}" title="#{bundle.CreateSalesTitle_itemcondition}" >
+                                        <f:selectItem itemValue="Very Poor" itemLabel="Very Poor" />
+                                        <f:selectItem itemValue="Poor" itemLabel="Poor" />
+                                        <f:selectItem itemValue="Good" itemLabel="Good" />
+                                        <f:selectItem itemValue="Very Good" itemLabel="Very Good" />
+                                        <f:selectItem itemValue="Never Read" itemLabel="Never Read" />
+                                    </h:selectOneListbox>
+                                    <span class="form-control-feedback"><i v-bind:class='itemconditionFeedback' aria-hidden="true"></i></span>
+                                </div> 
+                            </div>
+                                
+                            <!-- postage -->
+                            <div class="form-group has-feedback">                                
+                                <h:outputLabel value="#{bundle.CreateSalesLabel_postage}" for="postage" class="col-sm-3 control-label"/>
+                                <div class="col-sm-8">
+                                    <h:inputText id="postage" value="#{salesController.selected.postage}" title="#{bundle.CreateSalesTitle_postage}" />
+                                    <span class="form-control-feedback"><i v-bind:class='postageFeedback' aria-hidden="true"></i></span>
+                                </div> 
+                            </div>
+                            
+                            <!-- saleprice -->
+                            <div class="form-group has-feedback">                                
+                                <h:outputLabel value="#{bundle.CreateSalesLabel_saleprice}" for="saleprice" class="col-sm-3 control-label"/>
+                                <div class="col-sm-8">                        
+                                    <h:inputText id="saleprice" value="#{salesController.selected.saleprice}" title="#{bundle.CreateSalesTitle_saleprice}" />
+                                    <span class="form-control-feedback"><i v-bind:class='salepriceFeedback' aria-hidden="true"></i></span>
+                                </div> 
+                            </div>
+                            
+                            <!-- isbn -->
+                            <div class="form-group has-feedback">                                
+                                <h:outputLabel value="#{bundle.CreateSalesLabel_isbnIsbn}" for="isbnIsbn" class="col-sm-3 control-label"/>
+                                <div class="col-sm-8">
+                                    <h:selectOneMenu id="isbnIsbn" value="#{salesController.selected.isbnIsbn}" title="#{bundle.CreateSalesTitle_isbnIsbn}">
+                                        <f:selectItems value="#{booksController.itemsAvailableSelectOne}"/>
+                                    </h:selectOneMenu>
+                                    <span class="form-control-feedback"><i v-bind:class='isbnIsbnFeedback' aria-hidden="true"></i></span>
+                                </div> 
+                            </div>                   
+                            <br />
+                            <!--buttons-->
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-2">                            
+                                        <h:commandLink action="#{salesController.createFixed}" value="#{bundle.CreateSalesSaveLink}" class="btn btn-primary btn-sm"/>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <h:commandLink action="#{salesController.prepareList}" value="#{bundle.CreateSalesShowAllLink}" immediate="true" class="btn btn-primary btn-sm"/>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <h:link outcome="/index" value="#{bundle.CreateAuctionIndexLink}" class="btn btn-primary btn-sm"/>
+                                    </div>
+                                </div>
+                            </div>                           
+                        </h:form>
+                        </f:view>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+

@@ -6,45 +6,57 @@
 package javaeetutorial.dukesbookstore.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Kyle.Lewer
+ * @author amanda hugnkiss
  */
 @Entity
-@Table(name="payments")
+@Table(name = "payment")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Payment.findAll", query = "SELECT p FROM Payment p"),
+    @NamedQuery(name = "Payment.findById", query = "SELECT p FROM Payment p WHERE p.id = :id"),
+    @NamedQuery(name = "Payment.findByAmount", query = "SELECT p FROM Payment p WHERE p.amount = :amount"),
+    @NamedQuery(name = "Payment.findByCommission", query = "SELECT p FROM Payment p WHERE p.commission = :commission"),
+    @NamedQuery(name = "Payment.findByPaymentstatus", query = "SELECT p FROM Payment p WHERE p.paymentstatus = :paymentstatus")})
 public class Payment implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ID")
     private Long id;
-    
-    private String paymentStatus;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "AMOUNT")
     private Float amount;
+    @Column(name = "COMMISSION")
     private Float commission;
-    
-    
+    @Size(max = 255)
+    @Column(name = "PAYMENTSTATUS")
+    private String paymentstatus;
+    @OneToMany(mappedBy = "paymentidId")
+    private Collection<Sale> salesCollection;
 
-    public Float getAmount() {
-        return amount;
+    public Payment() {
     }
 
-    public void setAmount(Float amount) {
-        this.amount = amount;
-    }
-    
-    public String getPaymentStatus() {
-        return paymentStatus;
-    }
-
-    public void setPaymentStatus(String paymentStatus) {
-        this.paymentStatus = paymentStatus;
+    public Payment(Long id) {
+        this.id = id;
     }
 
     public Long getId() {
@@ -53,6 +65,39 @@ public class Payment implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Float getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Float amount) {
+        this.amount = amount;
+    }
+
+    public Float getCommission() {
+        return commission;
+    }
+
+    public void setCommission(Float commission) {
+        this.commission = commission;
+    }
+
+    public String getPaymentstatus() {
+        return paymentstatus;
+    }
+
+    public void setPaymentstatus(String paymentstatus) {
+        this.paymentstatus = paymentstatus;
+    }
+
+    @XmlTransient
+    public Collection<Sale> getSalesCollection() {
+        return salesCollection;
+    }
+
+    public void setSalesCollection(Collection<Sale> salesCollection) {
+        this.salesCollection = salesCollection;
     }
 
     @Override
@@ -77,7 +122,7 @@ public class Payment implements Serializable {
 
     @Override
     public String toString() {
-        return "javaeetutorial.dukesbookstore.entity.Payment[ id=" + id + " ]";
+        return "jpa.entities.Payment[ id=" + id + " ]";
     }
     
 }
