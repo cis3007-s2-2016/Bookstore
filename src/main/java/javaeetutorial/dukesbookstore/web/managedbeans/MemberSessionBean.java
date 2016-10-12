@@ -90,10 +90,12 @@ public class MemberSessionBean implements Serializable{
 
 
             if (isAdmin()){
-                return "/admin/";
+                System.out.println("Authenticated user is Admin. Returning admin panel");
+                return "/admin/activity-summary";
             }
             if (isCustomer()){
-                return "/index";
+                System.out.println("Authenticated user is Customer. Returning customer dashboard");
+                return "/dashboard";
             }
 
 

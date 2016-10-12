@@ -1,5 +1,6 @@
-
-
+main {
+    min-height: 80vh !important;
+}
 //--------CUSTOM VARIABLES--------
 
 $login-form-background-top: #eeeeee;
@@ -85,6 +86,7 @@ $login-form-background-bottom: #ffffff;
       .main {
         padding-right: 40px;
         padding-left: 40px;
+        min-height: 100vh;
       }
     }
     .main .page-header {
@@ -182,8 +184,10 @@ $login-form-background-bottom: #ffffff;
 
 
 .footer-container {
-    background-color: $gray-lighter;
+  padding-bottom: 10px;
+  padding-top: 100px;
 }
+
 
 
 
@@ -236,4 +240,19 @@ $login-form-background-bottom: #ffffff;
     .hide-when-small{
         display: none !important;
     }
+}
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//    book.xhtml
+.average-rating-summary{
+  text-align: left !important;
+  margin-bottom: 30px;
+}
+.book-details{
+  dt {
+    text-align: left !important;
+  }
 }

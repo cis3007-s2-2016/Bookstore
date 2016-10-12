@@ -26,7 +26,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <h:link class="navbar-brand" outcome="index" value="Dukes Bookstore"></h:link>
+                        <h:link class="navbar-brand" outcome="/index" value="Dukes Bookstore"></h:link>
                     </div>
 
                     <div class="navbar-collapse collapse" id="navbar-collapsible">
@@ -52,13 +52,15 @@
                                     </div>
                                 </form>
                             </li>
-                            <li>
-                                <h:link outcome="/login" rendered="#{!memberSession.loggedIn}"><i class="fa fa-sign-in" aria-hidden="true"></i> Login </h:link>
-                            </li>
+
                             <li>
                                 <h:link outcome="/bookshowcart" rendered="#{!memberSession.admin}">
                                     <i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart
                                 </h:link>
+                            </li>
+
+                            <li>
+                                <h:link outcome="/login" rendered="#{!memberSession.loggedIn}"><i class="fa fa-sign-in" aria-hidden="true"></i> Login </h:link>
                             </li>
 
 
@@ -89,52 +91,24 @@
 
 
         <main class="container">
-            <h4>Name: #{memberSession.firstname}</h4>
             <div id="content" class="center_content" >
                 <ui:insert name="content" />
             </div>
         </main>
 
 
-        <footer class="footer-container">
-            <hr />
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-3">
-                        <ul class="list-unstyled">
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Contact and Support</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-md-3">
-                        <ul class="list-unstyled">
-                            <li><a href="#">Shop</a></li>
-                            <li><a href="sales/List.xhtml">Member Sales</a></li>							
-                        </ul>
-                    </div>
-                    <div class="col-md-3">
-                        <ul class="list-unstyled">
-                            <li><a href="#">My Dashboard</a></li>
-                            <li><a href="#">My Cart</a></li>						
-                        </ul>
-                    </div>
-                    <div class="col-md-3">
-                        <ul class="list-unstyled">
-                            <li><a href="#">Help</a></li>
-                            <li><a href="#">Developer API</a></li>							
-                        </ul>
-                    </div>					
-                </div>
-                <hr />
+        <footer class="footer-container container">
                 <div class="row">
                     <div class="col-md-8">
-                        <a href="#">Terms of Service</a> | <a href="#">Privacy</a> | <a href="#">Security</a>
+                        <a href="#">Shop New</a> |
+                        <a href="#">Shop Used</a> |
+                        <a href="#">Dashboard</a> |
+                        <a href="#">Cart</a>
                     </div>
                     <div class="col-md-4">
-                        <p class="muted pull-right">© 2016 USQ. All rights reserved</p>
+                        <p class="muted pull-right">© 2016 DUKES BOOKS. All rights reserved</p>
                     </div>
                 </div>
-            </div>
         </footer>
 
 

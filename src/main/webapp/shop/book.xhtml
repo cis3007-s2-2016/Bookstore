@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:bookstore="http://dukesbookstore"
+                template="../WEB-INF/templates/bookstore.template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <ui:define name="top"></ui:define>
+    <ui:define name="content">
+
+        <div class="row">
+            <div class="col-sm-3" style="margin-top: 20px;">
+                <h:graphicImage alt="Front Cover" height="auto" width="200px"  library="images" name="book1.jpg" />
+            </div>
+            <div class="col-sm-6">
+                <h2>The Lost World</h2>
+                <h5>by Michael Crichton</h5>
+                <div class="rating average-rating-summary">
+                    <c:forEach var="i" begin="1" end="4">
+                        <i class="fa fa-star golden-star" aria-hidden="true"></i>
+                    </c:forEach>
+                    <i class="fa fa-star-o golden-star" aria-hidden="true"></i>
+                    <small> Average rating by 8 customers </small>
+                </div>
+                <p>Six years after the secret disaster at Jurassic Park and the destruction of the dinosaurs, the dismantling of the park, and the closing of the island, rumors persist that some form of life has survived.</p>
+                <br />
+                <!--<h4>Details:</h4>-->
+                <dl class="book-details dl-horizontal">
+                    <dt>ISBN</dt>
+                    <dd>123-9374628492</dd>
+                    <dt>Format</dt>
+                    <dd>Hardcover</dd>
+                    <dt>Category</dt>
+                    <dd>Fiction</dd>
+                    <dt>Publisher</dt>
+                    <dd>Pengui Books</dd>
+                    <dt>Publish Date</dt>
+                    <dd>02/02/1988</dd>
+                </dl>
+
+                </div>
+
+            <div class="col-sm-3" style="margin-top: 20px;">
+                <div class="panel panel-default">
+                    <div class="panel-body text-center">
+                        <h2>$23.99</h2>
+                        <h3 class="text-success">In stock</h3>
+                        <a href="" class="btn btn-primary" role="button"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</a>
+
+                        <hr />
+                        <div> Read this book? <a>Review it!</a>  </div>
+                        <div>  Own this book? <a>Sell it!</a>  </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <br /><br /><br /><hr />
+                <h4>Customer Reviews:</h4>
+                <div class="rating" style="display: inline-block;">
+                    <c:forEach var="i" begin="1" end="4">
+                        <i class="fa fa-star golden-star" aria-hidden="true"></i>
+                    </c:forEach>
+                    <i class="fa fa-star-o golden-star" aria-hidden="true"></i>
+                </div>
+                <h5 style="display: inline-block;">Awesome Book! <small>Reviewed by: James Franco</small></h5>
+                <p class="text-justify">Written in the wake of Jurassic Park's phenomenal box-office success, The Lost World seems as much a guidebook for Hollywood types hard at work on the franchise's followup as it is a legitimate sci-fi thriller. Which begs the inevitable questions: Is the plot a rehash of the first book? Sure it is</p>
+
+            </div>
+        </div>
+
+
+
+
+
+    </ui:define>
+</ui:composition>
