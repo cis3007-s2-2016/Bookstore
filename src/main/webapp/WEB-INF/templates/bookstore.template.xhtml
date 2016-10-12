@@ -53,38 +53,45 @@
                                 </form>
                             </li>
                             <li>
-                                <h:link outcome="/login" rendered="#{empty request.remoteUser}"><i class="fa fa-user" aria-hidden="true"></i> Login </h:link>
-                                <h:link outcome="/dashboard" rendered="#{memberSessionBean.customer}"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</h:link>
-                                <h:link outcome="/admin/activity-summary" rendered="#{memberSessionBean.admin}"><i class="fa fa-tachometer" aria-hidden="true"></i> Admin</h:link>
+                                <h:link outcome="/login" rendered="#{!memberSession.loggedIn}"><i class="fa fa-sign-in" aria-hidden="true"></i> Login </h:link>
                             </li>
                             <li>
-                                <h:link outcome="/bookshowcart" rendered="#{!memberSessionBean.admin}">
+                                <h:link outcome="/bookshowcart" rendered="#{!memberSession.admin}">
                                     <i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart
                                 </h:link>
                             </li>
-                            <li>
-
-                                <!--<h:link outcome="#{memberSessionBean.logout()}">-->
-                                     <!--Logout-->
-                                <!--</h:link>-->
-                            </li>
-
+                            <c:if test="#{memberSession.loggedIn}">
+                                <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                #{memberSession.firstname}  <span class="caret"></span>
+                                </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <h:link outcome="/dashboard" rendered="#{memberSession.customer}"><i class="fa fa-dashboard" aria-hidden="true"></i> Dashboard</h:link>
+                                            <h:link outcome="/admin/activity-summary" rendered="#{memberSession.admin}"><i class="fa fa-dashboard" aria-hidden="true"></i> Admin</h:link>
+                                        </li>
+                                        <li>
+                                            <h:form>
+                                                <h:commandLink action="#{memberSession.logout}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</h:commandLink>
+                                            </h:form>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </c:if>
                         </ul>
                     </div>
 
                 </div>
-            </nav>
+                </nav>
         </header>
 
 
         <main class="container">
-            <h3>Name: #{memberSessionBean.firstname()}</h3>
+            <h4>Name: #{memberSession.firstname}</h4>
             <div id="content" class="center_content" >
                 <ui:insert name="content" />
             </div>
-
-
-        </main> <!-- /container -->
+        </main>
 
 
         <footer class="footer-container">

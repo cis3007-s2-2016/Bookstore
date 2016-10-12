@@ -37,7 +37,7 @@
                                 <div class="login-form-group">
                                     <div class="input-group">
                                         <span class="input-group-addon" id="login-username-icon"><i class="fa fa-user fa-fw" aria-hidden="true"></i></span>
-                                        <h:inputText value="#{memberSessionBean.username}" class="login-input form-control">
+                                        <h:inputText value="#{memberSession.username}" class="login-input form-control">
                                             <f:passThroughAttribute name="autofocus" value="autofocus"/>
                                             <f:passThroughAttribute name='placeholder' value='email'/>
                                         </h:inputText>
@@ -46,13 +46,13 @@
                                 <div class="login-form-group">
                                     <div class="input-group">
                                         <span class="input-group-addon" id="login-password-icon"><i class="fa fa-unlock-alt fa-fw" aria-hidden="true"></i></span>
-                                        <h:inputText value="#{memberSessionBean.password}" class="login-input form-control" >
+                                        <h:inputText value="#{memberSession.password}" class="login-input form-control" >
                                             <f:passThroughAttribute name='placeholder' value="password"/>
                                         </h:inputText>
                                     </div>
                                 </div>
 
-                                <h:commandButton action="#{memberSessionBean.login()}" class="btn btn-primary" value="Log in" />
+                                <h:commandButton action="#{memberSession.login()}" class="btn btn-primary" value="Log in" />
                             </h:form>
                             <hr />
                             <div>
