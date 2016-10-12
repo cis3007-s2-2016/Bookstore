@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 public class Book implements Serializable {
     private static final long serialVersionUID = 1L;
-    private static final long serialVersionUID = -4146681491856848089L;
+//    private static final long serialVersionUID = -4146681491856848089L;
     @Id
     @NotNull
     private String ISBN;

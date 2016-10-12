@@ -47,13 +47,22 @@ public class AuthFilter implements Filter {
                             req.getRequestDispatcher("/login.xhtml").forward(req, resp);
                         }
                     } else {
+                        boolean permitted = false;
                         String allowedGroups[] = this.getProtectedUrls()[i][1].split(",");
                         for (String allowedGroup : allowedGroups) {
-                            if (!this.sessionBean.hasPermissionGroup(allowedGroup)) {
-                                chain.doFilter(req, resp);
+                            System.out.println(allowedGroup);
+                            if (this.sessionBean.hasPermissionGroup(allowedGroup)) {
+                                System.out.println("User permitted to access resource");
+                                permitted = true;
+                                break;
                             }
                         }
-                        ((HttpServletResponse) resp).sendError(403);
+
+                        if (permitted){
+                            chain.doFilter(req, resp);
+                        } else {
+                            ((HttpServletResponse) resp).sendError(403);
+                        }
                     }
                 }
             }
