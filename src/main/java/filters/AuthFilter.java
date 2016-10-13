@@ -1,6 +1,6 @@
 package filters;
 
-import com.sun.deploy.net.HttpResponse;
+
 import javaeetutorial.dukesbookstore.web.managedbeans.MemberSessionBean;
 
 import javax.inject.Inject;
