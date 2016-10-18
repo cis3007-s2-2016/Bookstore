@@ -87,7 +87,9 @@
                         <li class="#{view.viewId.equals('/admin/add-new-staffmember.xhtml') ? 'active' : '' }">
                             <h:link value="Add Staff Member" outcome="add-new-staffmember" />
                         </li>
-                        <li><a href="">View Staff</a></li>
+                        <li class="#{view.viewId.equals('/admin/view-staff.xhtml') ? 'active' : ''}">
+                            <h:link value="View Staff" outcome="view-staff" />
+                        </li>
                     </ul>
                     <ul class="nav nav-sidebar">
                         <li class="nav-divider"></li>

@@ -19,6 +19,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -30,6 +32,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name="members")
 @XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Member.findByPermissionGroup", query = "SELECT m FROM Member m where m.permissionGroup = :permissionGroup"),
+})
 public class Member implements Serializable {
 
     private static final long serialVersionUID = 1L;
