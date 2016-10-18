@@ -32,6 +32,8 @@ public interface CatalogManager {
     );
 
     public Author createAuthor(String firstnames, String lastname);
+
+    public Author createOrFindAuthor(String firstnames, String lastname);
 }
 
 

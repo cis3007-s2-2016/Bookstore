@@ -27,8 +27,7 @@ public class Author implements Serializable {
     private Long id;
     private String givenNames;
     private String surname;
-    @ManyToMany()
-    @JoinTable(name="book_authors")
+    @ManyToMany(mappedBy = "bookAuthors")
     private List<Book> authoredBooks;
 
 

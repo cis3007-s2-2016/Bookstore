@@ -263,7 +263,8 @@ public class CatalogBean implements Serializable {
 						firstnames.append(names[i]).append(" ");
 					}
 				}
-				getAuthorsList().add(getCatalogManager().createAuthor(firstnames.toString().trim(), lastname.trim()));
+
+				getAuthorsList().add(getCatalogManager().createOrFindAuthor(firstnames.toString().trim(), lastname.trim()));
 			}
 
 		} catch (Exception e) {

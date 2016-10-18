@@ -56,7 +56,8 @@ public class Book implements Serializable {
     @Lob
     private byte[] thumbnail;
     
-    @ManyToMany(mappedBy = "authoredBooks")
+    @ManyToMany
+    @JoinTable(name="book_authors")
     private List<Author> bookAuthors;
 
     
