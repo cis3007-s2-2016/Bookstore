@@ -17,6 +17,15 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Root;
+import org.eclipse.persistence.internal.oxm.schema.model.Restriction;
+import org.eclipse.persistence.jpa.jpql.parser.LikeExpression;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Restrictions;
 
 /**
  * <p>Stateful session bean for the bookstore example.</p>
@@ -114,5 +123,14 @@ public class BookRequestBean {
         } catch (OrderException ex) {
             throw new OrderException("Inventory update failed: " + ex.getMessage());
         }
+    }
+    
+    public List<Book> getBooksWithTitleLike(String title)
+    {
+        TypedQuery<Book> query = entityManager.createQuery("SELECT b FROM Book b WHERE b.title LIKE :title", Book.class);
+        query.setParameter("title", "%" + title + "%");
+        System.out.println(query.toString());
+        
+        return query.getResultList();
     }
 }

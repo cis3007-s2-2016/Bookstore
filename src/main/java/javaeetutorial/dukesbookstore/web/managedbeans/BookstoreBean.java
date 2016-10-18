@@ -18,6 +18,7 @@ import javaeetutorial.dukesbookstore.exception.BooksNotFoundException;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.FacesException;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Named;
 
 /**
@@ -26,15 +27,40 @@ import javax.inject.Named;
 @Named("store")
 @SessionScoped
 public class BookstoreBean extends AbstractBean implements Serializable {
-
+    
     private static final Logger logger =
             Logger.getLogger("dukesbookstore.web.managedBeans.BookStoreBean");
     private static final long serialVersionUID = 7829793160074383708L;
     private Book featured = null;
     protected String title;
+    
+    protected String searchString;
+    
+    private List<Book> bookList;
     @EJB
     BookRequestBean bookRequestBean;
-
+    
+    public List<Book> getBookList()
+    {
+        return this.bookList;
+    }
+    public void setSearchString(String searchString)
+    {
+        this.searchString = searchString;
+    }
+    public String getSearchString()
+    {
+        return this.searchString;
+    }
+    public void searchStringValueChanged(ValueChangeEvent vce)
+    {
+        searchByTitle((String) vce.getNewValue());
+    }
+    private String searchByTitle(String bookTitle)
+    {
+        this.bookList = bookRequestBean.getBooksWithTitleLike(bookTitle);
+        return null; // go nowhere
+    }
     /**
      * @return the <code>Book</code> for the featured book
      */
@@ -113,7 +139,7 @@ public class BookstoreBean extends AbstractBean implements Serializable {
         }
         return title;
     }
-
+    
     public List<Book> getBooks() {
         try {
             return bookRequestBean.getBooks();
