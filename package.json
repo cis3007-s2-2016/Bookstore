@@ -4,12 +4,13 @@
   "description": "CIS3007 Project",
   "main": "index.js",
   "dependencies": {
+    "bootstrap-sass": "^3.3.7",
+    "gulp": "^3.9.1",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.3.2",
-    "gulp": "^3.9.1",
-    "bootstrap-sass": "^3.3.7",
     "gulp-sourcemaps": "^1.6.0",
-    "sass-module-importer": "^1.2.1"
+    "sass-module-importer": "^1.2.1",
+    "vue-resource": "^1.0.3"
   },
   "devDependencies": {
     "bootstrap-sass": "^3.3.7",

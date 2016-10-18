@@ -1,5 +1,6 @@
 package javaeetutorial.dukesbookstore.ejb;
 
+import java.sql.Date;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -23,26 +24,25 @@ import javax.persistence.PersistenceContext;
 @Stateful
 public class BookRequestBean {
 
-    @PersistenceContext
-    private EntityManager em;
+    @PersistenceContext(unitName="bookstorePU")
+    private EntityManager entityManager;
     private static final Logger logger =
             Logger.getLogger("dukesbookstore.ejb.BookRequestBean");
 
     public BookRequestBean() throws Exception {
     }
 
-    public void createBook(String isbn, String surname, String firstname,
-            String title, double costPrice, double retailPrice, Integer publishedYear,
-            String description, Integer stockLevel, String publisher,
-            String genre, String format, List<Author> bookAuthors) {
+    public void createBook(String isbn, String title, double costPrice, double retailPrice, Date publishedYear,
+                           String description, Integer stockLevel, String publisher,
+                           String genre, String format, List<Author> bookAuthors, byte[] thumbnail) {
         try {
-            Book book = new Book(isbn, surname, firstname, title,
+            Book book = new Book(isbn, title,
                     costPrice, retailPrice, publishedYear,
                     description, stockLevel, publisher,
-                    genre, format, bookAuthors);
+                    genre, format, bookAuthors, thumbnail);
             
             logger.log(Level.INFO, "Created book {0}", isbn);
-            em.persist(book);
+            entityManager.persist(book);
             logger.log(Level.INFO, "Persisted book {0}", isbn);
         } catch (Exception ex) {
             throw new EJBException(ex.getMessage());
@@ -51,7 +51,7 @@ public class BookRequestBean {
 
     public List<Book> getBooks() throws BooksNotFoundException {
         try {
-            return (List<Book>) em.createNamedQuery("findBooks").getResultList();
+            return (List<Book>) entityManager.createNamedQuery("findBooks").getResultList();
         } catch (Exception ex) {
             throw new BooksNotFoundException(
                     "Could not get books: " + ex.getMessage());
@@ -59,7 +59,7 @@ public class BookRequestBean {
     }
 
     public Book getBook(String bookId) throws BookNotFoundException {
-        Book requestedBook = em.find(Book.class, bookId);
+        Book requestedBook = entityManager.find(Book.class, bookId);
 
         if (requestedBook == null) {
             throw new BookNotFoundException("Couldn't find book: " + bookId);
@@ -88,7 +88,7 @@ public class BookRequestBean {
     public void buyBook(String bookId, int quantity)
             throws OrderException {
         try {
-            Book requestedBook = em.find(Book.class, bookId);
+            Book requestedBook = entityManager.find(Book.class, bookId);
 
             if (requestedBook != null) {
                 int inventory = requestedBook.getStockLevel();

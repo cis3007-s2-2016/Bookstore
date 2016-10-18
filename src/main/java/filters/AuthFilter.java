@@ -1,8 +1,6 @@
 package filters;
 
-import com.sun.deploy.net.HttpResponse;
 import javaeetutorial.dukesbookstore.web.managedbeans.MemberSessionBean;
-
 import javax.inject.Inject;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -38,10 +36,11 @@ public class AuthFilter implements Filter {
             URL url = new URL(((HttpServletRequest) req).getRequestURL().toString());
             String path = url.getPath().substring(url.getPath().indexOf("/") + 1);
             path = path.substring(path.indexOf("/"));
+            boolean requestedPathRequiresAuthentication = false;
 
             for (int i = 0; i < this.getProtectedUrls().length; i++) {
                 if (path.matches(this.getProtectedUrls()[i][0])) {
-                    System.out.println("User requesting secure resources");
+                    requestedPathRequiresAuthentication = true;
                     if (this.sessionBean.user() == null) {
                         if (resp instanceof HttpServletResponse) {
                             req.getRequestDispatcher("/login.xhtml").forward(req, resp);
@@ -66,7 +65,9 @@ public class AuthFilter implements Filter {
                     }
                 }
             }
-            chain.doFilter(req, resp);
+            if (! requestedPathRequiresAuthentication){
+                chain.doFilter(req, resp);
+            }
         } catch (Exception e){
             ((HttpServletResponse) resp).sendError(500);
         }

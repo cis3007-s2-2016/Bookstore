@@ -214,9 +214,9 @@ public class NewUserBean extends AbstractBean implements Serializable{
         try{
             long memberID = memberManager.createAdmin(this.getEmail(), this.getPassword(), this.getPassword2(), this.getFirstname(), this.getLastname());
         } catch (Exception e){
-            //todo return error page
+            return ("/admin/add-new-staffmember.xhtml?faces-redirect=true&error=true");
         }
-        return ("admin/sales-report");
+        return ("/admin/add-new-staffmember.xhtml?faces-redirect=true&success=true");
     }
     
 }

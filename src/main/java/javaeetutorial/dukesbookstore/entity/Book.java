@@ -8,14 +8,10 @@
 package javaeetutorial.dukesbookstore.entity;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.List;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import javax.persistence.*;
 //import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -50,12 +46,15 @@ public class Book implements Serializable {
     private String title;
     private Double costPrice;
     private Double retailPrice;
-    private Integer pubYear;
+    private Date pubYear;
     private String publisher;
+    @Column(columnDefinition = "TEXT")
     private String description;
     private Integer stockLevel;
     private String genre; 
     private String format;
+    @Lob
+    private byte[] thumbnail;
     
     @ManyToMany(mappedBy = "authoredBooks")
     private List<Author> bookAuthors;
@@ -68,6 +67,14 @@ public class Book implements Serializable {
 
     public void setISBN(String bookId) {
         this.ISBN = bookId;
+    }
+
+    public byte[] getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(byte[] thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
     public String getTitle() {
@@ -90,10 +97,10 @@ public class Book implements Serializable {
     {
         return retailPrice;
     }
-    public Integer getPublishedYear() {
+    public Date getPublishedYear() {
         return pubYear;
     }
-    public void setPublishedYear(Integer calendarYear) {
+    public void setPublishedYear(Date calendarYear) {
         this.pubYear = calendarYear;
     }
     public String getDescription() {
@@ -127,11 +134,11 @@ public class Book implements Serializable {
         this.format = format;
     }
 
-    public Integer getPubYear() {
+    public Date getPubYear() {
         return pubYear;
     }
 
-    public void setPubYear(Integer pubYear) {
+    public void setPubYear(Date pubYear) {
         this.pubYear = pubYear;
     }
 
@@ -146,10 +153,10 @@ public class Book implements Serializable {
     public Book() {
     }
 
-    public Book(String ISBN, String surname, String firstname, 
-            String title, double costPrice, double retailPrice, Integer publishedYear,
+    public Book(String ISBN,
+            String title, double costPrice, double retailPrice, Date publishedYear,
             String description, Integer stockLevel, String publisher,
-            String genre, String format, List<Author> bookAuthors) {
+            String genre, String format, List<Author> bookAuthors, byte[] thumbnail) {
         
         this.ISBN = ISBN;
         this.title = title;
@@ -162,6 +169,7 @@ public class Book implements Serializable {
         this.genre = genre;
         this.format = format;
         this.bookAuthors = bookAuthors;
+        this.setThumbnail(thumbnail);
         
     }
 

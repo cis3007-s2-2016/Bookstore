@@ -1,5 +1,6 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:v-on='vue.org'
@@ -9,13 +10,23 @@
     <ui:define name="top"></ui:define> 
     <ui:define name="content">
         
-        <form id='addBookApp' class="form-horizontal">
+        <h:form id='addBookApp' class="form-horizontal" enctype="multipart/form-data" >
             <div class='row'>
                 <div class="col-sm-8">
                     <div class="col-sm-8 col-sm-offset-3">
                         <h1>Add Book To Catalogue:</h1>
                         <h3>Book details:</h3>
                         <br />
+                        <c:if test="#{param['book-exists'] == 'true'}">
+                            <div class="alert alert-danger">
+                                <strong>Book already exists!</strong> Do you want to edit this book instead?
+                            </div>
+                        </c:if>
+                        <c:if test="#{param['success'] == 'true'}">
+                            <div class="alert alert-success">
+                                <strong>Successfully added book to catalog.</strong>
+                            </div>
+                        </c:if>
                         <hr />
                     </div>
                 </div>
@@ -29,7 +40,12 @@
                         <div class="form-group">
                             <label for="isbn" class="col-sm-3 control-label">ISBN:</label>
                             <div class="col-sm-3">
-                                <input type="text" v-model="isbn" required="required" pattern="[0-9]{3}-?[0-9]{10}" class="form-control" id="isbn" placeholder="xxx-xxxxxxxxx" />
+                                <h:inputText id="isbn" styleClass="form-control" value="#{catalog.isbn}" required="true" maxlength="14" >
+                                    <f:passThroughAttribute name="type" value="text" />
+                                    <f:passThroughAttribute name="placeholder" value="xxx-xxxxxxxxxx" />
+                                    <f:passThroughAttribute name="v-model" value="isbn" />
+                                    <f:passThroughAttribute name="pattern" value="[0-9]{3}-?[0-9]{10}" />
+                                </h:inputText>
                             </div>
                             <div class="col-sm-3">
                                 <div class="btn btn-primary" v-bind:class="isbnValid ? '' : 'disabled'" v-on:click.prevent="autocompleteFromGoogleBooks" style="width:100%;"> 
@@ -43,40 +59,56 @@
                         <div class="form-group">
                             <label for="title" class="col-sm-3 control-label">Title:</label>
                             <div class="col-sm-8">
-                                <input type="text" v-model="title" required="required" class="form-control" id="title" placeholder="Book Title" />
+                                <h:inputText id="title" styleClass="form-control" value="#{catalog.title}" required="true" maxlength="120">
+                                    <f:passThroughAttribute name="placeholder" value="Book Title" />
+                                    <f:passThroughAttribute name="v-model" value="title" />
+                                </h:inputText>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="author" class="col-sm-3 control-label">Author:</label>
+                            <label for="authors" class="col-sm-3 control-label">Author:</label>
                             <div class="col-sm-8">
-                                <input type="text" v-model="author" required="required" class="form-control" id="author" placeholder="Author" />
+                                <h:inputText id="authors" styleClass="form-control" value="#{catalog.authors}" required="true" maxlength="120">
+                                    <f:passThroughAttribute name="placeholder" value="Author" />
+                                    <f:passThroughAttribute name="v-model" value="authors" />
+                                </h:inputText>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="category" class="col-sm-3 control-label">Category:</label>
                             <div class="col-sm-8">
-                                <input type="text" v-model="category" required="required" class="form-control" id="catgory" placeholder="Category" />
+                                <h:inputText id="category" styleClass="form-control" value="#{catalog.category}" required="true" maxlength="60">
+                                    <f:passThroughAttribute name="placeholder" value="Category"/>
+                                    <f:passThroughAttribute name="v-model" value="category" />
+                                </h:inputText>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="publisher" class="col-sm-3 control-label">Publisher:</label>
                             <div class="col-sm-8">
-                                <input type="text" v-model="publisher" required="required" class="form-control" id="publisher" placeholder="Publisher" />
+                                <h:inputText id="publisher" styleClass="form-control" value="#{catalog.publisher}" required="true" maxlength="120">
+                                    <f:passThroughAttribute name="placeholder" value="Publisher"/>
+                                    <f:passThroughAttribute name="v-model" value="publisher" />
+                                </h:inputText>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="publishDate" class="col-sm-3 control-label">Publish Date:</label>
+                            <label for="publishedDate" class="col-sm-3 control-label">Publish Date:</label>
                             <div class="col-sm-3">
-                                <input type="date" v-model="publishDate" required="required" class="form-control" id="publishDate" />
+                                <h:inputText id="publishedDate" styleClass="form-control" value="#{catalog.publishedDate}" required="true" maxlength="120">
+                                    <f:passThroughAttribute name="placeholder" value="Publisher"/>
+                                    <f:passThroughAttribute name="type" value="date" />
+                                    <f:passThroughAttribute name="v-model" value="publishedDate" />
+                                </h:inputText>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="format" class="col-sm-3 control-label">Format:</label>
                             <div class="col-sm-3">
-                                <select class="form-control" id="format" required="required">
-                                    <option>Hardcover</option>
-                                    <option>Paperback</option>
-                                </select>
+                                <h:selectOneMenu id="format" value="#{catalog.format}" required="true" styleClass="form-control">
+                                    <f:selectItem itemLabel="Paperback" itemValue="Paperback" />
+                                    <f:selectItem itemLabel="Hardcover" itemValue="Hardcover"/>
+                                </h:selectOneMenu>
                             </div>
                         </div>
                     </div>
@@ -85,7 +117,15 @@
 
                     <div class="col-md-3">
                         <img width="200" height="320" v-bind:src="thumbnail" />
-                        <input type="file" accept="image/*" v-on:change="updateThumbnail" v-model='localThumbnail'> </input>
+                        <h:inputFile value="#{catalog.imageFile}">
+                            <f:passThroughAttribute name="accept" value="image/*"/>
+                            <f:passThroughAttribute name="type" value="file"/>
+                            <f:passThroughAttribute name="v-model" value="localThumbnail" />
+                            <f:passThroughAttribute name="v-on:change" value="updateThumbnail"/>
+                        </h:inputFile>
+                        <h:inputHidden value="#{catalog.remoteImageFile}">
+                            <f:passThroughAttribute name="v-model" value="remoteThumbnail" />
+                        </h:inputHidden>
                         <br />
                     </div>
                 
@@ -94,9 +134,12 @@
 
 
                 <div class="form-group">
-                    <label for="description" class="col-sm-2 control-label">Synopsis:</label>
+                    <label for="synopsis" class="col-sm-2 control-label">Synopsis:</label>
                     <div class="col-sm-8">
-                        <textarea class="form-control" v-model="description" required="required" id="description" rows="6" placeholder="Synopsis"></textarea>
+                        <h:inputTextarea id="synopsis" rows="6" styleClass="form-control" value="#{catalog.synopsis}" required="true" maxlength="1000">
+                            <f:passThroughAttribute name="placeholder" value="Synopsis"/>
+                            <f:passThroughAttribute name="v-model" value="synopsis" />
+                        </h:inputTextarea>
                     </div>
                 </div>
                 <hr />
@@ -105,7 +148,12 @@
                     <div class="col-sm-2">
                         <div class="input-group">
                             <div class="input-group-addon">$</div>
-                            <input type="number" required="required" min="0" step="0.01" class="form-control" id="costPrice" placeholder="Cost Price" />
+                            <h:inputText id="costPrice" styleClass="form-control" value="#{catalog.costPrice}" required="true">
+                                <f:passThroughAttribute name="placeholder" value="Cost Price"/>
+                                <f:passThroughAttribute name="type" value="number" />
+                                <f:passThroughAttribute name="step" value="0.01" />
+                                <f:passThroughAttribute name="min" value="0" />
+                            </h:inputText>
                         </div>
                     </div>
                 </div>
@@ -114,89 +162,38 @@
                     <div class="col-sm-2">
                         <div class="input-group">
                             <div class="input-group-addon">$</div>
-                            <input type="number" required="required" min="0" step="0.01" class="form-control" id="rrp" placeholder="Retail Price" />
+                            <h:inputText id="retailPrice" styleClass="form-control" value="#{catalog.retailPrice}" required="true">
+                                <f:passThroughAttribute name="placeholder" value="Retail Price"/>
+                                <f:passThroughAttribute name="type" value="number" />
+                                <f:passThroughAttribute name="step" value="0.01" />
+                                <f:passThroughAttribute name="min" value="0" />
+                            </h:inputText>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="stockCount" class="col-sm-2 control-label">Number in Stock:</label>
                     <div class="col-sm-2">
-                        <input type="number" required="required" min="0" step="1" class="form-control" id="stockCount" placeholder="Number in stock" />
+                        <h:inputText id="stockCount" styleClass="form-control" value="#{catalog.stock}" required="true">
+                            <f:passThroughAttribute name="placeholder" value="Number in stock"/>
+                            <f:passThroughAttribute name="type" value="number" />
+                            <f:passThroughAttribute name="step" value="1" />
+                            <f:passThroughAttribute name="min" value="0" />
+                        </h:inputText>
                     </div>
                 </div>
                 <hr />
                 <div class="form-group">
                     <div class="col-sm-2 col-sm-offset-4">
-                        <input class='btn btn-primary' style="width:100%;" type="submit" value="Add Book"></input>
+                        <h:commandLink styleClass="btn btn-primary" style="width:100%;" value="Add Book" action="#{catalog.addBook}" />
                     </div>
                 </div>
                 <br />
-        </form>
+        </h:form>
 
     </ui:define>
     
     <ui:define name='scripts'>
-        <script>
-            new Vue({
-                el: '#addBookApp',
-                data: {
-                    isbn: '',
-                    title: '',
-                    author: '',
-                    description: '',
-                    category: '',
-                    format: '',
-                    publisher: '',
-                    publishDate: '',
-                    thumbnailFiles: '',
-                    thumbnail: '',
-                    loadingIcon: false,
-                    imageFileReader: new FileReader(),
-                    localThumbnail: ''
-                },
-                computed: {
-                    isbnValid: function(){
-                        return this.isbn.trim().match(/[0-9]{3}-?[0-9]{10}/g);
-                    }
-                },
-                methods: {
-                        autocompleteFromGoogleBooks: function (event) {
-                            var isbnNumbersOnly = this.isbn.replace('-','');
-                            var googleBooksApiURL = 'https://www.googleapis.com/books/v1/volumes?q=isbn:' + isbnNumbersOnly;
-                            
-                            this.loadingIcon = true;
-                            
-                            this.$http.get(googleBooksApiURL).then(function (response) {
-                                console.log(response);
-                                this.title = response.body.items[0].volumeInfo.title;
-                                this.author = response.body.items[0].volumeInfo.authors[0];
-                                this.description = response.body.items[0].volumeInfo.description;
-                                this.publisher = response.body.items[0].volumeInfo.publisher;
-                                this.publishDate = response.body.items[0].volumeInfo.publishedDate;
-                                this.category = response.body.items[0].volumeInfo.categories[0]; 
-                                this.thumbnail = response.body.items[0].volumeInfo.imageLinks.thumbnail;
-                                this.localThumbnail = '';
-                                this.loadingIcon = false;
-                            });
-                        },
-                        updateThumbnail: function(e){
-                            var files = e.target.files || e.dataTransfer.files;
-                            if (!files.length)
-                                return;
-                            this.createImage(files[0]);
-                        },
-                        createImage(file) {
-                            var image = new Image();
-                            var reader = new FileReader();
-                            var vm = this;
-
-                            reader.onload = (e) => {
-                                vm.thumbnail = e.target.result;
-                            };
-                            reader.readAsDataURL(file);
-                        }
-                    }
-            });
-        </script>
+        <h:outputScript library="javascripts" name="addNewBook.js" />
     </ui:define>
 </ui:composition>

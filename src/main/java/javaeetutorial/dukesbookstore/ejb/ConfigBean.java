@@ -36,7 +36,7 @@ public class ConfigBean {
     @PostConstruct
     public void createData() {
         Member admin = new Member("admin", "admin", "admin");
-        admin.setFirstName("Adminstrator");
+        admin.setFirstName("Administrator");
         this.getEm().persist(admin);
         
         Member customer = new Member("user@dukes.com", "password", "customer");
