@@ -1,6 +1,7 @@
 package javaeetutorial.dukesbookstore.ejb;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -16,6 +17,7 @@ import javaeetutorial.dukesbookstore.web.managedbeans.ShoppingCartItem;
 import javax.ejb.EJBException;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -127,9 +129,17 @@ public class BookRequestBean {
     
     public List<Book> getBooksWithTitleLike(String title)
     {
+        
         TypedQuery<Book> query = entityManager.createQuery("SELECT b FROM Book b WHERE b.title LIKE :title", Book.class);
         query.setParameter("title", "%" + title + "%");
         System.out.println(query.toString());
+        List<Book> books;
+        try{
+            books = query.getResultList();
+        }catch (NoResultException nothingFound)
+        {
+            books = new ArrayList<>();
+        }
         
         return query.getResultList();
     }

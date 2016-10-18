@@ -3,23 +3,31 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./../WEB-INF/templates/admin.template.xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:f="http://xmlns.jcp.org/jsf/core">
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="content">
         <h:form>
             <h:inputText 
                 id="search"
                 value="#{store.searchString}"
-                valueChangeListener="#{store.searchStringValueChanged}"
+               
             >
-                <f:ajax execute="search" render="output" event="blur"></f:ajax>
+                <f:ajax render="output" event="blur" listener="#{store.searchStringValueChanged}"></f:ajax>
             </h:inputText>
-            <div id="output" class="container-fluid">
-                <ui:repeat value="#{store.bookList}" var="book">
-                    <div class="card">
-                        <h4><h:outputText value="#{book.title}"/></h4>
-                    </div>
-                </ui:repeat>
+            <div class="container-fluid">
+                <h:panelGroup id="output">
+                <c:if test="#{store.bookList.size() > 0}">
+                    <ui:repeat value="#{store.bookList}" var="book">
+                        <div class="card">
+                            <h4><h:outputText value="#{book.title}"/></h4>
+                        </div>
+                    </ui:repeat>
+                </c:if>
+                <c:if test="#{store.bookList.size() == 0}">
+                    <h4>Sorry no books matching</h4>
+                </c:if>               
+                </h:panelGroup>
             </div>
             
         </h:form>

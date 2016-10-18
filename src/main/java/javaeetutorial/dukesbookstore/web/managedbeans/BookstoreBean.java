@@ -18,6 +18,7 @@ import javaeetutorial.dukesbookstore.exception.BooksNotFoundException;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.FacesException;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Named;
 
@@ -54,13 +55,17 @@ public class BookstoreBean extends AbstractBean implements Serializable {
     }
     public void searchStringValueChanged(ValueChangeEvent vce)
     {
-        searchByTitle((String) vce.getNewValue());
+        this.searchString = (String) vce.getNewValue();
+    }
+    public void searchStringValueChanged(AjaxBehaviorEvent event){
+        this.searchByTitle(this.searchString);
     }
     private String searchByTitle(String bookTitle)
     {
         this.bookList = bookRequestBean.getBooksWithTitleLike(bookTitle);
         return null; // go nowhere
     }
+    
     /**
      * @return the <code>Book</code> for the featured book
      */
