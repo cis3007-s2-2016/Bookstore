@@ -5,116 +5,74 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <head id="j_idt2">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/stylesheets/styles.css" />
+<head id="j_idt2">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/stylesheets/styles.css"/>
 
-        <title>#{bundle.BookstoreTitle} - ADMINISTRATOR CONTROL PANEL</title></head>
-        <body id="dashboard-body">
+    <title>#{bundle.BookstoreTitle} - ADMINISTRATOR CONTROL PANEL</title></head>
+<body id="dashboard-body">
+
+<header>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+            <ui:include src="navbar.xhtml"/>
+    </nav>
+</header>
 
 
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapsible">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button><h:link outcome="/index" class="navbar-brand" value="#{bundle.BookstoreTitle}" />
-                </div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li class="#{view.viewId.equals('/admin/activity-summary.xhtml') ? 'active' : '' }">
 
-                <div class="navbar-collapse collapse" id="navbar-collapsible">
-
-                    <ul class="nav navbar-nav navbar-left">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Shop <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li class="dropdown-header">Categories</li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="">Fiction</a></li>
-                                <li><a href="">Non-Fiction</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">Auction</a></li>
-                        <li>
-                            <form class="navbar-form navbar-nav">
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <input id="nav-search" type="text" class="form-control" placeholder="Title, Author, Genre, ISBN" />
-                                        <span class="input-group-btn"><button class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>    </span>
-                                    </div>
-                                </div>
-                            </form>
-                        </li>
-                        <li>
-                                <h:link outcome="/login" rendered="#{empty request.remoteUser}"><i class="fa fa-user" aria-hidden="true"></i> Login </h:link>
-                                <h:link outcome="/dashboard" rendered="#{memberSessionBean.customer}"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</h:link>
-                                <h:link outcome="/admin/activity-summary" rendered="#{memberSessionBean.admin}"><i class="fa fa-tachometer" aria-hidden="true"></i> Admin</h:link>
-                            </li>
-                        <li><a href="#"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart</a></li>
-                        <li>
-                            <h:form class="white-override no-padding" rendered="#{memberSessionBean.customer || memberSessionBean.admin}"><h:commandLink action="#{memberSessionBean.logout()}" rendered="#{memberSessionBean.admin || memberSessionBean.customer}"><i class="fa fa-external-link-square" aria-hidden="true"></i> Logout </h:commandLink></h:form>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-3 col-md-2 sidebar">
-                    <ul class="nav nav-sidebar">
-                        <li class="#{view.viewId.equals('/admin/activity-summary.xhtml') ? 'active' : '' }">
-                            
-                            <h:link value="Activity Summary" outcome="activity-summary" />
-                        </li>
-                        <li><a href="#">Staff Profile</a></li>
-                    </ul>
-                    <ul class="nav nav-sidebar">
-                        <li class="nav-divider"></li>
-                        <li class="panel-heading">Book Catalouge</li>
-                        <li class="#{view.viewId.equals('/admin/add-new-book.xhtml') ? 'active' : '' }">
-                            <h:link value="Add Book" outcome="add-new-book" />
-                        </li>
-                        <li><a href="">Modify Book</a></li>
-                        <li><a href="">Add Stock</a></li>
-                    </ul>
-                    <ul class="nav nav-sidebar">
-                        <li class="nav-divider"></li>
-                        <li class="panel-heading">Manage Staff</li>
-                        <li class="#{view.viewId.equals('/admin/add-new-staffmember.xhtml') ? 'active' : '' }">
-                            <h:link value="Add Staff Member" outcome="add-new-staffmember" />
-                        </li>
-                        <li><a href="">View Staff</a></li>
-                    </ul>
-                    <ul class="nav nav-sidebar">
-                        <li class="nav-divider"></li>
-                        <li class="panel-heading">Reports</li>
-                        <li class="#{view.viewId.equals('/admin/sales-report.xhtml') ? 'active' : '' }">
-                            <h:link value="Sales" outcome="sales-report" />
-                        </li>
-                        <li><a href="">Stock</a></li>
-                        <li><a href="">Books</a></li>
-                        <li><a href="">Site Activity</a></li>
-                    </ul>
-                </div>
-                
-                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 dashboard-main">
-                    <div id="content">
-                        
-                        <h3>Name: #{memberSessionBean.firstname()}</h3>
-                        <ui:insert name='content' />
-                        
-                        
-                    </div>
-                </div>
-            </div>
+                    <h:link value="Activity Summary" outcome="activity-summary"/>
+                </li>
+                <li><a href="#">Staff Profile</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li class="nav-divider"></li>
+                <li class="panel-heading">Book Catalouge</li>
+                <li class="#{view.viewId.equals('/admin/add-new-book.xhtml') ? 'active' : '' }">
+                    <h:link value="Add Book" outcome="add-new-book"/>
+                </li>
+                <li><a href="">Modify Book</a></li>
+                <li><a href="">Add Stock</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li class="nav-divider"></li>
+                <li class="panel-heading">Manage Staff</li>
+                <li class="#{view.viewId.equals('/admin/add-new-staffmember.xhtml') ? 'active' : '' }">
+                    <h:link value="Add Staff Member" outcome="add-new-staffmember"/>
+                </li>
+                <li><a href="">View Staff</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li class="nav-divider"></li>
+                <li class="panel-heading">Reports</li>
+                <li class="#{view.viewId.equals('/admin/sales-report.xhtml') ? 'active' : '' }">
+                    <h:link value="Sales" outcome="sales-report"/>
+                </li>
+                <li><a href="">Stock</a></li>
+                <li><a href="">Books</a></li>
+                <li><a href="">Site Activity</a></li>
+            </ul>
         </div>
 
-        <!-- SCRIPTS -->
-        <ui:include src="scripts.xhtml" />
-        
-    </body>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 dashboard-main">
+            <div id="content">
+
+                <h3>Name: #{memberSessionBean.firstname()}</h3>
+                <ui:insert name='content'/>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SCRIPTS -->
+<ui:include src="scripts.xhtml"/>
+
+</body>
 </html>
