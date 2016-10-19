@@ -2,15 +2,34 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <div lang="#{localeBean.language}"
-      xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        
-        <h:outputScript library="javascripts" name="bootstrap.js" />
-        <h:outputScript library="javascripts" name="vue.js" />
-        <h:outputScript library="javascripts" name="entities.js" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/1.0.3/vue-resource.min.js"></script>
-        <ui:insert name="scripts" />
+	 xmlns="http://www.w3.org/1999/xhtml"
+	 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	 xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+	<h:outputScript library="javascripts" name="jquery.js" />
+	<h:outputScript library="javascripts" name="bootstrap.js" />
+	<h:outputScript library="javascripts" name="vue.js" />
+	<h:outputScript library="javascripts" name="entities.js" />
+	<h:outputScript library="javascripts" name="vue-resource.js" />
+
+
+	<h:outputScript>
+
+		$.fn.extend({
+		animateCss: function (animationName) {
+        var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+        this.addClass('animated ' + animationName).one(animationEnd, function() {
+		$(this).removeClass('animated ' + animationName);
+        });
+		}
+		});
+		function updateCartCountBadge() {
+        var data = OmniFaces.Ajax.data;
+		$("#cart-add-success").removeClass('hidden');
+        $("#cart-item-count").text(data.cartCount);
+		$("#cart-item-count").animateCss('bounce');
+		};
+	</h:outputScript>
+	<ui:insert name="scripts" />
 
 </div>

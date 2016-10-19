@@ -12,12 +12,9 @@ import javaeetutorial.dukesbookstore.ejb.MemberManager;
 import javaeetutorial.dukesbookstore.entity.Member;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-//import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -90,10 +87,12 @@ public class MemberSessionBean implements Serializable{
 
 
             if (isAdmin()){
-                return "/admin/";
+                System.out.println("Authenticated user is Admin. Returning admin panel");
+                return "/admin/activity-summary";
             }
             if (isCustomer()){
-                return "/index";
+                System.out.println("Authenticated user is Customer. Returning customer dashboard");
+                return "/dashboard";
             }
 
 
@@ -112,10 +111,10 @@ public class MemberSessionBean implements Serializable{
                 Thread.sleep(2000);
             } catch (InterruptedException e1) {
                 System.out.print(e1.getMessage());
-                return "/login.xhtml?error=true";
+                return "/login.xhtml?faces-redirect=true&error=true";
             }
         }
-        return "/login.xhtml?error=true";
+        return "/login.xhtml?faces-redirect=true&error=true";
 
     }
     

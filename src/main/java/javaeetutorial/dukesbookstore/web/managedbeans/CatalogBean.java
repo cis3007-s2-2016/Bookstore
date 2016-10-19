@@ -1,91 +1,262 @@
-/**
- * Copyright (c) 2014 Oracle and/or its affiliates. All rights reserved.
- *
- * You may not modify, use, reproduce, or distribute this software except in
- * compliance with  the terms of the License at:
- * http://java.net/projects/javaeetutorial/pages/BerkeleyLicense
- */
 package javaeetutorial.dukesbookstore.web.managedbeans;
 
-import java.io.Serializable;
-import java.util.List;
-import javaeetutorial.dukesbookstore.entity.Book;
-import javax.enterprise.context.SessionScoped;
+import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
+import javax.servlet.http.Part;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.Serializable;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import javaeetutorial.dukesbookstore.ejb.CatalogManager;
+import javaeetutorial.dukesbookstore.entity.Author;
 
 /**
- * <p>Backing bean for the <code>/bookcatalog.xhtml</code> page.</p>
+ * Created by matt on 15/10/2016.
  */
 @Named("catalog")
-@SessionScoped
-public class CatalogBean extends AbstractBean implements Serializable {
+@RequestScoped
+public class CatalogBean implements Serializable {
+	@EJB
+	CatalogManager catalogManager;
+	private String isbn;
+	private String title;
+	private String authors;
+	private Part imageFile;
+	private String category;
+	private String publisher;
+	private String publishedDate;
+	private String format;
+	private String Synopsis;
+	private double costPrice;
+	private double retailPrice;
+	private int stock;
+	private List<Author> authorsList;
+	private String remoteImageFile;
 
-    private static final long serialVersionUID = -3594317405246398714L;
-    private int totalBooks = 0;
 
-    /**
-     * @return the currently selected <code>Book</code> instance from the 
-     * user request
-     */
-    protected Book book() {
-        Book book;
-        book = (Book) context().getExternalContext()
-           .getRequestMap().get("book");
+	// getters & setters
 
-        return (book);
-    }
+	public CatalogManager getCatalogManager() {
+		return catalogManager;
+	}
 
-    /**
-     * <p>Add the selected item to our shopping cart.</p>
-     * @return the navigation page
-     */
-    public String add() {
-        Book book = book();
-        cart.add(book.getISBN(), book);
-        message(null, "ConfirmAdd", new Object[]{book.getTitle()});
+	public void setCatalogManager(CatalogManager catalogManager) {
+		this.catalogManager = catalogManager;
+	}
 
-        return ("bookcatalog");
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    /**
-     * <p>Show the details page for the current book.</p>
-     * @return the navigation page
-     */
-    public String details() {
-        context().getExternalContext().getSessionMap().put("selected", book());
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-        return ("bookdetails");
-    }
+	public List<Author> getAuthorsList() {
+		return authorsList;
+	}
 
-    public int getTotalBooks() {
-        totalBooks = cart.getNumberOfItems();
+	public void setAuthorsList(List<Author> authorsList) {
+		this.authorsList = authorsList;
+	}
 
-        return totalBooks;
-    }
+	public String getAuthors() {
+		return authors;
+	}
 
-    public void setTotalBooks(int totalBooks) {
-        this.totalBooks = totalBooks;
-    }
+	public void setAuthors(String authors) {
+		this.authors = authors;
+	}
 
-    public int getBookQuantity() {
-        int bookQuantity = 0;
-        Book book = book();
+	public Part getImageFile() {
+		return imageFile;
+	}
 
-        if (book == null) {
-            return bookQuantity;
-        }
+	public void setImageFile(Part imageFile) {
+		this.imageFile = imageFile;
+	}
 
-        List<ShoppingCartItem> results = cart.getItems();
-        for (ShoppingCartItem item : results) {
-            Book bd = (Book) item.getItem();
+	public String getCategory() {
+		return category;
+	}
 
-            if ((bd.getISBN()).equals(book.getISBN())) {
-                bookQuantity = item.getQuantity();
+	public void setCategory(String category) {
+		this.category = category;
+	}
 
-                break;
-            }
-        }
+	public String getPublisher() {
+		return publisher;
+	}
 
-        return bookQuantity;
-    }
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
+	}
+
+	public String getPublishedDate() {
+		return publishedDate;
+	}
+
+	public void setPublishedDate(String publishedDate) {
+		this.publishedDate = publishedDate;
+	}
+
+	public String getFormat() {
+		return format;
+	}
+
+	public void setFormat(String format) {
+		this.format = format;
+	}
+
+	public String getSynopsis() {
+		return Synopsis;
+	}
+
+	public void setSynopsis(String synopsis) {
+		Synopsis = synopsis;
+	}
+
+	public double getCostPrice() {
+		return costPrice;
+	}
+
+	public void setCostPrice(double costPrice) {
+		this.costPrice = costPrice;
+	}
+
+	public double getRetailPrice() {
+		return retailPrice;
+	}
+
+	public void setRetailPrice(double retailPrice) {
+		this.retailPrice = retailPrice;
+	}
+
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+
+	public void setRemoteImageFile(String remoteImageFile) {
+		this.remoteImageFile = remoteImageFile;
+	}
+
+	public String getRemoteImageFile() {
+		return remoteImageFile;
+	}
+
+	public String getIsbn() {
+
+		return isbn;
+	}
+
+	public void setIsbn(String isbn) {
+		this.isbn = isbn;
+	}
+
+
+	public String addBook() {
+
+		if (catalogManager.bookExists(getIsbn())) {
+			return "/admin/add-new-book.xhtml?faces-redirect=true&book-exists=true";
+		}
+		try {
+
+			processAuthors();
+			getCatalogManager().createBook(getIsbn(), getTitle(), getCostPrice(), getRetailPrice(), sqlPublishedDate(), getSynopsis(), getStock(), getPublisher(), getCategory(), getFormat(), getAuthorsList(), this.thumbnail());
+		} catch (Exception e) {
+			System.out.println("Failed to add new Book:  " + e.getMessage());
+			//todo: handle exception
+		}
+		return "/admin/add-new-book.xhtml?success=true&faces-redirect=true&includeViewParams=true";
+	}
+
+
+	private Date sqlPublishedDate() {
+		try {
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			java.util.Date pubDate = formatter.parse(getPublishedDate());
+			return new Date(pubDate.getTime());
+		} catch (Exception e) {
+			throw new RuntimeException("Date not in required format");
+		}
+	}
+
+	private byte[] thumbnail() {
+
+		try {
+			InputStream input = getImageInputStream();
+			ByteArrayOutputStream output = new ByteArrayOutputStream();
+			byte[] buffer = new byte[10240];
+			for (int length; (length = input.read(buffer)) > 0; ) output.write(buffer, 0, length);
+			return output.toByteArray();
+		} catch (Exception e) {
+			System.out.println("Error saving thumbnail image!" + e.getMessage());
+			throw new RuntimeException("Error saving thumbnail image!" + e.getMessage());
+		}
+	}
+
+	private InputStream getImageInputStream() {
+		if (getImageFile() == null) {
+			try {
+				URL remoteImageUrl = new URL(this.getRemoteImageFile());
+				HttpURLConnection httpConn = (HttpURLConnection) remoteImageUrl.openConnection();
+				if (httpConn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+					System.out.println("Input stream for image download successfully established.");
+					return httpConn.getInputStream();
+				} else {
+					System.out.println("Input stream for image download FAILED!.");
+				}
+			} catch (Exception e) {
+				throw new RuntimeException("Failed to retrieve remote image");
+			}
+		}
+
+
+		try {
+			return getImageFile().getInputStream();
+		} catch (Exception e) {
+			throw new RuntimeException("Failed to retrieve local image");
+		}
+
+	}
+
+	private void processAuthors() {
+		try {
+			System.out.println("Authors:  " + getAuthors());
+			String[] authorsArray = getAuthors().split(",");
+			String[] names;
+			setAuthorsList(new ArrayList<>());
+
+			for (String author : authorsArray) {
+				StringBuilder firstnames = new StringBuilder();
+				String lastname = "";
+				names = author.split(" ");
+				for (int i = 0; i < names.length; i++) {
+					if (names.length - 1 == i) {
+						lastname = names[i];
+					} else {
+						firstnames.append(names[i]).append(" ");
+					}
+				}
+
+				getAuthorsList().add(getCatalogManager().createOrFindAuthor(firstnames.toString().trim(), lastname.trim()));
+			}
+
+		} catch (Exception e) {
+			throw new RuntimeException("Failed to add authors:  " + e.getMessage());
+		}
+	}
+
+
 }
+

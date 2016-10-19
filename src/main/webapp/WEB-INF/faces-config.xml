@@ -21,12 +21,4 @@
         </locale-config>
     </application>
 
-    <!-- ========== Managed Beans ============================================ -->
-  
-
-    <managed-bean>
-        <managed-bean-name>newUserBean</managed-bean-name>
-        <managed-bean-class>javaeetutorial.dukesbookstore.web.managedbeans.NewUserBean</managed-bean-class>
-        <managed-bean-scope>request</managed-bean-scope>
-    </managed-bean>
 </faces-config>

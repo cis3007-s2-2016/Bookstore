@@ -7,14 +7,7 @@ package javaeetutorial.dukesbookstore.entity;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -23,7 +16,8 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Kyle.Lewer
  */
 @Entity
-@Table(name ="authors")
+@Table(name ="authors", uniqueConstraints= @UniqueConstraint(columnNames={"givenNames", "surname"})
+)
 @XmlRootElement
 public class Author implements Serializable {
 
@@ -33,8 +27,7 @@ public class Author implements Serializable {
     private Long id;
     private String givenNames;
     private String surname;
-    @ManyToMany
-    @JoinTable(name="book_authors")
+    @ManyToMany(mappedBy = "bookAuthors")
     private List<Book> authoredBooks;
 
 
@@ -70,6 +63,15 @@ public class Author implements Serializable {
     public void setAuthoredBooks(List<Book> authoredBooks) {
         this.authoredBooks = authoredBooks;
     }
+
+    public Author() {
+    }
+
+    public Author(String givenNames, String surname) {
+        this.givenNames = givenNames;
+        this.surname = surname;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
