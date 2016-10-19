@@ -197,7 +197,7 @@ public class CatalogBean implements Serializable {
 			InputStream input = getImageInputStream();
 			ByteArrayOutputStream output = new ByteArrayOutputStream();
 			byte[] buffer = new byte[10240];
-			for (int length = 0; (length = input.read(buffer)) > 0; ) output.write(buffer, 0, length);
+			for (int length; (length = input.read(buffer)) > 0; ) output.write(buffer, 0, length);
 			return output.toByteArray();
 		} catch (Exception e) {
 			System.out.println("Error saving thumbnail image!" + e.getMessage());
