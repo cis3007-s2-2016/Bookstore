@@ -89,4 +89,8 @@ public class CatalogManagerBean implements CatalogManager {
 		query.setParameter("genre", genre);
 		return query.getResultList();
 	}
+
+	public List<Book> findBooks(List<String> isbns) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
 }
