@@ -5,7 +5,6 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.servlet.http.Part;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
@@ -14,8 +13,6 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.oracle.tools.packager.IOUtils;
 import javaeetutorial.dukesbookstore.ejb.CatalogManager;
 import javaeetutorial.dukesbookstore.entity.Author;
 
@@ -166,19 +163,6 @@ public class CatalogBean implements Serializable {
 		this.isbn = isbn;
 	}
 
-	public CatalogBean() {
-		setAuthorsList(new ArrayList<>());
-	}
-
-	public void upload() {
-		if (getImageFile() != null) {
-			try {
-				InputStream stream = getImageFile().getInputStream();
-			} catch (IOException e) {
-				System.err.println("CatalogBean.upload():  Uh-oh");
-			}
-		}
-	}
 
 	public String addBook() {
 
@@ -251,6 +235,7 @@ public class CatalogBean implements Serializable {
 			System.out.println("Authors:  " + getAuthors());
 			String[] authorsArray = getAuthors().split(",");
 			String[] names;
+			setAuthorsList(new ArrayList<>());
 
 			for (String author : authorsArray) {
 				StringBuilder firstnames = new StringBuilder();

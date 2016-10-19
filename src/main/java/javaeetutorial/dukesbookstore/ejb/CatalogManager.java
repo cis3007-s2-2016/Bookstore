@@ -34,6 +34,12 @@ public interface CatalogManager {
     public Author createAuthor(String firstnames, String lastname);
 
     public Author createOrFindAuthor(String firstnames, String lastname);
+
+	List<Book> getBooksInGenre(String genre);
+	
+	List<String> getGenres();
+
+	public List<Book> getNewestBooksInGenre(String genre, int count);
 }
 
 

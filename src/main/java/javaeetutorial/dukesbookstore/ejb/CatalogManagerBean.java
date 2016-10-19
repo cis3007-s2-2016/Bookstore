@@ -4,9 +4,7 @@ import javaeetutorial.dukesbookstore.entity.Author;
 import javaeetutorial.dukesbookstore.entity.Book;
 
 import javax.ejb.Stateless;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.sql.Date;
@@ -17,6 +15,7 @@ import java.util.List;
  */
 @Stateless
 public class CatalogManagerBean implements CatalogManager {
+
 	@PersistenceContext(unitName = "bookstorePU")
 	private EntityManager entityManager;
 
@@ -27,13 +26,15 @@ public class CatalogManagerBean implements CatalogManager {
 
 	@Override
 	public Book findBook(String isbn) {
-		try {
-			return entityManager.find(Book.class, simplifyISBN(isbn));
-		} catch (Exception e) {
-			throw new RuntimeException("Book not found!");
-		}
+		return entityManager.find(Book.class, simplifyISBN(isbn));
 	}
 
+	@Override
+	public List<Book> getBooksInGenre(String genre) {
+		TypedQuery<Book> query = entityManager.createQuery("SELECT b FROM Book b WHERE b.genre = :genre", Book.class);
+		query.setParameter("genre", genre);
+		return query.getResultList();
+	}
 
 	@Override
 	public Book createBook(String isbn, String title, double costPrice, double retailPrice, Date publishedYear, String description, Integer stockLevel, String publisher, String genre, String format, List<Author> bookAuthors, byte[] thumbnail) {
@@ -45,7 +46,6 @@ public class CatalogManagerBean implements CatalogManager {
 		entityManager.persist(book);
 		return book;
 	}
-
 
 	@Override
 	public Author createAuthor(String firstnames, String lastname) {
@@ -66,8 +66,27 @@ public class CatalogManagerBean implements CatalogManager {
 			return this.createAuthor(firstnames, lastname);
 		}
 	}
+	
+	
 
+	
+
+	@Override
+	public List<String> getGenres() {
+		TypedQuery<String> query = entityManager.createQuery("SELECT DISTINCT(b.genre) FROM Book b", String.class);
+		return query.getResultList();
+	}
+	
+	
 	private String simplifyISBN(String isbn) {
 		return isbn.trim().replaceAll("-", "");
+	}
+
+	@Override
+	public List<Book> getNewestBooksInGenre(String genre, int count) {
+		TypedQuery<Book> query;
+		query = entityManager.createQuery("SELECT b FROM Book b WHERE b.genre = :genre ORDER BY b.created DESC", Book.class).setMaxResults(count);
+		query.setParameter("genre", genre);
+		return query.getResultList();
 	}
 }

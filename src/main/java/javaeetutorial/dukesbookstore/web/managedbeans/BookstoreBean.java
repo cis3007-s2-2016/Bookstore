@@ -1,124 +1,118 @@
 /**
  * Copyright (c) 2014 Oracle and/or its affiliates. All rights reserved.
- *
+ * <p>
  * You may not modify, use, reproduce, or distribute this software except in
- * compliance with  the terms of the License at:
+ * compliance with the terms of the License at:
  * http://java.net/projects/javaeetutorial/pages/BerkeleyLicense
  */
 package javaeetutorial.dukesbookstore.web.managedbeans;
 
+import com.sun.java.swing.plaf.gtk.resources.gtk;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import javaeetutorial.dukesbookstore.ejb.BookRequestBean;
+import javaeetutorial.dukesbookstore.ejb.CatalogManager;
 import javaeetutorial.dukesbookstore.entity.Book;
-import javaeetutorial.dukesbookstore.exception.BookNotFoundException;
-import javaeetutorial.dukesbookstore.exception.BooksNotFoundException;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.FacesException;
 import javax.inject.Named;
 
 /**
- * <p>Backing bean for the <code>/bookstore.xhtml</code> page.</p>
+ * <p>
+ * Backing bean for the <code>/bookstore.xhtml</code> page.</p>
  */
-@Named("store")
+@Named("shop")
 @SessionScoped
-public class BookstoreBean extends AbstractBean implements Serializable {
+public class BookstoreBean implements Serializable {
 
-    private static final Logger logger =
-            Logger.getLogger("dukesbookstore.web.managedBeans.BookStoreBean");
-    private static final long serialVersionUID = 7829793160074383708L;
-    private Book featured = null;
-    protected String title;
-    @EJB
-    BookRequestBean bookRequestBean;
+	private static final Logger logger = Logger.getLogger("dukesbookstore.web.managedBeans.BookStoreBean");
+	@EJB
+	CatalogManager catalog;
+	private String genre;
+	private Book selectedBook;
 
-    /**
-     * @return the <code>Book</code> for the featured book
-     */
-    public Book getFeatured() {
-        int featuredBookPos = 4; // "The Green Project"
-        if (featured == null) {
-            try {
-                featured = (Book) bookRequestBean.getBooks().get(featuredBookPos);
-            } catch (BooksNotFoundException e) {
-                // Real apps would deal with error conditions better than this
-                throw new FacesException("Could not get books: " + e);
-            }
-        }
+	public Book getSelectedBook() {
+		return selectedBook;
+	}
 
-        return (featured);
-    }
+	public void setSelectedBook(Book selectedBook) {
+		this.selectedBook = selectedBook;
+	}
 
-    /**
-     * <p>Add the featured item to our shopping cart.</p>
-     * @return the navigation page
-     */
-    public String add() {
-        Book book = getFeatured();
-        cart.add(book.getISBN(), book);
-        message(null, "ConfirmAdd", new Object[]{book.getTitle()});
+	public static Logger getLogger() {
+		return logger;
+	}
 
-        return ("bookcatalog");
-    }
+	public CatalogManager getCatalog() {
+		return catalog;
+	}
 
-    public String addSelected() {
-        logger.log(Level.INFO, "Entering BookstoreBean.addSelected");
-        try {
-            String bookId = (String) context().getExternalContext().
-                    getSessionMap().get("bookId");
-            Book book = bookRequestBean.getBook(bookId);
-            cart.add(bookId, book);
-            message(null, "ConfirmAdd", new Object[]{book.getTitle()});
-        } catch (BookNotFoundException e) {
-            throw new FacesException("Could not get book: " + e);
-        }
-        return ("bookcatalog");
-    }
+	public void setCatalog(CatalogManager catalog) {
+		this.catalog = catalog;
+	}
 
-    /**
-     * <p>Show the details page for the featured book.</p>
-     * @return the navigation page
-     */
-    public String details() {
-        context().getExternalContext().getSessionMap().put(
-                "selected",
-                getFeatured());
+	public String getGenre() {
+		return genre;
+	}
 
-        return ("bookdetails");
-    }
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
 
-    public String selectedDetails() {
-        logger.log(Level.INFO, "Entering BookstoreBean.selectedDetails");
-        try {
-            String bookId = (String) context().getExternalContext().getSessionMap().get("bookId");
-            Book book = bookRequestBean.getBook(bookId);
-            context().getExternalContext().getSessionMap().put("selected", book);
-        } catch (BookNotFoundException e) {
-            throw new FacesException("Could not get book: " + e);
-        }
-        return ("bookdetails");
-    }
+	public BookstoreBean() {
+		setGenre("Fiction");
+	}
 
-    public String getSelectedTitle() {
-        logger.log(Level.INFO, "Entering BookstoreBean.getSelectedTitle");
-        try {
-            String bookId = (String) context().getExternalContext().getSessionMap().get("bookId");
-            Book book = bookRequestBean.getBook(bookId);
-            title = book.getTitle();
-        } catch (BookNotFoundException e) {
-            throw new FacesException("Could not get book title: " + e);
-        }
-        return title;
-    }
+	public List<Book> getBooks() {
+		try {
+			return getCatalog().getBooksInGenre(genre);
+		} catch (Exception e) {
+			getLogger().severe("Bookstore.beans: getBooks:  NO BOOKS: " + e+ e.getStackTrace());
+			return new ArrayList<Book>();
+		}
+	}
 
-    public List<Book> getBooks() {
-        try {
-            return bookRequestBean.getBooks();
-        } catch (BooksNotFoundException e) {
-            throw new FacesException("Exception: " + e);
-        }
-    }
+	public String viewBook(String isbn) {
+		try {
+			setSelectedBook(getCatalog().findBook(isbn));
+			return "/shop/book?faces-redirect=true&includeViewParams=true&title=" + getSelectedBook().getTitle();
+		} catch (Exception e) {
+			//todo: return booknotfound.xhtml
+			getLogger().info("Book not found:  " + isbn);
+			return "/shop/category";
+		}
+
+	}
+	
+	public String viewBook(String isbn, String genre) {
+		setGenre(genre);
+		return viewBook(isbn);
+	}
+	
+	public List<String> getGenres(){
+		try {
+			return getCatalog().getGenres();
+		} catch (Exception e) {
+			getLogger().info("NO GENRES: " + e);
+			return new ArrayList<>();
+		}
+	}
+	
+	public List<Book> getNewestBooksInGenre(String genre){
+		
+		try {
+			return getCatalog().getNewestBooksInGenre(genre, 6);
+		} catch (Exception e){
+			getLogger().info("BookstoreBean: getBooksInGenre: No Books in " + genre);
+			return new ArrayList<>();
+			
+		}
+	}
+	
+	public String viewGenre(String genre){
+		setGenre(genre);
+		return "/shop/category?faces-redirect=true&includeViewParams=true&genre=" + genre;
+
+	}
 }
