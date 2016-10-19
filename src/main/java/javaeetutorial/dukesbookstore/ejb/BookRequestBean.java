@@ -1,5 +1,6 @@
 package javaeetutorial.dukesbookstore.ejb;
 
+import com.sun.istack.Nullable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -133,7 +134,7 @@ public class BookRequestBean {
         TypedQuery<Book> query = entityManager.createQuery("SELECT b FROM Book b WHERE b.title LIKE :title", Book.class);
         query.setParameter("title", "%" + title + "%");
         System.out.println(query.toString());
-        List<Book> books;
+        List<Book> books = null;
         try{
             books = query.getResultList();
         }catch (NoResultException nothingFound)
@@ -141,6 +142,6 @@ public class BookRequestBean {
             books = new ArrayList<>();
         }
         
-        return query.getResultList();
+        return books;
     }
 }

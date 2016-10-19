@@ -3,19 +3,15 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./../WEB-INF/templates/admin.template.xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html">
-
+     <ui:define name="top"></ui:define>
     <ui:define name="content">
         <style type="text/css">
-            .staff-card {
-                margin:1em;
-                border-radius: 12px;
-                border: 1px solid #ccc;
-            }
+
         </style>
         <h1>Staff Members</h1>
             <div class="row">
                 <ui:repeat value="#{staff.staffMembers}" var="staffMember">
-                    <div class="col-md-3 staff-card">
+                    <div class="col-md-3 basic-card">
                     <div class="card">
                         <div class="card-block">
                             <h4 class="card-title"><h:outputText value="#{staffMember.firstName}" /></h4>

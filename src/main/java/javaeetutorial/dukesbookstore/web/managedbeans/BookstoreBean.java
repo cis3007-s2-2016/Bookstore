@@ -8,6 +8,7 @@
 package javaeetutorial.dukesbookstore.web.managedbeans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,31 +38,45 @@ public class BookstoreBean extends AbstractBean implements Serializable {
     
     protected String searchString;
     
-    private List<Book> bookList;
+    private List<Book> bookList = new ArrayList<>();
     @EJB
     BookRequestBean bookRequestBean;
     
+   
     public List<Book> getBookList()
     {
         return this.bookList;
     }
+    
     public void setSearchString(String searchString)
     {
         this.searchString = searchString;
     }
+    
     public String getSearchString()
     {
         return this.searchString;
     }
-    public void searchStringValueChanged(ValueChangeEvent vce)
+    
+//    public void searchStringValueChanged(ValueChangeEvent vce)
+//    {
+//        this.searchString = (String) vce.getNewValue();
+//    }
+    public void bookStockLevelChanged(AjaxBehaviorEvent event)
     {
-        this.searchString = (String) vce.getNewValue();
+        System.out.println("Event: " + event.toString());
     }
     public void searchStringValueChanged(AjaxBehaviorEvent event){
-        this.searchByTitle(this.searchString);
+        System.out.println("Event: " + event.toString());
+        searchByTitle(this.searchString);
     }
+    
     private String searchByTitle(String bookTitle)
     {
+        if(bookTitle == null)
+        {
+            System.out.println("null book title");
+        }
         this.bookList = bookRequestBean.getBooksWithTitleLike(bookTitle);
         return null; // go nowhere
     }
