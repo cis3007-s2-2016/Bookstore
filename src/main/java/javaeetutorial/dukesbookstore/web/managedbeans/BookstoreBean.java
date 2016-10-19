@@ -7,18 +7,16 @@
  */
 package javaeetutorial.dukesbookstore.web.managedbeans;
 
-import com.sun.java.swing.plaf.gtk.resources.gtk;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import javaeetutorial.dukesbookstore.ejb.BookRequestBean;
 import javaeetutorial.dukesbookstore.ejb.CatalogManager;
 import javaeetutorial.dukesbookstore.entity.Book;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.FacesException;
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.event.ValueChangeEvent;
 import javax.inject.Named;
 
 /**
@@ -27,73 +25,6 @@ import javax.inject.Named;
  */
 @Named("shop")
 @SessionScoped
-public class BookstoreBean extends AbstractBean implements Serializable {
-    
-    private static final Logger logger =
-            Logger.getLogger("dukesbookstore.web.managedBeans.BookStoreBean");
-    private static final long serialVersionUID = 7829793160074383708L;
-    private Book featured = null;
-    protected String title;
-    
-    protected String searchString;
-    
-    private List<Book> bookList = new ArrayList<>();
-    @EJB
-    BookRequestBean bookRequestBean;
-    
-   
-    public List<Book> getBookList()
-    {
-        return this.bookList;
-    }
-    
-    public void setSearchString(String searchString)
-    {
-        this.searchString = searchString;
-    }
-    
-    public String getSearchString()
-    {
-        return this.searchString;
-    }
-    
-//    public void searchStringValueChanged(ValueChangeEvent vce)
-//    {
-//        this.searchString = (String) vce.getNewValue();
-//    }
-    public void bookStockLevelChanged(AjaxBehaviorEvent event)
-    {
-        System.out.println("Event: " + event.toString());
-        
-    }
-    public void searchStringValueChanged(AjaxBehaviorEvent event){
-        System.out.println("Event: " + event.toString());
-        searchByTitle(this.searchString);
-    }
-    
-    private String searchByTitle(String bookTitle)
-    {
-        if(bookTitle == null)
-        {
-            System.out.println("null book title");
-        }
-        this.bookList = bookRequestBean.getBooksWithTitleLike(bookTitle);
-        return null; // go nowhere
-    }
-    
-    /**
-     * @return the <code>Book</code> for the featured book
-     */
-    public Book getFeatured() {
-        int featuredBookPos = 4; // "The Green Project"
-        if (featured == null) {
-            try {
-                featured = (Book) bookRequestBean.getBooks().get(featuredBookPos);
-            } catch (BooksNotFoundException e) {
-                // Real apps would deal with error conditions better than this
-                throw new FacesException("Could not get books: " + e);
-            }
-        }
 public class BookstoreBean implements Serializable {
 
 	private static final Logger logger = Logger.getLogger("dukesbookstore.web.managedBeans.BookStoreBean");
@@ -101,8 +32,11 @@ public class BookstoreBean implements Serializable {
 	CatalogManager catalog;
 	private String genre;
 	private Book selectedBook;
-
-	public Book getSelectedBook() {
+        private BookRequestBean bookRequestBean;
+        private String searchString;
+        private List<Book> bookList = new ArrayList<>();
+	
+        public Book getSelectedBook() {
 		return selectedBook;
 	}
 
@@ -134,19 +68,27 @@ public class BookstoreBean implements Serializable {
 		setGenre("Fiction");
 	}
 
-    public String getSelectedTitle() {
-        logger.log(Level.INFO, "Entering BookstoreBean.getSelectedTitle");
-        try {
-            String bookId = (String) context().getExternalContext().getSessionMap().get("bookId");
-            Book book = bookRequestBean.getBook(bookId);
-            title = book.getTitle();
-        } catch (BookNotFoundException e) {
-            throw new FacesException("Could not get book title: " + e);
+        public void bookStockLevelChanged(AjaxBehaviorEvent event)
+        {
+            System.out.println("Event: " + event.toString());
+
         }
-        return title;
-    }
+        public void searchStringValueChanged(AjaxBehaviorEvent event){
+            System.out.println("Event: " + event.toString());
+            searchByTitle(this.searchString);
+        }
     
-	public List<Book> getBooks() {
+        private String searchByTitle(String bookTitle)
+        {
+            if(bookTitle == null)
+            {
+                System.out.println("null book title");
+            }
+            this.bookList = bookRequestBean.getBooksWithTitleLike(bookTitle);
+            return null; // go nowhere
+        }
+	
+        public List<Book> getBooks() {
 		try {
 			return getCatalog().getBooksInGenre(genre);
 		} catch (Exception e) {
