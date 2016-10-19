@@ -51,10 +51,23 @@
 						</div>
 					</form>
 				</li>
-
+			</ul>
+				
+				
+				
+				
+				
+				
+				
+				
+				<ul class="nav navbar-nav navbar-right">
 				<li>
 					<h:link outcome="/bookshowcart" rendered="#{!memberSession.admin}">
-						<i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart
+						<i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i>
+						<span class="badge" id="cart-item-count">
+							#{cart.numberOfItems()}
+							
+						</span>
 					</h:link>
 				</li>
 

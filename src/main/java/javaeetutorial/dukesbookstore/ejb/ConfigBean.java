@@ -25,8 +25,6 @@ import javax.persistence.PersistenceContext;
 public class ConfigBean {
 
     @EJB
-    private BookRequestBean bookRequest;
-    @EJB
     private PreferenceRequestBean preferenceRequest;
     @PersistenceContext(unitName = "bookstorePU")
     private EntityManager em;
