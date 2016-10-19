@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -8,18 +8,38 @@
                 xmlns:bookstore="http://dukesbookstore"
                 template="../WEB-INF/templates/bookstore.template.xhtml"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:o="http://omnifaces.org/ui"
+                xmlns:of="http://omnifaces.org/functions"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:define name="top"></ui:define>
     <ui:define name="content">
 
+
+		<h:form>
+		<ol class="breadcrumb">
+            <li><h:link outcome="/index">Home</h:link></li>
+            <li><h:link outcome="/shop">Shop</h:link></li>
+            <li><h:commandLink action="/shop/category">#{shop.genre}</h:commandLink></li>
+			<li class="active">#{shop.selectedBook.title}</li>
+
+        </ol>
+		</h:form>
+
+		<br />
+
+
         <div class="row">
             <div class="col-sm-3" style="margin-top: 20px;">
-                <h:graphicImage alt="Front Cover" height="auto" width="200px"  library="images" name="book1.jpg" />
+                <o:graphicImage alt="Front Cover" height="auto" width="200px" value="#{shop.selectedBook.thumbnail}" dataURI="true" />
             </div>
             <div class="col-sm-6">
-                <h2>The Lost World</h2>
-                <h5>by Michael Crichton</h5>
+                <h2>#{shop.selectedBook.title}</h2>
+                <h5 class="text-capitalize" >by 
+					<ui:repeat value="#{shop.selectedBook.bookAuthors}" var="author" varStatus="status">
+						#{ author.givenNames.toLowerCase()} #{author.surname.toLowerCase()}#{status.last ? "" : ", "}
+					</ui:repeat>
+                </h5>
                 <div class="rating average-rating-summary">
                     <c:forEach var="i" begin="1" end="4">
                         <i class="fa fa-star golden-star" aria-hidden="true"></i>
@@ -27,30 +47,45 @@
                     <i class="fa fa-star-o golden-star" aria-hidden="true"></i>
                     <small> Average rating by 8 customers </small>
                 </div>
-                <p>Six years after the secret disaster at Jurassic Park and the destruction of the dinosaurs, the dismantling of the park, and the closing of the island, rumors persist that some form of life has survived.</p>
+                <p>#{shop.selectedBook.description}</p>
                 <br />
                 <!--<h4>Details:</h4>-->
                 <dl class="book-details dl-horizontal">
                     <dt>ISBN</dt>
-                    <dd>123-9374628492</dd>
+                    <dd>#{shop.selectedBook.ISBN}</dd>
                     <dt>Format</dt>
-                    <dd>Hardcover</dd>
+                    <dd>#{shop.selectedBook.format}</dd>
                     <dt>Category</dt>
-                    <dd>Fiction</dd>
+                    <dd>#{shop.selectedBook.genre}</dd>
                     <dt>Publisher</dt>
-                    <dd>Pengui Books</dd>
+                    <dd>#{shop.selectedBook.genre}</dd>
                     <dt>Publish Date</dt>
-                    <dd>02/02/1988</dd>
+                    <dd>#{shop.selectedBook.pubYear}</dd>
                 </dl>
 
-                </div>
+			</div>
 
             <div class="col-sm-3" style="margin-top: 20px;">
                 <div class="panel panel-default">
                     <div class="panel-body text-center">
-                        <h2>$23.99</h2>
-                        <h3 class="text-success">In stock</h3>
-                        <a href="" class="btn btn-primary" role="button"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</a>
+                        <h2>
+                            <h:outputText value="#{shop.selectedBook.retailPrice}">
+								<f:convertNumber minFractionDigits="2" currencySymbol="$" type="currency"/> 
+							</h:outputText>
+                        </h2>
+                        <c:if test="#{shop.selectedBook.stockLevel > 0}">
+							<h3 class="text-success">
+								In stock
+							</h3>
+							<a href="" class="btn btn-primary" role="button"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</a>
+
+                        </c:if>
+						<c:if test="#{shop.selectedBook.stockLevel == 0}">
+							<h3 class="text-danger">
+								Sold out
+							</h3>
+						</c:if>
+
 
                         <hr />
                         <div> Read this book? <a>Review it!</a>  </div>

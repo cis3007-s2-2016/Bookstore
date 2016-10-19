@@ -48,7 +48,7 @@
                                 </h:inputText>
                             </div>
                             <div class="col-sm-3">
-                                <div class="btn btn-primary" v-bind:class="isbnValid ? '' : 'disabled'" v-on:click.prevent="autocompleteFromGoogleBooks" style="width:100%;"> 
+                                <div class="btn btn-primary" v-bind:class="isbnValid ? '' : 'disabled'" v-on:click.prevent="autocompleteFromGoogleBooks" style="width:100%;">
                                     Auto-Complete 
                                     <i class="fa fa-spinner fa-spin fa-fw" v-show="loadingIcon"></i>
                                     <i class="fa fa-bolt fa-fw" v-show="!loadingIcon"></i>
@@ -121,6 +121,7 @@
                             <f:passThroughAttribute name="accept" value="image/*"/>
                             <f:passThroughAttribute name="type" value="file"/>
                             <f:passThroughAttribute name="v-model" value="localThumbnail" />
+                            <f:passThroughAttribute name="v-bind:src" value="thumbnail" />
                             <f:passThroughAttribute name="v-on:change" value="updateThumbnail"/>
                         </h:inputFile>
                         <h:inputHidden value="#{catalog.remoteImageFile}">

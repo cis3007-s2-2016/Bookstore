@@ -1,79 +1,94 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:bookstore="http://dukesbookstore"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
                 template="../WEB-INF/templates/bookstore.template.xhtml"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-                xmlns:jsf="http://xmlns.jcp.org/jsf">
+                xmlns:o="http://omnifaces.org/ui"
+                xmlns:of="http://omnifaces.org/functions"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="top"></ui:define>
     <ui:define name="content">
 
 
+
         <ol class="breadcrumb">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Shop</a></li>
+            <li><h:link outcome="/index">Home</h:link></li>
+			<li><h:link outcome="/shop">Shop</h:link></li>
             <li class="active">Fiction</li>
         </ol>
 
 
         <br />
 
+		<div class="page-header">
+			<h1>#{shop.genre}</h1>
+		</div>
+		<br />
 
-                <h1>Fiction:</h1>
-                <br />
-                <c:forEach var="i" begin="1" end="6">
-                        <div class="row">
-                            <c:forEach var="i" begin="1" end="4">
-                                <div class="col-sm-3">
-                                    <div class="panel panel-default text-center">
-                                        <div class="panel-body">
-                                            <h:graphicImage library="images" name="book1.jpg"></h:graphicImage>
-                                            <h4>The Lord of the Rings: The Two Towers</h4>
-                                            <h5>Hillary Clinton</h5>
-                                            <div class="rating">
-                                                <c:forEach var="i" begin="1" end="4">
-                                                    <i class="fa fa-star golden-star" aria-hidden="true"></i>
-                                                </c:forEach>
-                                                <i class="fa fa-star-o golden-star" aria-hidden="true"></i>
-                                            </div>
-                                            <h4>$19.96</h4>
-                                            <div>
-                                                <h:commandButton styleClass="btn btn-primary text-capitalize" value="Add to cart" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </c:forEach>
-                        </div>
-                </c:forEach>
+		<div class="row">
+			<ui:repeat var="book" value="#{shop.books}">
+				<div class="col-sm-3">
+					<div class="panel panel-default text-center" >
+						<div class="panel-body" style="height:420px;">
+							<h:form>
+								<h:commandLink action="#{shop.viewBook(book.ISBN)}">
+									<o:param name="title" value="#{book.title}" />
+									<o:graphicImage value="#{book.thumbnail}" alt="Book Cover" width="auto" height="210px" dataURI="true" style="max-width: 100%;"/>
+									<h4>#{book.title}</h4>
+								</h:commandLink>
+							</h:form >
+							<ui:repeat value="#{book.bookAuthors}" var="author" varStatus="status">
+								<h5 class="text-capitalize">#{ author.givenNames.toLowerCase()} #{author.surname.toLowerCase()}#{status.last ? "" : ", "}</h5>
+							</ui:repeat>
+							<div class="rating">
+								<c:forEach var="i" begin="1" end="4">
+									<i class="fa fa-star golden-star" aria-hidden="true"></i>
+								</c:forEach>
+								<i class="fa fa-star-o golden-star" aria-hidden="true"></i>
+							</div>
+							<h3 style="height:30px;">
+								<h:outputText value="#{book.retailPrice}">
+									<f:convertNumber minFractionDigits="2" currencySymbol="$" type="currency"/> 
+								</h:outputText>
+							</h3>
 
-                <div class="text-center">
-                    <h:form>
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination">
-                                <li>
-                                    <a href="#" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                <li><h:commandLink value="1"></h:commandLink></li>
-                                <li><h:commandLink value="2"></h:commandLink></li>
-                                <li><h:commandLink value="3"></h:commandLink></li>
-                                <li><h:commandLink value="4"></h:commandLink></li>
-                                <li><h:commandLink value="5"></h:commandLink></li>
-                                <li>
-                                    <a href="#" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </h:form>
-                </div>
+						</div>
+						<div class="panel-footer">
+
+							<h:commandButton styleClass="btn btn-primary text-capitalize" value="Add to cart" rendered="#{book.stockLevel > 0}" />
+							<h:commandButton styleClass="btn btn-primary disabled" value="Out of stock" rendered="#{book.stockLevel == 0}" />
+						</div>
+					</div>
+				</div>
+			</ui:repeat>
+		</div>
+
+		<div class="text-center">
+			<h:form>
+				<nav aria-label="Page navigation">
+					<ul class="pagination">
+						<li>
+							<a href="#" aria-label="Previous">
+								<span aria-hidden="true">&laquo;</span>
+							</a>
+						</li>
+						<li><h:commandLink value="1"></h:commandLink></li>
+						<li><h:commandLink value="2"></h:commandLink></li>
+						<li><h:commandLink value="3"></h:commandLink></li>
+						<li><h:commandLink value="4"></h:commandLink></li>
+						<li><h:commandLink value="5"></h:commandLink></li>
+						<li>
+							<a href="#" aria-label="Next">
+								<span aria-hidden="true">&raquo;</span>
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</h:form>
+		</div>
     </ui:define>
 </ui:composition>
