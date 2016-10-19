@@ -65,6 +65,7 @@ public class BookstoreBean extends AbstractBean implements Serializable {
     public void bookStockLevelChanged(AjaxBehaviorEvent event)
     {
         System.out.println("Event: " + event.toString());
+        
     }
     public void searchStringValueChanged(AjaxBehaviorEvent event){
         System.out.println("Event: " + event.toString());
