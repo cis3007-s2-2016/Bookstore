@@ -137,9 +137,10 @@
                 <div class="form-group">
                     <label for="synopsis" class="col-sm-2 control-label">Synopsis:</label>
                     <div class="col-sm-8">
-                        <h:inputTextarea id="synopsis" rows="6" styleClass="form-control" value="#{catalog.synopsis}" required="true" maxlength="1000">
+                        <h:inputTextarea id="synopsis" rows="6" styleClass="form-control" value="#{catalog.synopsis}" required="true">
                             <f:passThroughAttribute name="placeholder" value="Synopsis"/>
                             <f:passThroughAttribute name="v-model" value="synopsis" />
+							<f:passThroughAttribute name="maxlength" value="1000" />
                         </h:inputTextarea>
                     </div>
                 </div>
