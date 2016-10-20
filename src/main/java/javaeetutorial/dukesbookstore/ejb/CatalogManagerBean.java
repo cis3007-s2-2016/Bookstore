@@ -84,22 +84,19 @@ public class CatalogManagerBean implements CatalogManager {
 
 	public void decrementStockCount(String isbn) {
 		Book book = findBook(isbn);
-		book.setStockLevel(book.getStockLevel() - 1);
+		if ( book.getStockLevel() <= 1) {
+			book.setStockLevel(0);
+			logger.info("Out of books! please reorder:  "+ isbn);
+		} else {
+			book.setStockLevel(book.getStockLevel() - 1);
+		}
 		entityManager.persist(book);
 	}
 	
 	public void returnBooks(String isbn, int qty) {
 		Book book = findBook(isbn);
-		if (qty > book.getStockLevel()) {
-			logger.warning("Returning books: quatnity to return is greater than number in database.  ISBN: " + isbn);
-			book.setStockLevel(0);
-		} else {
-			book.setStockLevel(book.getStockLevel() - qty);
-		}
-		
+		book.setStockLevel(book.getStockLevel() + qty);
 		entityManager.persist(book);
-		
-		
 	}
 
 	@Override
