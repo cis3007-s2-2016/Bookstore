@@ -17,8 +17,8 @@ import java.net.URL;
 public class AuthFilter implements Filter {
     @Inject
     private MemberSessionBean sessionBean;
-
-    private String[][] protectedUrls =  {
+    
+    private final String[][] protectedUrls =  {
             {"/admin/(.*)", "admin"},
             {"/rest/(.*)", "admin,customer"},
             {"/checkout\\.xhtml", "customer"}
@@ -28,10 +28,11 @@ public class AuthFilter implements Filter {
     private String[][] getProtectedUrls() {
         return protectedUrls;
     }
-
+    @Override
     public void destroy() {
+       
     }
-
+    @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
         try {
             URL url = new URL(((HttpServletRequest) req).getRequestURL().toString());
@@ -70,10 +71,12 @@ public class AuthFilter implements Filter {
                 chain.doFilter(req, resp);
             }
         } catch (Exception e){
+            e.printStackTrace();
             ((HttpServletResponse) resp).sendError(500);
+           
         }
     }
-
+    @Override
     public void init(FilterConfig config) throws ServletException {
 
     }

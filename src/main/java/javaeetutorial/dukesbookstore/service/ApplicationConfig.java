@@ -29,6 +29,16 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(javaeetutorial.dukesbookstore.service.AuctionBidFacadeREST.class);
+        resources.add(javaeetutorial.dukesbookstore.service.AuthorFacadeREST.class);
+        resources.add(javaeetutorial.dukesbookstore.service.BookFacadeREST.class);
+        resources.add(javaeetutorial.dukesbookstore.service.BookReviewFacadeREST.class);
+        resources.add(javaeetutorial.dukesbookstore.service.BookWantedFacadeREST.class);
+        resources.add(javaeetutorial.dukesbookstore.service.InterestFacadeREST.class);
+        resources.add(javaeetutorial.dukesbookstore.service.MemberFacadeREST.class);
+        resources.add(javaeetutorial.dukesbookstore.service.PaymentFacadeREST.class);
+        resources.add(javaeetutorial.dukesbookstore.service.PreferenceFacadeREST.class);
+        resources.add(javaeetutorial.dukesbookstore.service.SellerReviewFacadeREST.class);
     }
     
 }
