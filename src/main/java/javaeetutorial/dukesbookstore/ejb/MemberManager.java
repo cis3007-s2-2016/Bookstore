@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package javaeetutorial.dukesbookstore.ejb;
+import java.util.List;
 import javaeetutorial.dukesbookstore.entity.Member;
 import javax.ejb.Remote;
 /**
@@ -32,4 +33,10 @@ public interface MemberManager {
     );
     
     public Member find(String email);
+    
+    /**
+     *
+     * @return list of members who are bookstore staff members
+     */
+    public List<Member> getStaff();
 }

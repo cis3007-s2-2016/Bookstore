@@ -71,6 +71,7 @@ public class AuthFilter implements Filter {
                 chain.doFilter(req, resp);
             }
         } catch (Exception e){
+            System.out.println("Encountered error authenticating user");
             e.printStackTrace();
             ((HttpServletResponse) resp).sendError(500);
            
