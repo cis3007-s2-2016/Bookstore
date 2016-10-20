@@ -12,12 +12,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * Created by matt on 15/10/2016.
  */
 @Stateless
 public class CatalogManagerBean implements CatalogManager {
+
+	private static final Logger logger = Logger.getLogger("dukesbookstore.web.managedbeans.ShoppingCart");
 
 	@PersistenceContext(unitName = "bookstorePU")
 	private EntityManager entityManager;
@@ -69,18 +72,42 @@ public class CatalogManagerBean implements CatalogManager {
 			return this.createAuthor(firstnames, lastname);
 		}
 	}
-	
-	
 
+	public void changeStockCount(String isbn, int qty) {
+		if (qty < 0) {
+			throw new RuntimeException("Trying to change books stock level to negative number");
+		}
+		Book book = findBook(isbn);
+		entityManager.persist(book);
+
+	}
+
+	public void decrementStockCount(String isbn) {
+		Book book = findBook(isbn);
+		book.setStockLevel(book.getStockLevel() - 1);
+		entityManager.persist(book);
+	}
 	
+	public void returnBooks(String isbn, int qty) {
+		Book book = findBook(isbn);
+		if (qty > book.getStockLevel()) {
+			logger.warning("Returning books: quatnity to return is greater than number in database.  ISBN: " + isbn);
+			book.setStockLevel(0);
+		} else {
+			book.setStockLevel(book.getStockLevel() - qty);
+		}
+		
+		entityManager.persist(book);
+		
+		
+	}
 
 	@Override
 	public List<String> getGenres() {
 		TypedQuery<String> query = entityManager.createQuery("SELECT DISTINCT(b.genre) FROM Book b", String.class);
 		return query.getResultList();
 	}
-	
-	
+
 	private String simplifyISBN(String isbn) {
 		return isbn.trim().replaceAll("-", "");
 	}

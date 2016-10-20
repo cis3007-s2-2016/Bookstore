@@ -19,14 +19,13 @@ public class ShoppingCart implements Serializable {
 	@EJB
 	CatalogManager catalogManager;
 	private static final Logger logger = Logger.getLogger("dukesbookstore.web.managedbeans.ShoppingCart");
-	    private static final long serialVersionUID = -2181710426297811604L;
+	private static final long serialVersionUID = -2181710426297811604L;
 
 	private ArrayList<CartItem> shoppingCart;
 
 	public ArrayList<CartItem> getShoppingCart() {
 		return shoppingCart;
 	}
-	
 
 	public void setShoppingCart(ArrayList<CartItem> shoppingCart) {
 		this.shoppingCart = shoppingCart;
@@ -55,6 +54,10 @@ public class ShoppingCart implements Serializable {
 			throw new RuntimeException("Supplied ISBN does not match any in database");
 		}
 
+		
+		//reserve books for purchase
+		catalogManager.decrementStockCount(isbn);
+		
 		Ajax.data("cartCount", numberOfItems());
 		Ajax.oncomplete("updateCartCountBadge()");
 
@@ -68,46 +71,44 @@ public class ShoppingCart implements Serializable {
 		return total;
 	}
 
-	
-	public double totalPrice(){
+	public double totalPrice() {
 		double total = 0;
 		for (CartItem item : getShoppingCart()) {
-				total = item.getQuantity() * item.getBook().getRetailPrice();
+			total = item.getQuantity() * item.getBook().getRetailPrice();
 		}
 		return total;
 	}
-	
-	public void remove(String isbn){
-		
-		if (getShoppingCart().size() <= 1){
+
+	public void remove(String isbn) {
+
+		if (getShoppingCart().size() <= 1) {
 			clearCart();
 			return;
 		}
-		
+
 		CartItem removeMe = null;
 		for (CartItem item : getShoppingCart()) {
-			if (isbn.equals(item.getBook().getISBN())){
+			if (isbn.equals(item.getBook().getISBN())) {
 				removeMe = item;
 			}
 		}
-		if (removeMe != null){
+		if (removeMe != null) {
 			getShoppingCart().remove(removeMe);
 		}
 	}
-	
-	public String changeQty(){
+
+	public String changeQty() {
 		this.setShoppingCart(shoppingCart);
 		return "/bookshowcart?faces-redirect=true";
 	}
 
-	
 	@PreDestroy
-	private void putCartItemsBack(){
-				//todo add items back to database (change qty)
-				
+	private void putCartItemsBack() {
+		for (CartItem item : getShoppingCart()) {
+			catalogManager.returnBooks(item.getBook().getISBN(), item.getQuantity());
+		}
 	}
-	
-	
+
 	private void increaseQuantity(Book book) {
 		for (CartItem item : getShoppingCart()) {
 			if (book.getISBN().equals(item.getBook().getISBN())) {
@@ -125,9 +126,5 @@ public class ShoppingCart implements Serializable {
 		}
 		return false;
 	}
-	
-	
-	
-	
 
 }

@@ -44,6 +44,12 @@ public interface CatalogManager {
 
 	public List<Book> getNewestBooksInGenre(String genre, int count);
 	
+	public void changeStockCount(String isbn, int qty);
+	
+	public void decrementStockCount(String isbn);
+	
+	public void returnBooks(String isbn, int qty);
+	
 }
 
 
