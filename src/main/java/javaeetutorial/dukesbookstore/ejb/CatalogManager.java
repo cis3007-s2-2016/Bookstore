@@ -6,7 +6,10 @@ import javaeetutorial.dukesbookstore.entity.Member;
 
 import javax.ejb.Remote;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by matt on 15/10/2016.
@@ -40,6 +43,7 @@ public interface CatalogManager {
 	List<String> getGenres();
 
 	public List<Book> getNewestBooksInGenre(String genre, int count);
+	
 }
 
 

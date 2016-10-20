@@ -1,0 +1,101 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package javaeetutorial.dukesbookstore.web.managedbeans;
+
+import java.io.Serializable;
+import java.util.logging.Logger;
+import javax.inject.Named;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+import org.omnifaces.util.Ajax;
+
+/**
+ *
+ * @author matt
+ */
+@Named(value = "checkout")
+@SessionScoped
+public class Checkout implements Serializable {
+
+	@Inject
+	private ShoppingCart cart;
+	private String cardnumber;
+	private String expiryMonth;
+	private String expiryYear;
+	private String csv;
+	private static final Logger logger = Logger.getLogger("dukesbookstore.web.managedbeans.ShoppingCart");
+
+	public String getCardnumber() {
+		return cardnumber;
+	}
+
+	public void setCardnumber(String cardnumber) {
+		this.cardnumber = cardnumber;
+	}
+
+	public String getExpiryMonth() {
+		return expiryMonth;
+	}
+
+	public void setExpiryMonth(String expiryMonth) {
+		this.expiryMonth = expiryMonth;
+	}
+
+	public String getExpiryYear() {
+		return expiryYear;
+	}
+
+	public void setExpiryYear(String expiryYear) {
+		this.expiryYear = expiryYear;
+	}
+
+	public String getCsv() {
+		return csv;
+	}
+
+	public void setCsv(String csv) {
+		this.csv = csv;
+	}
+
+	public ShoppingCart getCart() {
+		return cart;
+	}
+
+	public void setCart(ShoppingCart cart) {
+		this.cart = cart;
+	}
+
+	/**
+	 * Creates a new instance of Checkout
+	 */
+	public Checkout() {
+	}
+
+	public void pay() {
+		
+		if (makeTransaction()) {
+			destroyPrivateData();
+		} else {
+			//todo: handle error from 3rd party payment processing
+		}
+		getCart().clearCart();
+		Ajax.data("PaymentSuccess", "true");
+		Ajax.data("cartCount", 0);
+		Ajax.oncomplete("paymentsuccess()");
+	}
+
+	private boolean makeTransaction() {
+		//PASS INFO TO 3RD PARTY PROCESSING API
+		return true;
+	}
+
+	private void destroyPrivateData() {
+		setCardnumber(null);
+		setCsv(null);
+		setExpiryMonth(null);
+		setExpiryYear(null);
+	}
+}

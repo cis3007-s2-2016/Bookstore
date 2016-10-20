@@ -8,6 +8,7 @@ package javaeetutorial.dukesbookstore.web.managedbeans;
 import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Logger;
 import javaeetutorial.dukesbookstore.ejb.MemberManager;
 import javaeetutorial.dukesbookstore.entity.Member;
 import javax.ejb.EJB;
@@ -15,7 +16,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
-
+import org.apache.commons.lang.exception.ExceptionUtils;
 /**
  *
  * @author matt
@@ -26,7 +27,7 @@ public class MemberSessionBean implements Serializable{
 
     @EJB
     MemberManager memberManager;
-
+	private static final Logger logger = Logger.getLogger("dukesbookstore.web.managedbeans.ShoppingCart");
     private String username;
     private String password;
     private Member user;
@@ -83,34 +84,37 @@ public class MemberSessionBean implements Serializable{
                 throw new RuntimeException("Incorrect password");
             }
             this.setLoginAttemptCount(0);
-            System.out.println(this.getUser().getFirstName() + " logged in.");
+            logger.info(this.getUser().getFirstName() + " logged in.");
 
 
             if (isAdmin()){
-                System.out.println("Authenticated user is Admin. Returning admin panel");
+                logger.info("Authenticated user is Admin. Returning admin panel");
                 return "/admin/activity-summary";
             }
             if (isCustomer()){
-                System.out.println("Authenticated user is Customer. Returning customer dashboard");
+                logger.info("Authenticated user is Customer. Returning customer dashboard");
                 return "/dashboard";
             }
 
 
         } catch (Exception e){
+			logger.info("memberSession.info() : Error logging in:");
+			logger.info(e.toString());
+			logger.info(ExceptionUtils.getStackTrace(e));
+			
+			
             this.setUser(null);
             this.setUsername(null);
             this.setPassword(null);
             this.setLoginAttemptCount(this.getLoginAttemptCount() + 1);
-            System.out.println("Incorrect password:\n");
 
             try {
                 if (this.getLoginAttemptCount() > 5){
                     Thread.sleep(10000);
-                    /* todo: lock account */
                 }
                 Thread.sleep(2000);
             } catch (InterruptedException e1) {
-                System.out.print(e1.getMessage());
+                logger.info("memberSessionBean.login():  Sleep thread interupted!"+ e1);
                 return "/login.xhtml?faces-redirect=true&error=true";
             }
         }

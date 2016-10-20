@@ -8,7 +8,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by matt on 15/10/2016.
@@ -90,7 +93,4 @@ public class CatalogManagerBean implements CatalogManager {
 		return query.getResultList();
 	}
 
-	public List<Book> findBooks(List<String> isbns) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
 }

@@ -12,24 +12,7 @@
 	<h:outputScript library="javascripts" name="entities.js" />
 	<h:outputScript library="javascripts" name="vue-resource.js" />
 
-
-	<h:outputScript>
-
-		$.fn.extend({
-		animateCss: function (animationName) {
-        var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
-        this.addClass('animated ' + animationName).one(animationEnd, function() {
-		$(this).removeClass('animated ' + animationName);
-        });
-		}
-		});
-		function updateCartCountBadge() {
-        var data = OmniFaces.Ajax.data;
-		$("#cart-add-success").removeClass('hidden');
-        $("#cart-item-count").text(data.cartCount);
-		$("#cart-item-count").animateCss('bounce');
-		};
-	</h:outputScript>
+	<h:outputScript library="javascripts" name="shoppingCartScripts.js" />
 	<ui:insert name="scripts" />
 
 </div>

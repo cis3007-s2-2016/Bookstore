@@ -5,7 +5,6 @@
  */
 package javaeetutorial.dukesbookstore.ejb;
 
-import java.util.Arrays;
 import javaeetutorial.dukesbookstore.entity.Member;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

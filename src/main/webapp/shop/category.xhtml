@@ -58,9 +58,13 @@
 
 						</div>
 						<div class="panel-footer">
-
-							<h:commandButton styleClass="btn btn-primary text-capitalize" value="Add to cart" rendered="#{book.stockLevel > 0}" />
-							<h:commandButton styleClass="btn btn-primary disabled" value="Out of stock" rendered="#{book.stockLevel == 0}" />
+							<h:form>
+								<h:commandLink rendered="#{book.stockLevel > 0}">
+									<button class="btn btn-primary text-capitalize" role="button"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
+									<f:ajax listener="#{cart.add(book.ISBN)}"/>
+								</h:commandLink>
+								<h:commandButton styleClass="btn btn-primary disabled" value="Out of stock" rendered="#{book.stockLevel == 0}" />
+							</h:form>
 						</div>
 					</div>
 				</div>

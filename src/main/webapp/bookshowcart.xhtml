@@ -16,23 +16,115 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 				xmlns:o="http://omnifaces.org/ui"
                 xmlns:of="http://omnifaces.org/functions"
-                template="WEB-INF/templates/bookstore.template.xhtml">
+                template="/WEB-INF/templates/bookstore.template.xhtml"
+				xmlns:p="http://primefaces.org/ui"
+				xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="top"></ui:define>
     <ui:define name="content">
-        <table class="table">
-			
-			
-			
-			
-			<ui:repeat value="#{cart.shoppingCart}">
-			
-				
-				<tr> <o:graphicImage dataURI="true" value="#{catalog.}"
-				
-				
-			</ui:repeat>
+
+
+		<table class="table cart-table" >
+			<thead>
+				<tr>
+					<th colspan="2" class="h3">
+						Your Shopping Cart
+					</th>
+					<th class="text-center">Price Each</th>
+					<th class="text-center">Quantity</th>
+					<th class="text-center">Total</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<c:forEach items="#{cart.shoppingCart}" var="item" >
+
+					<tr>
+						<td>
+							<h:form>
+								<h:commandLink action="#{shop.viewBook(item.book.ISBN)}">
+									<o:graphicImage dataURI="true" value="#{item.book.thumbnail}" height="120px"/> 
+								</h:commandLink>
+							</h:form>
+						</td>
+
+
+
+						<td>
+							<h4><h:outputText value="#{item.book.title}" /></h4>
+							<h6 class="text-capitalize" >by 
+								<c:forEach items="#{shop.selectedBook.bookAuthors}" var="author" varStatus="status">
+						#{ author.givenNames.toLowerCase()} #{author.surname.toLowerCase()}#{status.last ? "" : ", "}
+								</c:forEach>
+							</h6>
+							<h:form>
+								<h:commandLink action="#{cart.remove(item.book.ISBN)}">
+									<button class="btn btn-default btn-sm" ><i class="fa fa-trash fa-lg" aria-hidden="true"></i> Remove</button>
+								</h:commandLink>
+							</h:form>
+						</td>
+
+
+
+						<td class="text-center">
+							<h:outputText value="#{item.book.retailPrice}">
+								<h4><f:convertNumber currencySymbol="$" type="currency" maxFractionDigits="2" /></h4>
+							</h:outputText>	
+						</td>
+
+
+
+						<td class="text-center">
+							<h:form id="qty#{item.book.ISBN}" >
+								<h:selectOneMenu  value="#{item.quantity}" onchange="submit()">
+									<c:forEach begin="1" end="20" var="i">
+										<f:selectItem itemValue="#{i}" itemLabel="#{i}" />
+									</c:forEach>
+								</h:selectOneMenu>
+							</h:form>
+						</td>
+
+
+
+						<td class="text-center">
+							<h:outputText value="#{item.book.retailPrice * item.quantity}">
+								<h4><f:convertNumber currencySymbol="$" type="currency" maxFractionDigits="2" /></h4>	
+							</h:outputText>
+						</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+			<c:if test="#{cart.numberOfItems() > 0}">
+				<tfoot >
+					<tr>
+						<td colspan="3"></td>
+						<td colspan="2" class="text-right">
+							<div class="text-center pull-right" style="max-width:300px">
+								<h2>Total Price:  
+									<h:outputText value="#{cart.totalPrice()}">
+										<h3><f:convertNumber currencySymbol="$" type="currency" maxFractionDigits="2" /></h3>	
+									</h:outputText>
+								</h2>
+								<h:link outcome="/checkout">
+									<button class="btn btn-lg btn-success" style="width:100%;">Proceed To Checkout</button>
+								</h:link>
+							</div>
+						</td>
+
+					</tr>
+				</tfoot>
+			</c:if>
+
+
+
 		</table>
-    </ui:define>
+
+
+		<c:if test="#{cart.numberOfItems() == 0}">
+			<h5>Your cart is empty...</h5>
+		</c:if>
+
+
+	</ui:define>
 </ui:composition>
 

@@ -17,7 +17,7 @@
 				xmlns:o="http://omnifaces.org/ui"
                 xmlns:of="http://omnifaces.org/functions"
 				xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-                template="WEB-INF/templates/bookstore.template.xhtml">
+                template="/WEB-INF/templates/bookstore.template.xhtml">
 
     <ui:define name="top"></ui:define> 
     <ui:define name="content">
@@ -68,10 +68,15 @@
 													<h:outputText value="#{book.retailPrice}">
 														<f:convertNumber minFractionDigits="2" currencySymbol="$" type="currency"/> 
 													</h:outputText>
-												</h5>									<p>
-
-													<a href="" class="btn btn-primary" role="button"> <!-- added to test add sale functions-->
-														<i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</a> 
+												</h5>									
+												<p>
+													<h:form>
+														<h:commandLink rendered="#{book.stockLevel > 0}">
+															<button class="btn btn-primary text-capitalize" role="button"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
+															<f:ajax listener="#{cart.add(book.ISBN)}"/>
+														</h:commandLink>
+														<h:commandButton styleClass="btn btn-primary disabled" value="Out of stock" rendered="#{book.stockLevel == 0}" />
+													</h:form>
 												</p>
 											</div>
 										</div>        

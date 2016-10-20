@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scene Scope="Project" version="2">
     <Scope Scope="Faces Configuration Only"/>
-    <Scope Scope="Project"/>
+    <Scope Scope="Project">
+        <Node id="shop/category.xhtml" x="1400" y="150" zoom="true"/>
+        <Node id="admin/activity-summary.xhtml" x="1150" y="150" zoom="true"/>
+        <Node id="index.xhtml" x="900" y="450" zoom="true"/>
+        <Node id="bookshowcart.xhtml" x="141" y="151" zoom="true"/>
+        <Node id="admin/add-new-staffmember.xhtml" x="400" y="300" zoom="true"/>
+        <Node id="sales/View.xhtml" x="1650" y="150" zoom="true"/>
+        <Node id="sales/CreateFixed.xhtml" x="150" y="900" zoom="true"/>
+        <Node id="admin/add-new-book.xhtml" x="400" y="150" zoom="true"/>
+        <Node id="sales/List.xhtml" x="900" y="150" zoom="true"/>
+        <Node id="bookcashier.xhtml" x="1400" y="300" zoom="true"/>
+        <Node id="admin/sales-report.xhtml" x="150" y="600" zoom="true"/>
+        <Node id="bookordererror.xhtml" x="150" y="750" zoom="true"/>
+        <Node id="bookreceipt.xhtml" x="1150" y="300" zoom="true"/>
+        <Node id="bookdetails.xhtml" x="650" y="600" zoom="true"/>
+        <Node id="login.xhtml" x="400" y="450" zoom="true"/>
+        <Node id="dashboard.xhtml" x="900" y="300" zoom="true"/>
+        <Node id="sales/Edit.xhtml" x="400" y="750" zoom="true"/>
+        <Node id="shop/book.xhtml" x="650" y="150" zoom="true"/>
+        <Node id="checkout.xhtml" x="650" y="450" zoom="true"/>
+        <Node id="shop.xhtml" x="400" y="600" zoom="true"/>
+        <Node id="register.xhtml" x="150" y="300" zoom="true"/>
+        <Node id="sales/CreateAuction.xhtml" x="650" y="300" zoom="true"/>
+        <Node id="bookcatalog.xhtml" x="150" y="450" zoom="true"/>
+    </Scope>
     <Scope Scope="All Faces Configurations"/>
 </Scene>
