@@ -310,3 +310,17 @@ $login-form-background-bottom: #ffffff;
     border-radius: 12px;
     border: 1px solid #ccc;
 }
+
+.row
+{
+    border: 1px solid #2a2a2a;
+    border-radius: 1em;
+}
+
+update-failure {
+    border-color: $brand-success;
+}
+
+update-success {
+    border-color: $brand-danger;
+}

@@ -144,4 +144,12 @@ public class BookRequestBean {
         
         return books;
     }
+    
+    public Book mergeBook(Book b)
+    {
+       
+        Book b2 = entityManager.merge(b);
+        entityManager.flush();
+        return b2;
+    }
 }

@@ -78,9 +78,8 @@
                         <li class="#{view.viewId.equals('/admin/add-new-book.xhtml') ? 'active' : '' }">
                             <h:link value="Add Book" outcome="add-new-book" />
                         </li>
-                        <li><a href="">Modify Book</a></li>
-                        <li class="#{view.viewId.equals('/admin/add-stock.xhtml') ? 'active' : ''}}">
-                            <h:link value="Add Stock" outcome="add-stock" />
+                        <li class="#{view.viewId.equals('/admin/modify-book.xhtml') ? 'active' : ''}}">
+                            <h:link value="Modify Book" outcome="modify-book.xhtml" />
                         </li>
                     </ul>
                     <ul class="nav nav-sidebar">
@@ -107,9 +106,9 @@
                 
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 dashboard-main">
                     <div id="content">
-                        
-                        <h3>Name: #{memberSessionBean.firstname()}</h3>
+                        <div class="container-fluid">
                         <ui:insert name='content' />
+                        </div>
                         
                         
                     </div>

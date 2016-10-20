@@ -62,6 +62,7 @@ public class BookstoreBean extends AbstractBean implements Serializable {
 //    {
 //        this.searchString = (String) vce.getNewValue();
 //    }
+    //todo get persistance working properly here
     public void bookStockLevelChanged(AjaxBehaviorEvent event)
     {
         System.out.println("Event: " + event.toString());

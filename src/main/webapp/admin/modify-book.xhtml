@@ -1,0 +1,178 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="../WEB-INF/templates/admin.template.xhtml">
+
+    <ui:define name="top"></ui:define> 
+    <ui:define name="content">
+        <h:form id='addBookApp' class="form-horizontal" enctype="multipart/form-data" >
+            <div class='row'>
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <span class="input-group-addon">Filter Books</span>
+                        <h:inputText 
+                            id="search"
+                            value="#{store.searchString}"
+                            styleClass="form-control"
+                            >
+                            <f:ajax render="output" event="blur" listener="#{store.searchStringValueChanged}"></f:ajax>
+                        </h:inputText>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <h:selectOneMenu styleClass="form-control" id="output" value="#{staff.selectedISBN}">
+                    
+                    <f:selectItems value="#{store.bookList}" var ="book" itemLabel="#{book.title}" itemValue="#{book.ISBN}" />
+                    <f:ajax  execute="output" render="outputmodify" listener="#{staff.ajaxOnChangeToModifyBook}"/>
+                </h:selectOneMenu>
+                <span class="input-group-addon">Select Book to Modify</span>
+            </div>
+            </div>
+            
+            
+            
+            <hr />
+            <h:panelGroup id="outputmodify" styleClass="row" >
+                <c:if test="#{staff.modifyBook != null}">
+                
+                <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="isbn" class="col-sm-3 control-label">ISBN:</label>
+                            <div class="col-sm-3">
+                                <h:inputText id="isbn" styleClass="form-control" value="#{staff.modifyBook.ISBN}" required="true" maxlength="14" >
+                                    <f:passThroughAttribute name="type" value="text" />
+                                    <f:passThroughAttribute name="placeholder" value="xxx-xxxxxxxxxx" />
+                                    <f:passThroughAttribute name="v-model" value="isbn" />
+                                    <f:passThroughAttribute name="pattern" value="[0-9]{3}-?[0-9]{10}" />
+                                    <f:passThroughAttribute name="disabled" value="disabled" />
+                                </h:inputText>
+                            </div>
+                            <div class="col-sm-3">
+                                
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="title" class="col-sm-3 control-label">Title:</label>
+                            <div class="col-sm-8">
+                                <h:inputText id="title" styleClass="form-control" value="#{staff.modifyBook.title}" required="true" maxlength="120">
+                                    <f:passThroughAttribute name="placeholder" value="Book Title" />
+                                    <f:passThroughAttribute name="v-model" value="title" />
+                                    <f:ajax listener="#{staff.ajaxUpdateBook}" />
+                                </h:inputText>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="publisher" class="col-sm-3 control-label">Publisher:</label>
+                            <div class="col-sm-8">
+                                <h:inputText id="publisher" styleClass="form-control" value="#{staff.modifyBook.publisher}" required="true" maxlength="120">
+                                    <f:passThroughAttribute name="placeholder" value="Publisher"/>
+                                    <f:passThroughAttribute name="v-model" value="publisher" />
+                                    <f:ajax listener="#{staff.ajaxUpdateBook}" />
+                                </h:inputText>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="publishedDate" class="col-sm-3 control-label">Publish Date:</label>
+                            <div class="col-sm-3">
+                                <h:inputText id="publishedDate" styleClass="form-control" value="#{staff.modifyBook.publishedYear}" required="true" maxlength="120">
+                                    <f:passThroughAttribute name="placeholder" value="Publisher"/>
+                                    <f:passThroughAttribute name="type" value="date" />
+                                    <f:passThroughAttribute name="v-model" value="publishedDate" />
+                                    <f:ajax listener="#{staff.ajaxUpdateBook}" event="blur" />
+                                    
+                                </h:inputText>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="format" class="col-sm-3 control-label">Format:</label>
+                            <div class="col-sm-3">
+                                <h:selectOneMenu id="format" value="#{staff.modifyBook.format}" required="true" styleClass="form-control">
+                                    <f:selectItem itemLabel="Paperback" itemValue="Paperback" />
+                                    <f:selectItem itemLabel="Hardcover" itemValue="Hardcover"/>
+                                    <f:ajax listener="#{staff.ajaxUpdateBook}" />
+                                </h:selectOneMenu>
+                            </div>
+                        </div>
+                </div>
+
+                    
+
+                <div class="col-md-3">
+                    <img width="200" height="320" />
+                    <h:inputFile value="#{staff.modifyBook.thumbnail}" id="thumbnail">
+                        <f:passThroughAttribute name="accept" value="image/#{staff.modifyBook.thumbnail}"/>
+                        <f:passThroughAttribute name="type" value="file"/>
+                        <f:passThroughAttribute name="v-model" value="localThumbnail" />
+                        <f:passThroughAttribute name="v-on:change" value="updateThumbnail"/>
+                        <f:ajax listener="#{staff.ajaxUpdateBook}" />
+                    </h:inputFile>
+                    <br />
+                </div>
+                
+
+
+
+                <div class="form-group">
+                    <label for="synopsis" class="col-sm-2 control-label">Synopsis:</label>
+                    <div class="col-sm-8">
+                        <h:inputTextarea id="synopsis" rows="6" styleClass="form-control" value="#{staff.modifyBook.description}" required="true" >
+                            <f:passThroughAttribute name="placeholder" value="Synopsis"/>
+                            <f:passThroughAttribute name="v-model" value="synopsis" />
+                            <f:ajax listener="#{staff.ajaxUpdateBook}" />
+                        </h:inputTextarea>
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <label for="costPrice" class="col-sm-2 control-label">Cost Price:</label>
+                    <div class="col-sm-2">
+                        <div class="input-group">
+                            <div class="input-group-addon">$</div>
+                            <h:inputText id="costPrice" styleClass="form-control" value="#{staff.modifyBook.costPrice}" required="true">
+                                <f:passThroughAttribute name="placeholder" value="Cost Price"/>
+                                <f:passThroughAttribute name="type" value="number" />
+                                <f:passThroughAttribute name="step" value="0.01" />
+                                <f:passThroughAttribute name="min" value="0" />
+                                <f:ajax listener="#{staff.ajaxUpdateBook}" />
+                            </h:inputText>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="retailPrice" class="col-sm-2 control-label">Retail Price:</label>
+                    <div class="col-sm-2">
+                        <div class="input-group">
+                            <div class="input-group-addon">$</div>
+                            <h:inputText id="retailPrice" styleClass="form-control" value="#{staff.modifyBook.retailPrice}" required="true">
+                                <f:passThroughAttribute name="placeholder" value="Retail Price"/>
+                                <f:passThroughAttribute name="type" value="number" />
+                                <f:passThroughAttribute name="step" value="0.01" />
+                                <f:passThroughAttribute name="min" value="0" />
+                                <f:ajax listener="#{staff.ajaxUpdateBook}" />
+                            </h:inputText>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="stockCount" class="col-sm-2 control-label">Number in Stock:</label>
+                    <div class="col-sm-2">
+                        <h:inputText id="stockCount" styleClass="form-control" value="#{staff.modifyBook.stockLevel}" required="true">
+                            <f:passThroughAttribute name="placeholder" value="Number in stock"/>
+                            <f:passThroughAttribute name="type" value="number" />
+                            <f:passThroughAttribute name="step" value="1" />
+                            <f:passThroughAttribute name="min" value="0" />
+                            <f:ajax listener="#{staff.ajaxUpdateBook}" />
+                        </h:inputText>
+                    </div>
+                </div>
+                <hr />
+
+                <br />
+                </c:if>
+            </h:panelGroup>
+        </h:form>
+    </ui:define>
+</ui:composition>
