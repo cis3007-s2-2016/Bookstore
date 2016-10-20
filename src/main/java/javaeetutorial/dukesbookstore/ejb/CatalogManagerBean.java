@@ -84,15 +84,15 @@ public class CatalogManagerBean implements CatalogManager {
 
 	public void decrementStockCount(String isbn) {
 		Book book = findBook(isbn);
-		if ( book.getStockLevel() <= 1) {
+		if (book.getStockLevel() <= 1) {
 			book.setStockLevel(0);
-			logger.info("Out of books! please reorder:  "+ isbn);
+			logger.info("Out of books! please reorder:  " + isbn);
 		} else {
 			book.setStockLevel(book.getStockLevel() - 1);
 		}
 		entityManager.persist(book);
 	}
-	
+
 	public void returnBooks(String isbn, int qty) {
 		Book book = findBook(isbn);
 		book.setStockLevel(book.getStockLevel() + qty);
@@ -114,6 +114,20 @@ public class CatalogManagerBean implements CatalogManager {
 		TypedQuery<Book> query;
 		query = entityManager.createQuery("SELECT b FROM Book b WHERE b.genre = :genre ORDER BY b.created DESC", Book.class).setMaxResults(count);
 		query.setParameter("genre", genre);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<Book> getNewestBooks(int count) {
+		TypedQuery<Book> query;
+		query = entityManager.createQuery("SELECT b FROM Book b ORDER BY b.created DESC", Book.class).setMaxResults(count);
+		return query.getResultList();
+	}
+	
+	@Override
+	public List<Book> getNewestBooks(int count, int index) {
+		TypedQuery<Book> query;
+		query = entityManager.createQuery("SELECT b FROM Book b ORDER BY b.created DESC", Book.class).setMaxResults(count).setFirstResult(index);
 		return query.getResultList();
 	}
 

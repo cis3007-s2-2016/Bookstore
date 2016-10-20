@@ -1,4 +1,3 @@
-
 package javaeetutorial.dukesbookstore.web.managedbeans;
 
 import java.io.Serializable;
@@ -19,134 +18,145 @@ import javax.inject.Named;
  */
 @Named("shop")
 @SessionScoped
-public class BookstoreBean implements Serializable 
-{
-    private static final Logger logger = Logger.getLogger("dukesbookstore.web.managedBeans.BookStoreBean");
-    
-    @EJB
-    CatalogManager catalog;
-    @EJB
-    BookRequestBean bookRequestBean;
-    private String genre;
-    private Book selectedBook;
+public class BookstoreBean implements Serializable {
 
-    public Book getSelectedBook() {
-            return selectedBook;
-    }
+	private static final Logger logger = Logger.getLogger("dukesbookstore.web.managedBeans.BookStoreBean");
 
-    public void setSelectedBook(Book selectedBook) {
-            this.selectedBook = selectedBook;
-    }
+	@EJB
+	CatalogManager catalog;
+	@EJB
+	BookRequestBean bookRequestBean;
+	private String genre;
+	private Book selectedBook;
 
-    public static Logger getLogger() {
-            return logger;
-    }
+	public Book getSelectedBook() {
+		return selectedBook;
+	}
 
-    public CatalogManager getCatalog() {
-            return catalog;
-    }
+	public void setSelectedBook(Book selectedBook) {
+		this.selectedBook = selectedBook;
+	}
 
-    public void setCatalog(CatalogManager catalog) {
-            this.catalog = catalog;
-    }
+	public static Logger getLogger() {
+		return logger;
+	}
 
-    public String getGenre() {
-            return genre;
-    }
+	public CatalogManager getCatalog() {
+		return catalog;
+	}
 
-    public void setGenre(String genre) {
-            this.genre = genre;
-    }
+	public void setCatalog(CatalogManager catalog) {
+		this.catalog = catalog;
+	}
 
-    public BookstoreBean() {
-            setGenre("Fiction");
-    }
+	public String getGenre() {
+		return genre;
+	}
 
-    public List<Book> getBooks() {
-            try {
-                    return getCatalog().getBooksInGenre(genre);
-            } catch (Exception e) {
-                    getLogger().severe("Bookstore.beans: getBooks:  NO BOOKS: " + e+ e.getStackTrace());
-                    return new ArrayList<Book>();
-            }
-    }
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
 
-    public String viewBook(String isbn) {
-            try {
-                    setSelectedBook(getCatalog().findBook(isbn));
-                    return "/shop/book?faces-redirect=true&includeViewParams=true&title=" + getSelectedBook().getTitle();
-            } catch (Exception e) {
-                    //todo: return booknotfound.xhtml
-                    getLogger().info("Book not found:  " + isbn);
-                    return "/shop/category";
-            }
+	public BookstoreBean() {
+		setGenre("Fiction");
+	}
 
-    }
+	public List<Book> getBooks() {
+		try {
+			return getCatalog().getBooksInGenre(genre);
+		} catch (Exception e) {
+			getLogger().severe("Bookstore.beans: getBooks:  NO BOOKS: " + e + e.getStackTrace());
+			return new ArrayList<Book>();
+		}
+	}
 
-    public String viewBook(String isbn, String genre) {
-            setGenre(genre);
-            return viewBook(isbn);
-    }
+	public String viewBook(String isbn) {
+		try {
+			setSelectedBook(getCatalog().findBook(isbn));
+			return "/shop/book?faces-redirect=true&includeViewParams=true&title=" + getSelectedBook().getTitle();
+		} catch (Exception e) {
+			//todo: return booknotfound.xhtml
+			getLogger().info("Book not found:  " + isbn);
+			return "/shop/category";
+		}
 
-    public List<String> getGenres(){
-            try {
-                    return getCatalog().getGenres();
-            } catch (Exception e) {
-                    getLogger().info("NO GENRES: " + e);
-                    return new ArrayList<>();
-            }
-    }
+	}
 
-    public List<Book> getNewestBooksInGenre(String genre){
+	public String viewBook(String isbn, String genre) {
+		setGenre(genre);
+		return viewBook(isbn);
+	}
 
-            try {
-                    return getCatalog().getNewestBooksInGenre(genre, 6);
-            } catch (Exception e){
-                    getLogger().info("BookstoreBean: getBooksInGenre: No Books in " + genre);
-                    return new ArrayList<>();
+	public List<String> getGenres() {
+		try {
+			return getCatalog().getGenres();
+		} catch (Exception e) {
+			getLogger().info("NO GENRES: " + e);
+			return new ArrayList<>();
+		}
+	}
 
-            }
-    }
+	public List<Book> getNewBooksA() {
+		try {
+			return getCatalog().getNewestBooks(6, 0);
+		} catch (Exception e) {
+			getLogger().severe("BookstoreBean: getNewestBooks() Error:  " + e);
+			return new ArrayList<>();
+		}
+	}
+	
+	public List<Book> getNewBooksB() {
+		try {
+			return getCatalog().getNewestBooks(6, 6);
+		} catch (Exception e) {
+			getLogger().severe("BookstoreBean: getNewestBooks() Error:  " + e);
+			return new ArrayList<>();
+		}
+	}
+	
+	public List<Book> getNewestBooksInGenre(String genre) {
 
-    public String viewGenre(String genre){
-            setGenre(genre);
-            return "/shop/category?faces-redirect=true&includeViewParams=true&genre=" + genre;
+		try {
+			return getCatalog().getNewestBooksInGenre(genre, 6);
+		} catch (Exception e) {
+			getLogger().info("BookstoreBean: getBooksInGenre: No Books in " + genre);
+			return new ArrayList<>();
 
-    }
+		}
+	}
 
-        protected String searchString;
-    
-    private List<Book> bookList = new ArrayList<>();
-    
-    
-   
-    public List<Book> getBookList()
-    {
-        return this.bookList;
-    }
-    
-    public void setSearchString(String searchString)
-    {
-        this.searchString = searchString;
-    }
-    
-    public String getSearchString()
-    {
-        return this.searchString;
-    }
-    
-    public void searchStringValueChanged(AjaxBehaviorEvent event){
-        System.out.println("Event: " + event.toString());
-        searchByTitle(this.searchString);
-    }
-    
-    private String searchByTitle(String bookTitle)
-    {
-        if(bookTitle == null)
-        {
-            System.out.println("null book title");
-        }
-        this.bookList = bookRequestBean.getBooksWithTitleLike(bookTitle);
-        return null; // go nowhere
-    }
+	public String viewGenre(String genre) {
+		setGenre(genre);
+		return "/shop/category?faces-redirect=true&includeViewParams=true&genre=" + genre;
+
+	}
+
+	protected String searchString;
+
+	private List<Book> bookList = new ArrayList<>();
+
+	public List<Book> getBookList() {
+		return this.bookList;
+	}
+
+	public void setSearchString(String searchString) {
+		this.searchString = searchString;
+	}
+
+	public String getSearchString() {
+		return this.searchString;
+	}
+
+	public void searchStringValueChanged(AjaxBehaviorEvent event) {
+		System.out.println("Event: " + event.toString());
+		searchByTitle(this.searchString);
+	}
+
+	private String searchByTitle(String bookTitle) {
+		if (bookTitle == null) {
+			System.out.println("null book title");
+		}
+		this.bookList = bookRequestBean.getBooksWithTitleLike(bookTitle);
+		return null; // go nowhere
+	}
 }

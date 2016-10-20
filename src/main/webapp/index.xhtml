@@ -15,6 +15,8 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:bookstore="http://dukesbookstore"
+				xmlns:o="http://omnifaces.org/ui"
+                xmlns:of="http://omnifaces.org/functions"
                 template="/WEB-INF/templates/bookstore.template.xhtml"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
@@ -29,68 +31,20 @@
         <div class="jumbotron">
             <h1>Dukes Bookstore </h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in velit pretium, laoreet lectus vitae, ullamcorper erat. Curabitur vitae orci in lorem luctus fermentum.</p>
-            
-                <c:if test="#{memberSession.admin || memberSession.customer}">
-                    <p><h:link outcome="shop" class="btn-primary btn-lg" value="Start Shopping"/></p>
-                </c:if>
-                <c:if test="#{!(memberSession.admin|| memberSession.customer)}">
+
+			<c:if test="#{memberSession.admin || memberSession.customer}">
+				<p><h:link outcome="shop" class="btn-primary btn-lg" value="Start Shopping"/></p>
+			</c:if>
+			<c:if test="#{!(memberSession.admin|| memberSession.customer)}">
                 <p><h:link outcome="register" class="btn btn-primary btn-lg" value="Create Account"/></p>
-                </c:if>
-            
+			</c:if>
+
         </div>
+
+
 
         <article>
             <h2>New Releases</h2>
-            <div id="newReleasesCarousel" class="carousel slide" data-ride="carousel">
-
-                <ol class="carousel-indicators">
-                    <li data-target="#newReleasesCarousel" data-slide-to="0" class="active"></li>
-                    <li data-target="#newReleasesCarousel" data-slide-to="1"></li>
-                </ol>
-
-                <div class="carousel-inner">
-                    <!-- Print out 2 rows of 6 product items-->
-                    <c:forEach var="i" begin="1" end="2">
-                        <div class="#{(i==1)?'active item':'item'}">
-                            <div class="row">
-                                <c:forEach begin="1" end="6">
-
-                                    <div class="col-md-2">
-                                        <div class="product-thumbnail">
-                                            <h:link><h:graphicImage class="tilt" name="book1.jpg" library="images" width="128" height="192"></h:graphicImage></h:link>
-                                            <div class="caption text-center">
-                                                Lord Of The Rings: The Two Towers
-                                                <div class="rating">
-                                                    <c:forEach var="i" begin="1" end="4">
-                                                    <i class="fa fa-star golden-star" aria-hidden="true"></i>
-                                                    </c:forEach>
-                                                    <i class="fa fa-star-o golden-star" aria-hidden="true"></i>
-                                                </div>
-                                                <p>
-                                                    <a href="" class="btn btn-primary" role="button"> <!-- added to test add sale functions-->
-                                                        <i class="fa fa-cart-plus" aria-hidden="true"></i> Buy</a> 
-                                                    <a href="#" class="btn btn-primary" role="button">
-                                                        <i class="fa fa-heart" aria-hidden="true"></i>
-                                                    </a>
-                                                </p>
-                                            </div>
-                                        </div>        
-                                    </div>
-                                </c:forEach>
-                            </div>
-                        </div>
-                    </c:forEach>
-
-                </div>
-
-                <a class="left product-carousel-control" href="#newReleasesCarousel" data-slide="prev"><i class="fa fa-chevron-left fa-2x"></i></a>
-                <a class="right product-carousel-control" href="#newReleasesCarousel" data-slide="next"><i class="fa fa-chevron-right fa-2x"></i></a>
-
-            </div><!-- End Carousel -->
-        </article>
-        
-        <article>
-            <h2>Most Popular</h2>
             <div id="bestSellersCarousel" class="carousel slide" data-ride="carousel">
 
                 <ol class="carousel-indicators">
@@ -99,36 +53,79 @@
                 </ol>
 
                 <div class="carousel-inner">
-                    <!-- Print out 2 rows of 6 product items-->
-                    <c:forEach var="i" begin="1" end="2">
-                        <div class="#{(i==1)?'active item':'item'}">
-                            <div class="row">
-                                <c:forEach begin="1" end="6">
 
-                                    <div class="col-md-2">
-                                        <div class="product-thumbnail">
-                                            <h:link><h:graphicImage class="tilt" name="book1.jpg" library="images" width="128" height="192"></h:graphicImage></h:link>
-                                            <div class="caption text-center">
-                                                Lord Of The Rings: The Two Towers
-                                                <div class="rating">
-                                                    <c:forEach var="i" begin="1" end="4">
-                                                    <i class="fa fa-star golden-star" aria-hidden="true"></i>
-                                                    </c:forEach>
-                                                    <i class="fa fa-star-o golden-star" aria-hidden="true"></i>
-                                                </div>
-                                                <p>
-                                                    <a href="#" class="btn btn-primary" role="button"><i class="fa fa-cart-plus" aria-hidden="true"></i> Buy</a> 
-                                                    <a href="#" class="btn btn-primary" role="button">
-                                                        <i class="fa fa-heart" aria-hidden="true"></i>
-                                                    </a>
-                                                </p>
-                                            </div>
-                                        </div>        
-                                    </div>
-                                </c:forEach>
-                            </div>
-                        </div>
-                    </c:forEach>
+					<div class="active item">
+						<div class="row">
+							<ui:repeat value="#{shop.newBooksA}" var="book">
+
+								<div class="col-md-2">
+									<div class="product-thumbnail">
+										<h:link>
+												<o:graphicImage class="tilt" dataURI="true" value="#{book.thumbnail}" width="128" style="width: 128px;height:190px;"/>
+											</h:link>
+										<div class="caption text-center">
+											<div style="height:40px">
+											#{book.title}
+											</div>
+											<div class="rating">
+												<c:forEach var="i" begin="1" end="4">
+													<i class="fa fa-star golden-star" aria-hidden="true"></i>
+												</c:forEach>
+												<i class="fa fa-star-o golden-star" aria-hidden="true"></i>
+											</div>
+											<p>
+												<h:form>
+													<h:commandLink rendered="#{book.stockLevel > 0}">
+														<button class="btn btn-primary text-capitalize" role="button"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
+														<f:ajax listener="#{cart.add(book.ISBN)}"/>
+													</h:commandLink>
+													<h:commandButton styleClass="btn btn-primary disabled" value="Out of stock" rendered="#{book.stockLevel == 0}" />
+												</h:form>
+											</p>
+										</div>
+									</div>        
+								</div>
+
+
+							</ui:repeat>
+						</div>
+					</div>
+					<div class="item">	
+						<div class="row">
+							<ui:repeat value="#{shop.newBooksB}" var="book">
+
+								<div class="col-md-2">
+									<div class="product-thumbnail">
+										<h:link>
+												<o:graphicImage class="tilt" dataURI="true" value="#{book.thumbnail}" width="128" style="width: 128px;height:190px;"/>
+											</h:link>
+										<div class="caption text-center">
+											<div style="height:40px">
+											#{book.title}
+											</div>
+											<div class="rating">
+												<c:forEach var="i" begin="1" end="4">
+													<i class="fa fa-star golden-star" aria-hidden="true"></i>
+												</c:forEach>
+												<i class="fa fa-star-o golden-star" aria-hidden="true"></i>
+											</div>
+											<p>
+												<h:form>
+													<h:commandLink rendered="#{book.stockLevel > 0}">
+														<button class="btn btn-primary text-capitalize" role="button"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
+														<f:ajax listener="#{cart.add(book.ISBN)}"/>
+													</h:commandLink>
+													<h:commandButton styleClass="btn btn-primary disabled" value="Out of stock" rendered="#{book.stockLevel == 0}" />
+												</h:form>
+											</p>
+										</div>
+									</div>        
+								</div>
+
+
+							</ui:repeat>
+						</div>
+					</div>
 
                 </div>
 

@@ -17,40 +17,43 @@ import java.util.Map;
 @Remote
 public interface CatalogManager {
 
-    public boolean bookExists(String isbn);
-    public Book findBook(String isbn);
-    public Book createBook(
-            String isbn,
-            String title,
-            double costPrice,
-            double retailPrice,
-            Date publishedYear,
-            String description,
-            Integer stockLevel,
-            String publisher,
-            String genre,
-            String format,
-            List< Author > bookAuthors,
-            byte[] thumbnail
-    );
+	public boolean bookExists(String isbn);
 
-    public Author createAuthor(String firstnames, String lastname);
+	public Book findBook(String isbn);
 
-    public Author createOrFindAuthor(String firstnames, String lastname);
+	public Book createBook(
+			String isbn,
+			String title,
+			double costPrice,
+			double retailPrice,
+			Date publishedYear,
+			String description,
+			Integer stockLevel,
+			String publisher,
+			String genre,
+			String format,
+			List< Author> bookAuthors,
+			byte[] thumbnail
+	);
+
+	public Author createAuthor(String firstnames, String lastname);
+
+	public Author createOrFindAuthor(String firstnames, String lastname);
 
 	List<Book> getBooksInGenre(String genre);
-	
+
 	List<String> getGenres();
 
+	public List<Book> getNewestBooks(int count);
+
+	public List<Book> getNewestBooks(int count, int index);
+
 	public List<Book> getNewestBooksInGenre(String genre, int count);
-	
+
 	public void changeStockCount(String isbn, int qty);
-	
+
 	public void decrementStockCount(String isbn);
-	
+
 	public void returnBooks(String isbn, int qty);
-	
+
 }
-
-
-
