@@ -5,6 +5,7 @@
  */
 package javaeetutorial.dukesbookstore.ejb;
 
+import java.util.List;
 import javaeetutorial.dukesbookstore.entity.Member;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -90,7 +91,15 @@ public class MemberManagerBean implements MemberManager {
         query.setParameter("email", email);
         return query.getSingleResult();
     }
-
+        
+    
+    public List<Member> getStaff()
+    {
+      String adminPermissionGroup = "admin";
+      TypedQuery<Member> query = entityManager.createQuery("SELECT m FROM Member m WHERE m.permissionGroup = :permissionGroup", Member.class);
+      query.setParameter("permissionGroup", adminPermissionGroup);
+      return query.getResultList();
+    }
     public MemberManagerBean(){
 
     }

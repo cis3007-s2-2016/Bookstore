@@ -29,7 +29,14 @@
         <div class="jumbotron">
             <h1>Dukes Bookstore </h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in velit pretium, laoreet lectus vitae, ullamcorper erat. Curabitur vitae orci in lorem luctus fermentum.</p>
-            <p><h:link outcome="register" class="btn btn-primary btn-lg" value="Create Account"/></p>
+            
+                <c:if test="#{memberSession.admin || memberSession.customer}">
+                    <p><h:link outcome="shop" class="btn-primary btn-lg" value="Start Shopping"/></p>
+                </c:if>
+                <c:if test="#{!(memberSession.admin|| memberSession.customer)}">
+                <p><h:link outcome="register" class="btn btn-primary btn-lg" value="Create Account"/></p>
+                </c:if>
+            
         </div>
 
         <article>
