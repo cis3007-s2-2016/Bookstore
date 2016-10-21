@@ -3,10 +3,12 @@
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+				xmlns:o="http://omnifaces.org/ui"
                 template="../WEB-INF/templates/admin.template.xhtml">
 
     <ui:define name="top"></ui:define> 
     <ui:define name="content">
+		<br/><br/>
         <h:form id='addBookApp' class="form-horizontal" enctype="multipart/form-data" >
             <div class='row'>
                 <div class="col-sm-6">
@@ -16,13 +18,14 @@
                             id="search"
                             value="#{shop.searchString}"
                             styleClass="form-control"
+							style="height:45px;"
                             >
-                            <f:ajax render="output" event="blur" listener="#{shop.searchStringValueChanged}"></f:ajax>
+                            <f:ajax delay="300" render="output" event="keyup" listener="#{shop.searchStringValueChanged}"></f:ajax>
                         </h:inputText>
                     </div>
                 </div>
                 <div class="input-group">
-                    <h:selectOneMenu styleClass="form-control" id="output" value="#{staff.selectedISBN}">
+                    <h:selectOneMenu style="height:45px;" styleClass="form-control" id="output" value="#{staff.selectedISBN}">
                     
                     <f:selectItems value="#{shop.bookList}" var ="book" itemLabel="#{book.title}" itemValue="#{book.ISBN}" />
                     <f:ajax  execute="output" render="outputmodify" listener="#{staff.ajaxOnChangeToModifyBook}"/>
@@ -101,7 +104,7 @@
                     
 
                 <div class="col-md-3">
-                    <img width="200" height="320" />
+                    <o:graphicImage dataURI="true" value="#{staff.modifyBook.thumbnail}" width="200" height="320" />
                     <h:inputFile value="#{staff.modifyBook.thumbnail}" id="thumbnail">
                         <f:passThroughAttribute name="accept" value="image/#{staff.modifyBook.thumbnail}"/>
                         <f:passThroughAttribute name="type" value="file"/>

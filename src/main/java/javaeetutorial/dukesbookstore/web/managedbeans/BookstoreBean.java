@@ -159,4 +159,10 @@ public class BookstoreBean implements Serializable {
 		this.bookList = bookRequestBean.getBooksWithTitleLike(bookTitle);
 		return null; // go nowhere
 	}
+	
+	public String searchPage() {
+		
+		this.bookList = bookRequestBean.getBooksWithTitleLike(this.getSearchString());
+		return "/shop/search?faces-redirect=true";
+	}
 }

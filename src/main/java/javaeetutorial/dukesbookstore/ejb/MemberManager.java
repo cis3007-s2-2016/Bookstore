@@ -13,8 +13,10 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface MemberManager {
-    public long createAdmin(String email, String password1, String password2, String firstname, String lastname);
-    public long createCustomer(
+    
+	public long createAdmin(String email, String password1, String password2, String firstname, String lastname);
+    
+	public long createCustomer(
     	String email,
     	String password1,
     	String password2,
@@ -39,4 +41,6 @@ public interface MemberManager {
      * @return list of members who are bookstore staff members
      */
     public List<Member> getStaff();
+	
+	public void persist(Member user);
 }

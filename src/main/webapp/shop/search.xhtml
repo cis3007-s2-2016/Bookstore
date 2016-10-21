@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="../WEB-INF/templates/bookstore.template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:o="http://omnifaces.org/ui"
+                xmlns:of="http://omnifaces.org/functions"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="top"></ui:define>
+    <ui:define name="content">
+
+		
+		
+		
+		<div class="page-header">
+			<h1><small>Search Results</small></h1>
+		</div>
+		<br />
+		
+		
+		<div class="row">
+			<ui:repeat var="book" value="#{shop.bookList}">
+				<div class="col-sm-3">
+					<div class="panel panel-default text-center" >
+						<div class="panel-body" style="height:420px;">
+							<h:form>
+								<h:commandLink action="#{shop.viewBook(book.ISBN)}">
+									<o:param name="title" value="#{book.title}" />
+									<o:graphicImage value="#{book.thumbnail}" alt="Book Cover" width="auto" height="210px" dataURI="true" style="max-width: 100%;"/>
+									<h4>#{book.title}</h4>
+								</h:commandLink>
+							</h:form >
+							<ui:repeat value="#{book.bookAuthors}" var="author" varStatus="status">
+								<h5 class="text-capitalize">#{ author.givenNames.toLowerCase()} #{author.surname.toLowerCase()}#{status.last ? "" : ", "}</h5>
+							</ui:repeat>
+							<div class="rating">
+								<c:forEach var="i" begin="1" end="4">
+									<i class="fa fa-star golden-star" aria-hidden="true"></i>
+								</c:forEach>
+								<i class="fa fa-star-o golden-star" aria-hidden="true"></i>
+							</div>
+							<h3 style="height:30px;">
+								<h:outputText value="#{book.retailPrice}">
+									<f:convertNumber minFractionDigits="2" currencySymbol="$" type="currency"/> 
+								</h:outputText>
+							</h3>
+
+						</div>
+						<div class="panel-footer">
+							<h:form>
+								<h:commandLink rendered="#{book.stockLevel > 0}">
+									<button class="btn btn-primary text-capitalize" role="button"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
+									<f:ajax listener="#{cart.add(book.ISBN)}"/>
+								</h:commandLink>
+								<h:commandButton styleClass="btn btn-primary disabled" value="Out of stock" rendered="#{book.stockLevel == 0}" />
+							</h:form>
+						</div>
+					</div>
+				</div>
+			</ui:repeat>
+		</div>
+		
+	</ui:define>
+</ui:composition>

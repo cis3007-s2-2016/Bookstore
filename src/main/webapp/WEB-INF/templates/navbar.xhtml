@@ -7,6 +7,7 @@
       xmlns:bookstore="http://dukesbookstore"
       template="WEB-INF/templates/bookstore.template.xhtml"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	  xmlns:p="http://primefaces.org/ui"
       xmlns:jsf="http://xmlns.jcp.org/jsf">
 	<div class="container">
 
@@ -39,34 +40,52 @@
 					</ul>
 				</li>
 				<li><a href="sales/List.xhtml">Member Sales</a></li>
-				<li>
-					<form class="navbar-form navbar-nav">
-						<div class="form-group">
-							<div class="input-group">
-								<input id="nav-search" type="text" class="form-control"
-									   placeholder="Title, Author, Genre, ISBN"></input>
-								<span class="input-group-btn"><button class="btn btn-default" type="button"><i
-											class="fa fa-search" aria-hidden="true"></i></button>    </span>
-							</div>
+				<li style="min-width: 500px;">
+					<h:form class="navbar-form navbar-nav">
+
+						<div class="input-group">
+							<h:inputText id="nav-search" class="form-control" style="width:400px;"
+										 value="#{shop.searchString}">
+								<f:passThroughAttribute name="list" value="navsearchentries"/>
+								<f:passThroughAttribute name="placeholder" value="Search book titles..." />
+							</h:inputText>
+
+							<datalist id="navsearchentries">
+								<c:forEach items="#{shop.bookList}" var ="book">
+									<option value="#{book.title}" />
+								</c:forEach>
+							</datalist>
+
+							<span class="input-group-addon">
+								<h:commandLink id="search-action" action="${shop.searchPage()}" type="submit" >
+									<i class="fa fa-fw fa-lg fa-search" aria-hidden="true"></i>
+								</h:commandLink>
+
+							</span>
+
 						</div>
-					</form>
+					</h:form>
+
+
+
+
 				</li>
 			</ul>
-				
-				
-				
-				
-				
-				
-				
-				
-				<ul class="nav navbar-nav navbar-right">
+
+
+
+
+
+
+
+
+			<ul class="nav navbar-nav navbar-right">
 				<li>
 					<h:link outcome="/bookshowcart" rendered="#{!memberSession.admin}">
 						<i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i>
 						<span class="badge" id="cart-item-count">
 							#{cart.numberOfItems()}
-							
+
 						</span>
 					</h:link>
 				</li>
@@ -91,14 +110,14 @@
 								<h:link outcome="/admin/activity-summary" rendered="#{memberSession.admin}"><i
 										class="fa fa-dashboard" aria-hidden="true"></i> Admin</h:link>
 							</li>
-                            <h:form>
+							<h:form>
 								<li>
 
 									<h:commandLink action="#{memberSession.logout}"><i
 											class="fa fa-sign-out"
 											aria-hidden="true"></i> Logout</h:commandLink>
 								</li>
-                            </h:form>
+							</h:form>
 						</ul>
 					</li>
 				</c:if>

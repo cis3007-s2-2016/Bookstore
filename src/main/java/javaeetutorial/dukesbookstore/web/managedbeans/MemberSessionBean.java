@@ -50,15 +50,15 @@ public class MemberSessionBean implements Serializable{
         this.password = password;
     }
 
-    private Member getUser() {
+    public Member getUser() {
         return user;
     }
 
-    private void setUser(Member user) {
+    public void setUser(Member user) {
         this.user = user;
     }
 
-    private int getLoginAttemptCount() {
+    public int getLoginAttemptCount() {
         return loginAttemptCount;
     }
 
@@ -166,6 +166,11 @@ public class MemberSessionBean implements Serializable{
     public boolean isLoggedIn() {
         return this.getUser() != null;
     }
+	
+	public String editUser(){
+		memberManager.persist(getUser());
+		return "/index";
+	}
 
     private String hashedPassword(String password){
         byte byteData[];

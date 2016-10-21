@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="#{localeBean.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/stylesheets/styles.css"/>
+
+        <title>#{bundle.BookstoreTitle}</title>
+    </h:head>
+
+    <h:body id="dashboard-body">
+
+
+
+		<header>
+			<nav class="navbar navbar-inverse navbar-fixed-top">
+                <ui:include src="navbar.xhtml"/>
+			</nav>
+		</header>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3 col-md-2 sidebar">
+                    <ul class="nav nav-sidebar">
+                        <li class="active"><a href="#">Recent Activity <span class="sr-only">(current)</span></a></li>
+                        <li><a href="#">Profile</a></li>
+                        <li><a href="#">Personal Details</a></li>
+                        <li><a href="#">Wishlist</a></li>
+                    </ul>
+                    <ul class="nav nav-sidebar">
+                        <li class='nav-divider'></li>
+                        <li><a href="">Sell a book</a></li>
+                        <li><a href="">Books im selling</a></li>
+                        <li><a href="">Books I've sold</a></li>
+                    </ul>
+                    <ul class="nav nav-sidebar">
+                        <li class='nav-divider'></li>
+                        <li><a href="">Auctions I'm Watching</a></li>
+                        <li><a href="">Auctions I'm Bidding On</a></li>
+                        <li><a href="">Auctions I've Won</a></li>
+                    </ul>
+                    <ul class="nav nav-sidebar">
+                        <li class='nav-divider'></li>
+                        <li><a href="#">Reports</a></li>
+                        <li><a href="#">Analytics</a></li>
+                        <li><a href="#">Export</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 dashboard-main">
+					<div id="content">
+						<br /> <br />
+                        <div class="container-fluid">
+							<ui:insert name='content' />
+                        </div>
+
+
+                    </div>
+				</div>
+			</div>
+		</div>
+	</h:body>
+	<!-- SCRIPTS -->
+	<ui:include src="scripts.xhtml"/>
+
+
+</html>

@@ -81,11 +81,6 @@ public class ShoppingCart implements Serializable {
 
 	public void remove(String isbn) {
 
-		if (getShoppingCart().size() <= 1) {
-			clearCart();
-			return;
-		}
-
 		CartItem removeMe = null;
 		for (CartItem item : getShoppingCart()) {
 			if (isbn.equals(item.getBook().getISBN())) {
@@ -93,6 +88,7 @@ public class ShoppingCart implements Serializable {
 			}
 		}
 		if (removeMe != null) {
+			catalogManager.returnBooks(isbn, removeMe.getQuantity());
 			getShoppingCart().remove(removeMe);
 		}
 	}

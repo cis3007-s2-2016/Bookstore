@@ -96,7 +96,17 @@ new Vue({
             return formIsValid ? '' : "disabled='disabled'";
         }
     },
+	watch: {
+		billingSameAsShippingAddress: 'clearBillingAddress'
+	},
     methods: {
+		clearBillingAddress: function(){
+			this.billingAddressLine1 = '';
+			this.billingAddressLine2 = '';
+			this.billingPostcode = '';
+			this.billingCity = '';
+			this.billingState = '';
+		},
         showEmailFeedback: function () {
             if (this.email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/))
             {

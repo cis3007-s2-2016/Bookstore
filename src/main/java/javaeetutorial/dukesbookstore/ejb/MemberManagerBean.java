@@ -103,5 +103,10 @@ public class MemberManagerBean implements MemberManager {
     public MemberManagerBean(){
 
     }
+
+	@Override
+	public void persist(Member user) {
+		entityManager.persist(user);
+	}
     
 }
