@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -16,17 +16,16 @@
     <ui:define name="content">
 
 
-		<h:form>
-			<ol class="breadcrumb">
-				<li><h:link outcome="/index">Home</h:link></li>
-				<li><h:link outcome="/shop">Shop</h:link></li>
-				<li><h:commandLink action="/shop/category">#{shop.genre}</h:commandLink></li>
-				<li class="active">#{shop.selectedBook.title}</li>
+        <h:form>
+            <ol class="breadcrumb">
+                <li><h:link outcome="/index">Home</h:link></li>
+                <li><h:link outcome="/shop">Shop</h:link></li>
+                <li><h:commandLink action="/shop/category">#{shop.genre}</h:commandLink></li>
+                <li class="active">#{shop.selectedBook.title}</li>
+            </ol>
+        </h:form>
 
-			</ol>
-		</h:form>
-
-		<br />
+        <br />
 
 
         <div class="row">
@@ -36,9 +35,9 @@
             <div class="col-sm-6">
                 <h2>#{shop.selectedBook.title}</h2>
                 <h5 class="text-capitalize" >by 
-					<ui:repeat value="#{shop.selectedBook.bookAuthors}" var="author" varStatus="status">
-						#{ author.givenNames.toLowerCase()} #{author.surname.toLowerCase()}#{status.last ? "" : ", "}
-					</ui:repeat>
+                    <ui:repeat value="#{shop.selectedBook.bookAuthors}" var="author" varStatus="status">
+                                #{ author.givenNames.toLowerCase()} #{author.surname.toLowerCase()}#{status.last ? "" : ", "}
+                    </ui:repeat>
                 </h5>
                 <div class="rating average-rating-summary">
                     <c:forEach var="i" begin="1" end="4">
@@ -63,64 +62,118 @@
                     <dd>#{shop.selectedBook.pubYear}</dd>
                 </dl>
 
-			</div>
+            </div>
 
             <div class="col-sm-3" style="margin-top: 20px;">
                 <div class="panel panel-default">
                     <div class="panel-body text-center">
                         <h2>
                             <h:outputText value="#{shop.selectedBook.retailPrice}">
-								<f:convertNumber minFractionDigits="2" currencySymbol="$" type="currency"/> 
-							</h:outputText>
+                                <f:convertNumber minFractionDigits="2" currencySymbol="$" type="currency"/> 
+                            </h:outputText>
                         </h2>
                         <c:if test="#{shop.selectedBook.stockLevel > 0}">
-							<h3 class="text-success">
-								In stock
-							</h3>
-														
+                            <h3 class="text-success">
+                                In stock
+                            </h3>
 
-							<h:form>
-								<h:commandLink>
-									<button class="btn btn-primary" role="button"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-									<f:ajax listener="#{cart.add(shop.selectedBook.ISBN)}"/>
-								</h:commandLink>
-							</h:form>
+                            <h:form>
+                                <h:commandLink>
+                                    <button class="btn btn-primary" role="button"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
+                                    <f:ajax listener="#{cart.add(shop.selectedBook.ISBN)}"/>
+                                </h:commandLink>
+                            </h:form>
 
                         </c:if>
-						<c:if test="#{shop.selectedBook.stockLevel == 0}">
-							<h3 class="text-danger">
-								Sold out
-							</h3>
-						</c:if>
+                        <c:if test="#{shop.selectedBook.stockLevel == 0}">
+                            <h3 class="text-danger">
+                                Sold out
+                            </h3>
+                        </c:if>
 
 
                         <hr />
-                        <div> Read this book? <a>Review it!</a>  </div>
+                        <div> Read this book?
+                            <h:form>
+                                <h:commandLink id="reviewlink" value="Review it!">
+                                    <f:ajax render="add-review-form" execute="add-review-form" listener="#{bookReviewBean.onReviewLinkAjax}" />
+                                </h:commandLink>
+                            </h:form>
+                        </div>
                         <div>  Own this book? <a>Sell it!</a>  </div>
                     </div>
                 </div>
             </div>
         </div>
+        <h:form id="add-review-form">
+        <h:panelGroup>
+            <c:if test="#{bookReviewBean.showReview}" >
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div id='book-rating' class="rating" style="display: inline-block; padding:3px; font-size:larger;">
+                                <c:forEach var="i" begin="1" end="5">
+                                    <i id="star_#{i}" class="fa fa-star-o golden-star" aria-hidden="true" onclick="fillUpTo(#{i});"></i>
+                                </c:forEach>
+                                <h:inputText id='rating_value' value='#{bookReviewBean.bookReview.rating}'>
+                                    <f:passThroughAttribute name='hidden' value="hidden" />
+                                </h:inputText>
+                            </div>
+                            <div class="input-group">
+                                <label for="review-text-area">Enter Review</label><br/>
+                                <h:inputTextarea styleClass="form-control" id="review-text-area" cols="85" rows="6" value="#{bookReviewBean.bookReview.review}" />
+                            </div><br/>
+                            
+                            <div class="btn-toolbar" role="toolbar">
+                                <div class="btn-group">
+                                <h:commandButton id="cancel-review" styleClass="button btn btn-default" value="Cancel Review">
+                                    <f:ajax render="add-review-form" listener="#{bookReviewBean.onCancelLinkAjax}" />
+                                </h:commandButton> 
+                                <h:commandButton id="submit-review" styleClass="button btn btn-default" value="Submit Review">
+                                    <f:ajax execute="@form" render="add-review-form existing-customer-reviews" listener="#{bookReviewBean.onSubmitReviewLinkAjax}" />
+                                </h:commandButton>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h:outputScript library="javascripts" name="bookReviewStars.js">
+                </h:outputScript>
+            </c:if>
+        </h:panelGroup>
+        </h:form>
+        <h:panelGroup id='existing-customer-reviews'>
         <div class="row">
             <div class="col-md-12">
                 <br /><br /><br /><hr />
-                <h4>Customer Reviews:</h4>
+                <c:choose>
+                <c:when test='#{bookReviewBean.getReviews(shop.selectedBook).size() > 0}'>
+                    <h4>Customer Reviews:</h4>
+                </c:when>
+                <c:otherwise>
+                    <h4 style='color: #999;'>No customer reviews yet ...</h4>
+                </c:otherwise>
+                </c:choose>
+                <ui:repeat value="#{bookReviewBean.getReviews(shop.selectedBook)}" var='bookReview'>
+                    
+                <div class='row'>
                 <div class="rating" style="display: inline-block;">
-                    <c:forEach var="i" begin="1" end="4">
-                        <i class="fa fa-star golden-star" aria-hidden="true"></i>
-                    </c:forEach>
-                    <i class="fa fa-star-o golden-star" aria-hidden="true"></i>
+                    <ui:repeat value="#{bookReviewBean.getStarList(bookReview)}" var="i">
+                    <i class="fa fa-star golden-star" aria-hidden="true"></i>
+                    </ui:repeat>
                 </div>
-                <h5 style="display: inline-block;">Awesome Book! <small>Reviewed by: James Franco</small></h5>
-                <p class="text-justify">Written in the wake of Jurassic Park's phenomenal box-office success, The Lost World seems as much a guidebook for Hollywood types hard at work on the franchise's followup as it is a legitimate sci-fi thriller. Which begs the inevitable questions: Is the plot a rehash of the first book? Sure it is</p>
-
+                    <h5 style="display: inline-block;">
+                        <h:outputText value="#{bookReview.review.substring(0, 5)}..." />
+                        <small>
+                            Reviewed by: <h:outputText value="#{bookReview.reviewer.firstName} #{bookReview.reviewer.surname}" />
+                        </small>
+                    </h5>
+                    <p class="text-justify"><h:outputText value="#{bookReview.review}" /></p>
+                </div>
+               </ui:repeat>
             </div>
         </div>
-
-
-
-
-
+        </h:panelGroup>
     </ui:define>
-	
+
 </ui:composition>

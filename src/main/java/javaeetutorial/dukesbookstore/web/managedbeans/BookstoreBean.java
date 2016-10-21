@@ -149,4 +149,5 @@ public class BookstoreBean implements Serializable
         this.bookList = bookRequestBean.getBooksWithTitleLike(bookTitle);
         return null; // go nowhere
     }
+    
 }
