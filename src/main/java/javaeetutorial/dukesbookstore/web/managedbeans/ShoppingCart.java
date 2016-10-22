@@ -1,6 +1,7 @@
 package javaeetutorial.dukesbookstore.web.managedbeans;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.function.Supplier;
 import java.util.logging.Logger;
@@ -35,6 +36,13 @@ public class ShoppingCart implements Serializable {
 		clearCart();
 	}
 
+	@PreDestroy
+	private void putCartItemsBack() {
+		for (CartItem item : getShoppingCart()) {
+			catalogManager.returnBooks(item.getBook().getISBN(), item.getQuantity());
+		}
+	}
+
 	public void clearCart() {
 		setShoppingCart(new ArrayList<>());
 
@@ -57,7 +65,7 @@ public class ShoppingCart implements Serializable {
 		
 		//reserve books for purchase
 		catalogManager.decrementStockCount(isbn);
-		
+
 		Ajax.data("cartCount", numberOfItems());
 		Ajax.oncomplete("updateCartCountBadge()");
 
@@ -71,10 +79,10 @@ public class ShoppingCart implements Serializable {
 		return total;
 	}
 
-	public double totalPrice() {
-		double total = 0;
+	public BigDecimal totalPrice() {
+		BigDecimal total = new BigDecimal(0);
 		for (CartItem item : getShoppingCart()) {
-			total = item.getQuantity() * item.getBook().getRetailPrice();
+			total = item.getBook().getRetailPrice().multiply(new BigDecimal(item.getQuantity())).add(total);
 		}
 		return total;
 	}
@@ -94,15 +102,17 @@ public class ShoppingCart implements Serializable {
 	}
 
 	public String changeQty() {
+		
 		this.setShoppingCart(shoppingCart);
 		return "/bookshowcart?faces-redirect=true";
 	}
-
-	@PreDestroy
-	private void putCartItemsBack() {
-		for (CartItem item : getShoppingCart()) {
-			catalogManager.returnBooks(item.getBook().getISBN(), item.getQuantity());
+	
+	public ArrayList<Book> getBooks(){
+		ArrayList<Book> books = new ArrayList<>();
+		for (CartItem item : this.getShoppingCart()){
+			books.add(item.getBook());
 		}
+		return books;
 	}
 
 	private void increaseQuantity(Book book) {
@@ -122,5 +132,42 @@ public class ShoppingCart implements Serializable {
 		}
 		return false;
 	}
+	
+	
+	
+	
+	/**
+	 * 
+	 * 
+	 *	todo: updatingcart with select form needs to update database aswell!
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
+	
+	
+	
+//	public int stockCount(String isbn) {
+//		return catalogManager.findBook(isbn).getStockLevel();
+//	}
+//	public int quantityAvailableToAddToCart(String isbn) {
+//		int available = stockCount(isbn);
+//		return available > 20 ? 20 : available;  //assuming max quantity a user can purchase is 20
+//	}
+//	public String changeQty(String isbn) {
+//		int booksAvailable = 0;
+//		for (CartItem cartItem : getShoppingCart()){
+//			if (cartItem.getBook().getISBN().equals(isbn)){
+//				booksAvailable = stockCount(isbn) + cartItem.getQuantity();
+//				if (cartItem.getQuantity() > booksAvailable){
+//					cartItem.setQuantity(booksAvailable);
+//				}
+//				catalogManager.changeStockCount(cartItem.getBook().getISBN(), cartItem.getQuantity());
+//			}
+//		}
+//		
+//		return "/bookshowcart?faces-redirect=true";
+//	}
 
 }

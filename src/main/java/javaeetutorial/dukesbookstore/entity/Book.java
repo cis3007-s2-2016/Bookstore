@@ -8,10 +8,10 @@
 package javaeetutorial.dukesbookstore.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 import javax.persistence.*;
-//import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -26,13 +26,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
 	@NamedQuery(name = "Book.findAll", query = "SELECT b FROM Book b"),
 	@NamedQuery(name = "Book.findByIsbn", query = "SELECT b FROM Book b WHERE b.ISBN = :ISBN"),
-	@NamedQuery(name = "Book.findByCostprice", query = "SELECT b FROM Book b WHERE b.costPrice = :costPrice"),
 	@NamedQuery(name = "Book.findByDescription", query = "SELECT b FROM Book b WHERE b.description = :description"),
 	@NamedQuery(name = "Book.findByFormat", query = "SELECT b FROM Book b WHERE b.format = :format"),
 	@NamedQuery(name = "Book.findByGenre", query = "SELECT b FROM Book b WHERE b.genre = :genre"),
 	@NamedQuery(name = "Book.findByPubyear", query = "SELECT b FROM Book b WHERE b.pubYear = :pubYear"),
 	@NamedQuery(name = "Book.findByPublisher", query = "SELECT b FROM Book b WHERE b.publisher = :publisher"),
-	@NamedQuery(name = "Book.findByRetailprice", query = "SELECT b FROM Book b WHERE b.retailPrice = :retailPrice"),
 	@NamedQuery(name = "Book.findByStocklevel", query = "SELECT b FROM Book b WHERE b.stockLevel = :stockLevel"),
 	@NamedQuery(name = "Book.findByTitle", query = "SELECT b FROM Book b WHERE b.title = :title"),
 	@NamedQuery(name = "Book.findTitlebyIsbn", query = "SELECT b.title FROM Book b WHERE b.ISBN = :ISBN")})
@@ -45,23 +43,43 @@ public class Book implements Serializable {
 	@NotNull
 	private String ISBN;
 
+	@Basic(optional = false)
 	private String title;
-	private Double costPrice;
-	private Double retailPrice;
+
+	@Basic(optional = false)
+	@Column(name = "COST_PRICE", nullable = false, precision = 7, scale = 2)    // Creates the database field with this size.
+	private BigDecimal costPrice;
+
+	@Basic(optional = false)
+	@Column(name = "RETAIL_PRICE", nullable = false, precision = 7, scale = 2)    // Creates the database field with this size.
+	private BigDecimal retailPrice;
+	
+	
 	private Date pubYear;
+	
+	
 	private String publisher;
+	
 	@Column(columnDefinition = "TEXT")
 	private String description;
+	
 	@Column(name = "created", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable = false, updatable = false)
 	private Date created;
+	
+	@Basic(optional = false)
 	private Integer stockLevel;
+	
+	@Basic(optional = false)
 	private String genre;
+	
+	@Basic(optional = false)
 	private String format;
+	
 	@Lob
+	@Basic(optional = false)
 	private byte[] thumbnail;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "book_authors")
+	@ManyToMany(fetch = FetchType.EAGER, targetEntity = Author.class)
 	private List<Author> bookAuthors;
 
 	//Getter and setters
@@ -80,7 +98,6 @@ public class Book implements Serializable {
 	public void setCreated(Date created) {
 		this.created = created;
 	}
-	
 
 	public byte[] getThumbnail() {
 		return thumbnail;
@@ -98,19 +115,19 @@ public class Book implements Serializable {
 		this.title = title;
 	}
 
-	public double getCostPrice() {
+	public BigDecimal getCostPrice() {
 		return costPrice;
 	}
 
-	public void setCostPrice(double price) {
+	public void setCostPrice(BigDecimal price) {
 		this.costPrice = price;
 	}
 
-	public void setRetailPrice(double price) {
+	public void setRetailPrice(BigDecimal price) {
 		this.retailPrice = price;
 	}
 
-	public double getRetailPrice() {
+	public BigDecimal getRetailPrice() {
 		return retailPrice;
 	}
 
@@ -183,7 +200,7 @@ public class Book implements Serializable {
 	}
 
 	public Book(String ISBN,
-			String title, double costPrice, double retailPrice, Date publishedYear,
+			String title, BigDecimal costPrice, BigDecimal retailPrice, Date publishedYear,
 			String description, Integer stockLevel, String publisher,
 			String genre, String format, List<Author> bookAuthors, byte[] thumbnail) {
 

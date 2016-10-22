@@ -6,7 +6,7 @@
 package javaeetutorial.dukesbookstore.service;
 
 import java.util.List;
-import javaeetutorial.dukesbookstore.entity.Preference;
+import javaeetutorial.dukesbookstore.entity.AuctionNotificationRequest;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,26 +26,26 @@ import javax.ws.rs.core.MediaType;
  */
 @Stateless
 @Path("/entity/preference")
-public class PreferenceFacadeREST extends AbstractFacade<Preference> {
+public class PreferenceFacadeREST extends AbstractFacade<AuctionNotificationRequest> {
 
     @PersistenceContext(unitName = "bookstorePU")
     private EntityManager em;
 
     public PreferenceFacadeREST() {
-        super(Preference.class);
+        super(AuctionNotificationRequest.class);
     }
 
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(Preference entity) {
+    public void create(AuctionNotificationRequest entity) {
         super.create(entity);
     }
 
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") String id, Preference entity) {
+    public void edit(@PathParam("id") String id, AuctionNotificationRequest entity) {
         super.edit(entity);
     }
 
@@ -58,21 +58,21 @@ public class PreferenceFacadeREST extends AbstractFacade<Preference> {
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Preference find(@PathParam("id") String id) {
+    public AuctionNotificationRequest find(@PathParam("id") String id) {
         return super.find(id);
     }
 
     @GET
     @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Preference> findAll() {
+    public List<AuctionNotificationRequest> findAll() {
         return super.findAll();
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Preference> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
+    public List<AuctionNotificationRequest> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return super.findRange(new int[]{from, to});
     }
 

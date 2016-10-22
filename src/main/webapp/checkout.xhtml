@@ -29,11 +29,18 @@
 						<h4>Shipping to: </h4>
 					</div>
 					<address>
-						<strong>Twitter, Inc.</strong>
+						<strong>#{memberSession.user.firstName} #{memberSession.user.surname}</strong>
 						<br />
-						1355 Market Street, Suite 900<br />
-						San Francisco, CA 94103<br />
-						<abbr title="Phone">P:</abbr> (123) 456-7890
+						<c:if test="#{memberSession.user.shippingAddressLine1.trim().length() > 0}">
+						#{memberSession.user.shippingAddressLine1}<br />
+						</c:if>
+						<c:if test="#{memberSession.user.shippingAddressLine2.trim().length() > 0}">
+						#{memberSession.user.shippingAddressLine2}<br />
+						</c:if>
+						#{memberSession.user.shippingCity}<br />
+						#{memberSession.user.shippingState.toUpperCase()} #{memberSession.user.shippingPostcode} <br />
+						
+						
 					</address>
 
 
@@ -45,15 +52,19 @@
 						<h4>Billing to: </h4>
 					</div>
 					<address>
-						<strong>Twitter, Inc.</strong>
+						<strong>#{memberSession.user.firstName} #{memberSession.user.surname}</strong>
 						<br />
-						1355 Market Street, Suite 900<br />
-						San Francisco, CA 94103<br />
-						<abbr title="Phone">P:</abbr> (123) 456-7890
-					</address>
-
-					<address>
-						<a href="mailto:#">first.last@example.com</a>
+						<c:if test="#{memberSession.user.billingAddressLine1.trim().length() > 0}">
+						#{memberSession.user.billingAddressLine1}<br />
+						</c:if>
+						<c:if test="#{memberSession.user.billingAddressLine2.trim().length() > 0}">
+						#{memberSession.user.billingAddressLine2}<br />
+						</c:if>
+						#{memberSession.user.billingCity}<br />
+						#{memberSession.user.billingState.toUpperCase()} #{memberSession.user.billingPostcode} <br /> <br/>
+						#{memberSession.user.email}
+						
+						
 					</address>
 
 

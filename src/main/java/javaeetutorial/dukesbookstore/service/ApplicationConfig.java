@@ -36,7 +36,6 @@ public class ApplicationConfig extends Application {
 		resources.add(javaeetutorial.dukesbookstore.service.BookWantedFacadeREST.class);
 		resources.add(javaeetutorial.dukesbookstore.service.InterestFacadeREST.class);
 		resources.add(javaeetutorial.dukesbookstore.service.MemberFacadeREST.class);
-		resources.add(javaeetutorial.dukesbookstore.service.PaymentFacadeREST.class);
 		resources.add(javaeetutorial.dukesbookstore.service.PreferenceFacadeREST.class);
 		resources.add(javaeetutorial.dukesbookstore.service.SellerReviewFacadeREST.class);
 

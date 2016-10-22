@@ -1,6 +1,7 @@
 package javaeetutorial.dukesbookstore.ejb;
 
 import com.sun.istack.Nullable;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -43,7 +44,7 @@ public class BookRequestBean {
     public BookRequestBean() throws Exception {
     }
 
-    public void createBook(String isbn, String title, double costPrice, double retailPrice, Date publishedYear,
+    public void createBook(String isbn, String title, BigDecimal costPrice, BigDecimal retailPrice, Date publishedYear,
                            String description, Integer stockLevel, String publisher,
                            String genre, String format, List<Author> bookAuthors, byte[] thumbnail) {
         try {

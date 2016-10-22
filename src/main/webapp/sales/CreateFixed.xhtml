@@ -77,7 +77,7 @@
                             <div class="form-group has-feedback">                                
                                 <h:outputLabel value="#{bundle.CreateSalesLabel_isbnIsbn}" for="isbnIsbn" class="col-sm-3 control-label"/>
                                 <div class="col-sm-8">
-                                    <h:selectOneMenu id="isbnIsbn" value="#{salesController.selected.isbnIsbn}" title="#{bundle.CreateSalesTitle_isbnIsbn}">
+                                    <h:selectOneMenu id="isbnIsbn" value="#{salesController.selected.isbn}" title="#{bundle.CreateSalesTitle_isbnIsbn}">
                                         <f:selectItems value="#{booksController.itemsAvailableSelectOne}"/>
                                     </h:selectOneMenu>
                                     <span class="form-control-feedback"><i v-bind:class='isbnIsbnFeedback' aria-hidden="true"></i></span>

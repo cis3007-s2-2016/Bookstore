@@ -1,5 +1,6 @@
 package javaeetutorial.dukesbookstore.ejb;
 
+import java.math.BigDecimal;
 import javaeetutorial.dukesbookstore.entity.Author;
 import javaeetutorial.dukesbookstore.entity.Book;
 import javaeetutorial.dukesbookstore.entity.Member;
@@ -24,8 +25,8 @@ public interface CatalogManager {
 	public Book createBook(
 			String isbn,
 			String title,
-			double costPrice,
-			double retailPrice,
+			BigDecimal costPrice,
+			BigDecimal retailPrice,
 			Date publishedYear,
 			String description,
 			Integer stockLevel,

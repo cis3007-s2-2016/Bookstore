@@ -25,7 +25,7 @@ import javax.persistence.PersistenceContext;
 public class ConfigBean {
 
     @EJB
-    private PreferenceRequestBean preferenceRequest;
+    private AuctionNotificationRequetBean preferenceRequest;
     @PersistenceContext(unitName = "bookstorePU")
     private EntityManager em;
     
@@ -45,23 +45,23 @@ public class ConfigBean {
 		 * 
 		 * 
 		 */
-//        Member admin = new Member("admin", "admin", "admin");
-//        admin.setFirstName("Administrator");
-//        this.getEm().persist(admin);
-//        
-//        Member customer = new Member("user@dukes.com", "password", "customer");
-//        customer.setFirstName("John");
-//        customer.setSurname("Doe");
-//        customer.setShippingAddressLine1("Unit 3");
-//        customer.setShippingAddressLine2("123 Fake Street");
-//        customer.setShippingCity("Fakeville");
-//        customer.setShippingState("QLD");
-//        customer.setShippingPostcode("4000");
-//        customer.setBillingAddressLine1("100 North Road");
-//        customer.setBillingCity("Darwin");
-//        customer.setBillingState("Northern Territory");
-//        customer.setBillingPostcode("7654");
-//        this.getEm().persist(customer);
+        Member admin = new Member("admin", "admin", "admin");
+        admin.setFirstName("Administrator");
+        this.getEm().persist(admin);
+        
+        Member customer = new Member("user@dukes.com", "password", "customer");
+        customer.setFirstName("John");
+        customer.setSurname("Doe");
+        customer.setShippingAddressLine1("Unit 3");
+        customer.setShippingAddressLine2("123 Fake Street");
+        customer.setShippingCity("Fakeville");
+        customer.setShippingState("QLD");
+        customer.setShippingPostcode("4000");
+        customer.setBillingAddressLine1("100 North Road");
+        customer.setBillingCity("Darwin");
+        customer.setBillingState("Northern Territory");
+        customer.setBillingPostcode("7654");
+        this.getEm().persist(customer);
         
 //        preferenceRequest.createPreference("pref.notify.auction.complete",
 //                "If a user has this preference they will recieve a notification when auctions they are involved in are complete");

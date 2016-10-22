@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.ResourceBundle;
-import javaeetutorial.dukesbookstore.entity.Sale;
+import javaeetutorial.dukesbookstore.entity.SaleUsed;
 import javaeetutorial.dukesbookstore.session.SaleFacade;
 import javaeetutorial.dukesbookstore.util.JsfUtil;
 import javaeetutorial.dukesbookstore.util.PaginationHelper;
@@ -31,7 +31,7 @@ import javax.persistence.EntityManager;
 @SessionScoped
 public class SalesController implements Serializable {
 
-    private Sale current;
+    private SaleUsed current;
     private DataModel items = null;    
     @EJB
     private SaleFacade ejbFacade;    
@@ -44,9 +44,9 @@ public class SalesController implements Serializable {
     public SalesController() {
     }
     
-    public Sale getSelected() { // retrieves each field from form
+    public SaleUsed getSelected() { // retrieves each field from form
         if (current == null) {
-            current = new Sale();
+            current = new SaleUsed();
             selectedItemIndex = -1;
         }
         return current;
@@ -80,19 +80,19 @@ public class SalesController implements Serializable {
     }
 
     public String prepareView() {
-        current = (Sale) getItems().getRowData();
+        current = (SaleUsed) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
 
     public String prepareCreateFixed() { //after written to database before new add sale page displayed
-        current = new Sale();
+        current = new SaleUsed();
         selectedItemIndex = -1;
         return "CreateFixed";
     }
 
     public String prepareCreateAuction() {
-        current = new Sale();
+        current = new SaleUsed();
         selectedItemIndex = -1;
         return "CreateAuction";
     }
@@ -173,11 +173,11 @@ public class SalesController implements Serializable {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
 
-    public Sale getSales(java.lang.Long id) {
+    public SaleUsed getSales(java.lang.Long id) {
         return ejbFacade.find(id);
     }
 
-    @FacesConverter(forClass = Sale.class)
+    @FacesConverter(forClass = SaleUsed.class)
     public static class SalesControllerConverter implements Converter {
 
         @Override
@@ -212,24 +212,24 @@ public class SalesController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Sale) {
-                Sale o = (Sale) object;
+            if (object instanceof SaleUsed) {
+                SaleUsed o = (SaleUsed) object;
                 return getStringKey(o.getId());
             } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Sale.class.getName());
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + SaleUsed.class.getName());
             }
         }
 
     }
 
     public String prepareEdit() {
-        current = (Sale) getItems().getRowData();
+        current = (SaleUsed) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
    
     public String destroy() {
-        current = (Sale) getItems().getRowData();
+        current = (SaleUsed) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();

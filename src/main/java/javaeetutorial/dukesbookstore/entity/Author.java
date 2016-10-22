@@ -26,8 +26,9 @@ public class Author implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String givenNames;
+	@Basic(optional = false)
     private String surname;
-    @ManyToMany(mappedBy = "bookAuthors")
+    @ManyToMany(targetEntity = Book.class)
     private List<Book> authoredBooks;
 
 

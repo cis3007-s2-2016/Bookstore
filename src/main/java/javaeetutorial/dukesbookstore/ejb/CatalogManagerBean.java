@@ -1,17 +1,14 @@
 package javaeetutorial.dukesbookstore.ejb;
 
+import java.math.BigDecimal;
 import javaeetutorial.dukesbookstore.entity.Author;
 import javaeetutorial.dukesbookstore.entity.Book;
-
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -43,7 +40,7 @@ public class CatalogManagerBean implements CatalogManager {
 	}
 
 	@Override
-	public Book createBook(String isbn, String title, double costPrice, double retailPrice, Date publishedYear, String description, Integer stockLevel, String publisher, String genre, String format, List<Author> bookAuthors, byte[] thumbnail) {
+	public Book createBook(String isbn, String title, BigDecimal costPrice, BigDecimal retailPrice, Date publishedYear, String description, Integer stockLevel, String publisher, String genre, String format, List<Author> bookAuthors, byte[] thumbnail) {
 		//todo: validate given data against business rules
 		if (simplifyISBN(isbn).length() != 13) {
 			throw new RuntimeException("Invalid ISBN. Must be 13 digits.");

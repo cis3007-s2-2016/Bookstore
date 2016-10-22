@@ -8,12 +8,14 @@ package javaeetutorial.dukesbookstore.entity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Kyle.Lewer
  */
+@Table(name="intrests")
 @Entity
 @XmlRootElement
 public class Interest implements Serializable {

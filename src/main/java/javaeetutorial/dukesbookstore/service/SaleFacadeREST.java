@@ -5,7 +5,7 @@
  */
 package javaeetutorial.dukesbookstore.service;
 
-import javaeetutorial.dukesbookstore.entity.Sale;
+import javaeetutorial.dukesbookstore.entity.SaleUsed;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,13 +16,13 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 //@Path("/entity/sale")
-public class SaleFacadeREST extends AbstractFacade<Sale> {
+public class SaleFacadeREST extends AbstractFacade<SaleUsed> {
 
     @PersistenceContext(unitName = "bookstorePU")
     private EntityManager em;
 
     public SaleFacadeREST() {
-        super(Sale.class);
+        super(SaleUsed.class);
     }
 //
 //    @POST

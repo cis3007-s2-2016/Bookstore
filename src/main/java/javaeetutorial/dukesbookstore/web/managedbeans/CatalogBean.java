@@ -7,6 +7,7 @@ import javax.servlet.http.Part;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Date;
@@ -172,13 +173,15 @@ public class CatalogBean implements Serializable {
 		try {
 
 			processAuthors();
-			getCatalogManager().createBook(getIsbn(), getTitle(), getCostPrice(), getRetailPrice(), sqlPublishedDate(), getSynopsis(), getStock(), getPublisher(), getCategory(), getFormat(), getAuthorsList(), this.thumbnail());
+			getCatalogManager().createBook(getIsbn(), getTitle(), BigDecimal.valueOf(getCostPrice()), BigDecimal.valueOf(getRetailPrice()), sqlPublishedDate(), getSynopsis(), getStock(), getPublisher(), getCategory(), getFormat(), getAuthorsList(), this.thumbnail());
 		} catch (Exception e) {
 			System.out.println("Failed to add new Book:  " + e.getMessage());
 			//todo: handle exception
 		}
 		return "/admin/add-new-book.xhtml?success=true&faces-redirect=true&includeViewParams=true";
 	}
+	
+	
 
 
 	private Date sqlPublishedDate() {

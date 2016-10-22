@@ -49,7 +49,7 @@ public class AuctionBid implements Serializable {
     private Member memberidId;
     @JoinColumn(name = "SALEID_ID", referencedColumnName = "ID")
     @ManyToOne
-    private Sale saleidId;
+    private SaleUsed saleidId;
 
     public AuctionBid() {
     }
@@ -90,11 +90,11 @@ public class AuctionBid implements Serializable {
         this.memberidId = memberidId;
     }
 
-    public Sale getSaleidId() {
+    public SaleUsed getSaleidId() {
         return saleidId;
     }
 
-    public void setSaleidId(Sale saleidId) {
+    public void setSaleidId(SaleUsed saleidId) {
         this.saleidId = saleidId;
     }
 

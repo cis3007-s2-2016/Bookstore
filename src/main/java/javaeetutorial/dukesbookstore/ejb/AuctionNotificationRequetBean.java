@@ -7,8 +7,8 @@ package javaeetutorial.dukesbookstore.ejb;
 
 import java.util.List;
 import java.util.logging.Logger;
+import javaeetutorial.dukesbookstore.entity.AuctionNotificationRequest;
 import javaeetutorial.dukesbookstore.entity.Member;
-import javaeetutorial.dukesbookstore.entity.Preference;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,25 +18,25 @@ import javax.persistence.PersistenceContext;
  * @author Kyle.Lewer
  */
 @Stateful
-public class PreferenceRequestBean {
+public class AuctionNotificationRequetBean {
     @PersistenceContext
     EntityManager em;
     private static final Logger logger 
             = Logger.getLogger("dukesbookstore.ejb.PreferenceRequestBean");
     
-    public PreferenceRequestBean() throws Exception {
+    public AuctionNotificationRequetBean() throws Exception {
         
     }
     
-    public void createPreference(String preference, String description){
-        Preference pref = new Preference();
-        pref.setPreference(preference);
-        pref.setPreferenceDescription(description);
+    public void createPreference(String isbn, long memberId){
+        AuctionNotificationRequest notify = new AuctionNotificationRequest();
+        notify.setIsbn(isbn);
+        notify.setMemberId(memberId);
         
-        em.persist(pref);
+        em.persist(notify);
     }
     
-    public List<Preference> getMemberPreferences(Member mem) {
+    public List<AuctionNotificationRequest> getMemberPreferences(Member mem) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
