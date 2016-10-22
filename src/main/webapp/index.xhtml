@@ -70,10 +70,9 @@
 												#{book.title}
 											</div>
 											<div class="rating">
-												<c:forEach var="i" begin="1" end="4">
-													<i class="fa fa-star golden-star" aria-hidden="true"></i>
-												</c:forEach>
-												<i class="fa fa-star-o golden-star" aria-hidden="true"></i>
+                                                                                            <ui:repeat value="#{bookReviewBean.getAverageStarList(book)}" var ="book">
+												<i class="fa fa-star golden-star" aria-hidden="true"></i>
+                                                                                            </ui:repeat>
 											</div>
 											<p>
 												<h:form>
@@ -108,10 +107,9 @@
 												#{book.title}
 											</div>
 											<div class="rating">
-												<c:forEach var="i" begin="1" end="4">
-													<i class="fa fa-star golden-star" aria-hidden="true"></i>
-												</c:forEach>
-												<i class="fa fa-star-o golden-star" aria-hidden="true"></i>
+                                                                                            <ui:repeat value="#{bookReviewBean.getAverageStarList(book)}" var ="book">
+												<i class="fa fa-star golden-star" aria-hidden="true"></i>
+                                                                                            </ui:repeat>
 											</div>
 											<p>
 												<h:form>

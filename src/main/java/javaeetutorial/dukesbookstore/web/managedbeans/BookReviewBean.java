@@ -5,6 +5,7 @@
  */
 package javaeetutorial.dukesbookstore.web.managedbeans;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -66,7 +67,7 @@ public class BookReviewBean extends AbstractBean implements Serializable{
         bookReview = null; //throw away bookReview
     }
     
-   
+    
     public void onSubmitReviewLinkAjax(AjaxBehaviorEvent event)
     {
         
@@ -81,11 +82,26 @@ public class BookReviewBean extends AbstractBean implements Serializable{
     }
 
     public List<Integer> getStarList(BookReview b)
+    {   
+       return getIntListFromMToN(1, (int) Math.floor(b.getRating()));
+    }
+    /**
+     * Who knew a range of ints would be so difficult
+     */
+    private List<Integer> getIntListFromMToN(int m, int n)
     {
-        //wat
-        return IntStream.rangeClosed(1, (int) Math.floor(b.getRating())).boxed().collect(Collectors.toList());
-       
+        return IntStream.rangeClosed(m, n).boxed().collect(Collectors.toList());
     }
     
-    
+    public List<Integer> getAverageStarList(Book b)
+    {
+        List<BookReview> bookReviews = bookReviewManager.getReviews(b);
+        
+        if(bookReviews.size() == 0)
+            return new ArrayList<Integer>();
+        
+        double avgRating = bookReviews.stream().mapToDouble(BookReview::getRating).sum() / bookReviews.size();
+        
+        return getIntListFromMToN(1, (int) Math.floor(avgRating));
+    }
 }
