@@ -5,11 +5,9 @@
  */
 package javaeetutorial.dukesbookstore.web.managedbeans;
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import javaeetutorial.dukesbookstore.ejb.BookReviewManagerBean;

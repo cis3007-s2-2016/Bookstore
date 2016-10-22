@@ -95,9 +95,10 @@
                         <hr />
                         <div> Read this book?
                             <h:form>
-                                <h:commandLink id="reviewlink" value="Review it!">
+                                <h:commandLink id="reviewlink" value="Review it!" rendered="#{memberSession.loggedIn}">
                                     <f:ajax render="add-review-form" execute="add-review-form" listener="#{bookReviewBean.onReviewLinkAjax}" />
                                 </h:commandLink>
+								<h:link value="Review it!" outcome="/login" rendered="#{! memberSession.loggedIn}" />
                             </h:form>
                         </div>
                         <div>  Own this book? <a>Sell it!</a>  </div>
@@ -106,73 +107,73 @@
             </div>
         </div>
         <h:form id="add-review-form">
-        <h:panelGroup>
-            <c:if test="#{bookReviewBean.showReview}" >
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div id='book-rating' class="rating" style="display: inline-block; padding:3px; font-size:larger;">
-                                <c:forEach var="i" begin="1" end="5">
-                                    <i id="star_#{i}" class="fa fa-star-o golden-star" aria-hidden="true" onclick="fillUpTo(#{i});"></i>
-                                </c:forEach>
-                                <h:inputText id='rating_value' value='#{bookReviewBean.bookReview.rating}'>
-                                    <f:passThroughAttribute name='hidden' value="hidden" />
-                                </h:inputText>
-                            </div>
-                            <div class="input-group">
-                                <label for="review-text-area">Enter Review</label><br/>
-                                <h:inputTextarea styleClass="form-control" id="review-text-area" cols="85" rows="6" value="#{bookReviewBean.bookReview.review}" />
-                            </div><br/>
-                            
-                            <div class="btn-toolbar" role="toolbar">
-                                <div class="btn-group">
-                                <h:commandButton id="cancel-review" styleClass="button btn btn-default" value="Cancel Review">
-                                    <f:ajax render="add-review-form" listener="#{bookReviewBean.onCancelLinkAjax}" />
-                                </h:commandButton> 
-                                <h:commandButton id="submit-review" styleClass="button btn btn-default" value="Submit Review">
-                                    <f:ajax execute="@form" render="add-review-form existing-customer-reviews" listener="#{bookReviewBean.onSubmitReviewLinkAjax}" />
-                                </h:commandButton>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <h:outputScript library="javascripts" name="bookReviewStars.js">
-                </h:outputScript>
-            </c:if>
-        </h:panelGroup>
+			<h:panelGroup>
+				<c:if test="#{bookReviewBean.showReview}" >
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row">
+								<div id='book-rating' class="rating" style="display: inline-block; padding:3px; font-size:larger;">
+									<c:forEach var="i" begin="1" end="5">
+										<i id="star_#{i}" class="fa fa-star-o golden-star" aria-hidden="true" onclick="fillUpTo(#{i});"></i>
+									</c:forEach>
+									<h:inputText id='rating_value' value='#{bookReviewBean.bookReview.rating}'>
+										<f:passThroughAttribute name='hidden' value="hidden" />
+									</h:inputText>
+								</div>
+								<div class="input-group">
+									<label for="review-text-area">Enter Review</label><br/>
+									<h:inputTextarea styleClass="form-control" id="review-text-area" cols="85" rows="6" value="#{bookReviewBean.bookReview.review}" />
+								</div><br/>
+
+								<div class="btn-toolbar" role="toolbar">
+									<div class="btn-group">
+										<h:commandButton id="cancel-review" styleClass="button btn btn-default" value="Cancel Review">
+											<f:ajax render="add-review-form" listener="#{bookReviewBean.onCancelLinkAjax}" />
+										</h:commandButton> 
+										<h:commandButton id="submit-review" styleClass="button btn btn-default" value="Submit Review">
+											<f:ajax execute="@form" render="add-review-form existing-customer-reviews" listener="#{bookReviewBean.onSubmitReviewLinkAjax}" />
+										</h:commandButton>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<h:outputScript library="javascripts" name="bookReviewStars.js">
+					</h:outputScript>
+				</c:if>
+			</h:panelGroup>
         </h:form>
         <h:panelGroup id='existing-customer-reviews'>
-        <div class="row">
-            <div class="col-md-12">
-                <br /><br /><br /><hr />
-                <c:choose>
-                <c:when test='#{bookReviewBean.getReviews(shop.selectedBook).size() > 0}'>
-                    <h4>Customer Reviews:</h4>
-                </c:when>
-                <c:otherwise>
-                    <h4 style='color: #999;'>No customer reviews yet ...</h4>
-                </c:otherwise>
-                </c:choose>
-                <ui:repeat value="#{bookReviewBean.getReviews(shop.selectedBook)}" var='bookReview'>
-                    
-                <div class='row'>
-                <div class="rating" style="display: inline-block;">
-                    <ui:repeat value="#{bookReviewBean.getStarList(bookReview)}" var="i">
-                    <i class="fa fa-star golden-star" aria-hidden="true"></i>
-                    </ui:repeat>
-                </div>
-                    <h5 style="display: inline-block;">
-                        <h:outputText value="#{bookReview.review.substring(0, 5)}..." />
-                        <small>
-                            Reviewed by: <h:outputText value="#{bookReview.reviewer.firstName} #{bookReview.reviewer.surname}" />
-                        </small>
-                    </h5>
-                    <p class="text-justify"><h:outputText value="#{bookReview.review}" /></p>
-                </div>
-               </ui:repeat>
-            </div>
-        </div>
+			<div class="row">
+				<div class="col-md-12">
+					<br /><br /><br /><hr />
+					<c:choose>
+						<c:when test='#{bookReviewBean.getReviews(shop.selectedBook).size() > 0}'>
+							<h4>Customer Reviews:</h4>
+						</c:when>
+						<c:otherwise>
+							<h4 style='color: #999;'>No customer reviews yet ...</h4>
+						</c:otherwise>
+					</c:choose>
+					<ui:repeat value="#{bookReviewBean.getReviews(shop.selectedBook)}" var='bookReview'>
+
+						<div class='row'>
+							<div class="rating" style="display: inline-block;">
+								<ui:repeat value="#{bookReviewBean.getStarList(bookReview)}" var="i">
+									<i class="fa fa-star golden-star" aria-hidden="true"></i>
+								</ui:repeat>
+							</div>
+							<h5 style="display: inline-block;">
+								<h:outputText value="#{bookReview.review.substring(0, 5)}..." />
+								<small>
+									Reviewed by: <h:outputText value="#{bookReview.reviewer.firstName} #{bookReview.reviewer.surname}" />
+								</small>
+							</h5>
+							<p class="text-justify"><h:outputText value="#{bookReview.review}" /></p>
+						</div>
+					</ui:repeat>
+				</div>
+			</div>
         </h:panelGroup>
     </ui:define>
 

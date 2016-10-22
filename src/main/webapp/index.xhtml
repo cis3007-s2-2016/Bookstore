@@ -60,12 +60,14 @@
 
 								<div class="col-md-2">
 									<div class="product-thumbnail">
-										<h:link>
+										<h:form>
+											<h:commandLink action="#{shop.viewBook(book.ISBN, book.genre)}">
 												<o:graphicImage class="tilt" dataURI="true" value="#{book.thumbnail}" width="128" style="width: 128px;height:190px;"/>
-											</h:link>
+											</h:commandLink>
+										</h:form>
 										<div class="caption text-center">
 											<div style="height:40px">
-											#{book.title}
+												#{book.title}
 											</div>
 											<div class="rating">
 												<c:forEach var="i" begin="1" end="4">
@@ -96,12 +98,14 @@
 
 								<div class="col-md-2">
 									<div class="product-thumbnail">
-										<h:link>
+										<h:form>
+											<h:commandLink action="#{shop.viewBook(book.ISBN, book.genre)}">
 												<o:graphicImage class="tilt" dataURI="true" value="#{book.thumbnail}" width="128" style="width: 128px;height:190px;"/>
-											</h:link>
+											</h:commandLink>
+										</h:form>
 										<div class="caption text-center">
 											<div style="height:40px">
-											#{book.title}
+												#{book.title}
 											</div>
 											<div class="rating">
 												<c:forEach var="i" begin="1" end="4">
