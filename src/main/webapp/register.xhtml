@@ -15,8 +15,8 @@
         <div class="container register-form-container" id="app">
             <div id="app" class="row">
                 <div class="col-md-8 col-md-offset-2">
-                
-                <!-- FORM HEADER -->
+
+					<!-- FORM HEADER -->
                     <div class="login-form-top">
                         <div class="row vertical-align">
                             <div class="col-sm-10">
@@ -27,7 +27,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- FORM CONTENT -->
                     <div class="login-form-bottom">
                         <h:form class="form-horizontal">
@@ -60,14 +60,17 @@
                             <div class="form-group has-feedback">
                                 <label for="email" class="col-sm-3 control-label">Email:</label>
                                 <div class="col-sm-8">
-                                    <h:inputText value="#{newUserBean.email}" required="true" class="form-control">
+                                    <h:inputText id="email" value="#{newUserBean.email}" required="true" class="form-control">
                                         <f:passThroughAttribute name="type" value="email" />
                                         <f:passThroughAttribute name="v-model" value="email" />
                                         <f:passThroughAttribute name="v-on:keyup" value="showEmailFeedback" />
                                         <f:passThroughAttribute name="placeholder" value="name@example.com" />
+										<f:ajax delay="300" render="emailExists" execute="email" event="keyup" listener="#{newUserBean.generateEmailExistsError()}" />
                                     </h:inputText>
                                     <span class="form-control-feedback"><i v-bind:class='emailFeedback' aria-hidden="true"></i></span>
                                 </div>
+									<h:outputText id="emailExists" styleClass="col-sm-8 col-sm-offset-3 text-danger" value="#{newUserBean.emailErrorMessage}"></h:outputText>
+										
                             </div>
                             <!-- password -->
                             <div class="form-group has-feedback">
@@ -94,9 +97,9 @@
                                     <span class="form-control-feedback"><i v-bind:class="password2Feedback" aria-hidden="true"></i></span>
                                 </div>
                             </div>
-                            
 
-                            
+
+
 
                             <hr />  <!-- - - - - - - -->
                             <!-- address -->
@@ -161,11 +164,13 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-sm-offset-3 col-sm-10">
+                                <div class="col-sm-offset-3 col-sm-8">
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" jsf:value="#{newUserBean.billingSameAsShippingAddress}"  v-model="billingSameAsShippingAddress"></input>Billing and Shipping addresses are the same
-                                            
+                                            <h:selectBooleanCheckbox value="#{newUserBean.billingSameAsShippingAddress}">
+												<f:passThroughAttribute name="v-model" value="billingSameAsShippingAddress" />
+											</h:selectBooleanCheckbox>Billing and Shipping addresses are the same
+
                                         </label>
                                     </div>
                                 </div>
@@ -175,73 +180,82 @@
                             <!-- Different shipping address -->
                             <!-- address -->
                             <div v-show="!billingSameAsShippingAddress">
-                            <hr />
-                            <div class="form-group has-feedback">
-                                <label for="billingAddressLine1" class="col-sm-3 control-label">Billing Address:</label>
-                                <div class="col-sm-8">
-                                    <h:inputText value="#{newUserBean.billingAddressLine1}" required="false" class="form-control">
-                                        <f:passThroughAttribute name="type" value="text" />
-                                        <f:passThroughAttribute name="v-model" value="billingAddressLine1" />
-                                        <f:passThroughAttribute name="v-on:keyup" value="showBillingAddressLine1Feedback" />
-                                        <f:passThroughAttribute name="placeholder" value="Address Line 1" />
-                                    </h:inputText>
-                                    <span class="form-control-feedback"><i v-bind:class="billingAddressLine1Feedback" aria-hidden="true"></i></span>
-                                </div>
-                            </div>
-                            <div class="form-group has-feedback">
-                                <label for="billingAddressLine2" class="col-sm-3 control-label"></label>
-                                <div class="col-sm-8">
-                                    <h:inputText value="#{newUserBean.billingAddressLine2}" required="false" class="form-control">
-                                        <f:passThroughAttribute name="type" value="text" />
-                                        <f:passThroughAttribute name="v-model" value="billingAddressLine2" />
-                                        <f:passThroughAttribute name="v-on:keyup" value="showBillingAddressLine2Feedback" />
-                                        <f:passThroughAttribute name="placeholder" value="Address Line 2" />
-                                    </h:inputText>
-                                    <span class="form-control-feedback"><i v-bind:class="billingAddressLine2Feedback" aria-hidden="true"></i></span>
-                                </div>
-                            </div>
-                            <div class="form-group has-feedback">
-                                <label for="billingCity" class="col-sm-3 control-label"></label>
-                                <div class="col-sm-8">
-                                    <h:inputText value="#{newUserBean.billingCity}" required="false" class="form-control">
-                                        <f:passThroughAttribute name="type" value="text" />
-                                        <f:passThroughAttribute name="v-model" value="billingCity" />
-                                        <f:passThroughAttribute name="v-on:keyup" value="showBillingCityFeedback" />
-                                        <f:passThroughAttribute name="placeholder" value="City" />
-                                    </h:inputText>
-                                    <span class="form-control-feedback"><i v-bind:class="billingCityFeedback" aria-hidden="true"></i></span>
-                                </div>
-                            </div>
-                            <div class="form-group has-feedback">
-                                <label for="billingState" class="col-sm-3 control-label"></label>
-                                <div class="col-sm-8">
-                                    <h:inputText value="#{newUserBean.billingState}" required="false" class="form-control">
-                                        <f:passThroughAttribute name="type" value="text" />
-                                        <f:passThroughAttribute name="v-model" value="billingState" />
-                                        <f:passThroughAttribute name="v-on:keyup" value="showBillingStateFeedback" />
-                                        <f:passThroughAttribute name="placeholder" value="State" />
-                                    </h:inputText>
-                                    <span class="form-control-feedback"><i v-bind:class="billingStateFeedback" aria-hidden="true"></i></span>
-                                </div>
-                            </div>
-                            <div class="form-group has-feedback">
-                                <label for="billingPostcode" class="col-sm-3 control-label"></label>
-                                <div class="col-sm-8">
-                                    <h:inputText value="#{newUserBean.billingPostcode}" required="false" class="form-control">
-                                        <f:passThroughAttribute name="type" value="text" />
-                                        <f:passThroughAttribute name="v-model" value="billingPostcode" />
-                                        <f:passThroughAttribute name="v-on:keyup" value="showBillingPostcodeFeedback" />
-                                        <f:passThroughAttribute name="placeholder" value="Postcode" />
-                                    </h:inputText>
-                                    <span class="form-control-feedback"><i v-bind:class="billingStateFeedback" aria-hidden="true"></i></span>
-                                </div>
-                            </div>
+								<hr />
+								<div class="form-group has-feedback">
+									<label for="billingAddressLine1" class="col-sm-3 control-label">Billing Address:</label>
+									<div class="col-sm-8">
+										<h:inputText value="#{newUserBean.billingAddressLine1}" required="false" class="form-control">
+											<f:passThroughAttribute name="type" value="text" />
+											<f:passThroughAttribute name="v-model" value="billingAddressLine1" />
+											<f:passThroughAttribute name="v-on:keyup" value="showBillingAddressLine1Feedback" />
+											<f:passThroughAttribute name="placeholder" value="Address Line 1" />
+										</h:inputText>
+										<span class="form-control-feedback"><i v-bind:class="billingAddressLine1Feedback" aria-hidden="true"></i></span>
+									</div>
+								</div>
+								<div class="form-group has-feedback">
+									<label for="billingAddressLine2" class="col-sm-3 control-label"></label>
+									<div class="col-sm-8">
+										<h:inputText value="#{newUserBean.billingAddressLine2}" required="false" class="form-control">
+											<f:passThroughAttribute name="type" value="text" />
+											<f:passThroughAttribute name="v-model" value="billingAddressLine2" />
+											<f:passThroughAttribute name="v-on:keyup" value="showBillingAddressLine2Feedback" />
+											<f:passThroughAttribute name="placeholder" value="Address Line 2" />
+										</h:inputText>
+										<span class="form-control-feedback"><i v-bind:class="billingAddressLine2Feedback" aria-hidden="true"></i></span>
+									</div>
+								</div>
+								<div class="form-group has-feedback">
+									<label for="billingCity" class="col-sm-3 control-label"></label>
+									<div class="col-sm-8">
+										<h:inputText value="#{newUserBean.billingCity}" required="false" class="form-control">
+											<f:passThroughAttribute name="type" value="text" />
+											<f:passThroughAttribute name="v-model" value="billingCity" />
+											<f:passThroughAttribute name="v-on:keyup" value="showBillingCityFeedback" />
+											<f:passThroughAttribute name="placeholder" value="City" />
+										</h:inputText>
+										<span class="form-control-feedback"><i v-bind:class="billingCityFeedback" aria-hidden="true"></i></span>
+									</div>
+								</div>
+								<div class="form-group has-feedback">
+									<label for="billingState" class="col-sm-3 control-label"></label>
+									<div class="col-sm-8">
+										<h:inputText value="#{newUserBean.billingState}" required="false" class="form-control">
+											<f:passThroughAttribute name="type" value="text" />
+											<f:passThroughAttribute name="v-model" value="billingState" />
+											<f:passThroughAttribute name="v-on:keyup" value="showBillingStateFeedback" />
+											<f:passThroughAttribute name="placeholder" value="State" />
+										</h:inputText>
+										<span class="form-control-feedback"><i v-bind:class="billingStateFeedback" aria-hidden="true"></i></span>
+									</div>
+								</div>
+								<div class="form-group has-feedback">
+									<label for="billingPostcode" class="col-sm-3 control-label"></label>
+									<div class="col-sm-8">
+										<h:inputText value="#{newUserBean.billingPostcode}" required="false" class="form-control">
+											<f:passThroughAttribute name="type" value="text" />
+											<f:passThroughAttribute name="v-model" value="billingPostcode" />
+											<f:passThroughAttribute name="v-on:keyup" value="showBillingPostcodeFeedback" />
+											<f:passThroughAttribute name="placeholder" value="Postcode" />
+										</h:inputText>
+										<span class="form-control-feedback"><i v-bind:class="billingStateFeedback" aria-hidden="true"></i></span>
+									</div>
+								</div>
                             </div>
 
                             <br />
-                            <h:commandButton action="#{newUserBean.createCustomer()}"  type="submit" class="btn btn-primary col-sm-offset-5" value="Sign up!">
-                                
-                            </h:commandButton>
+							<div class="form-group">
+                                <div class="col-sm-offset-3 col-sm-8">
+                                    <div class="checkbox">
+										<label>
+											<h:selectBooleanCheckbox value="#{newUserBean.receiveNewsletter}" /> Receive Newsletters
+										</label>
+									</div>
+								</div>
+							</div>
+							<br/>
+                            <h:commandButton action="#{newUserBean.createCustomer()}"  type="submit" class="btn btn-primary col-sm-offset-5" value="Sign up!" />
+
 
                         </h:form>
                         <hr />
@@ -255,7 +269,7 @@
     </ui:define>
     <ui:define name="scripts">
         <h:outputScript library="javascripts" name="register.js" />
-        
-        
+
+
     </ui:define>
 </ui:composition>

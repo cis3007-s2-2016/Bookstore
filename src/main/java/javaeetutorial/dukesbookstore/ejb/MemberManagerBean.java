@@ -56,7 +56,8 @@ public class MemberManagerBean implements MemberManager {
     	String billingLine2,
     	String billingCity,
     	String billingState,
-    	String billingPostcode ){
+    	String billingPostcode,
+		boolean receiveNewsletters ){
         
         if (!email.matches("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$")){
             throw new RuntimeException("Email  is invalid.");
@@ -80,6 +81,7 @@ public class MemberManagerBean implements MemberManager {
         member.setBillingCity(billingCity);
         member.setBillingState(billingState);
         member.setBillingPostcode(billingPostcode);
+		member.setReceiveNewletter(receiveNewsletters);
         
         entityManager.persist(member);
         return member.getId();

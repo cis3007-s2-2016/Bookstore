@@ -31,7 +31,8 @@ public interface MemberManager {
     	String billingLine2,
     	String billingCity,
     	String billingState,
-    	String billingPostcode
+    	String billingPostcode,
+		boolean receiveNewsletter
     );
     
     public Member find(String email);

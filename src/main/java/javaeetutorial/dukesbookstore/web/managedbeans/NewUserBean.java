@@ -45,9 +45,29 @@ public class NewUserBean extends AbstractBean implements Serializable {
 	private String billingCity;
 	private String billingState;
 	private String billingPostcode;
+	private boolean receiveNewsletter = true;
+	private boolean emailExists = false;
+	private String emailErrorMessage = "";
 
+	public String getEmailErrorMessage() {
+		return emailErrorMessage;
+	}
+
+	public void setEmailErrorMessage(String emailErrorMessage) {
+		this.emailErrorMessage = emailErrorMessage;
+	}
+
+	
 	public MemberManager getMemberManager() {
 		return memberManager;
+	}
+
+	public boolean isReceiveNewsletter() {
+		return receiveNewsletter;
+	}
+
+	public void setReceiveNewsletter(boolean receiveNewsletter) {
+		this.receiveNewsletter = receiveNewsletter;
 	}
 
 	public void setMemberManager(MemberManager memberManager) {
@@ -60,6 +80,14 @@ public class NewUserBean extends AbstractBean implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public boolean isEmailExists() {
+		return emailExists;
+	}
+
+	public void setEmailExists(boolean emailExists) {
+		this.emailExists = emailExists;
 	}
 
 	public String getFirstname() {
@@ -194,12 +222,16 @@ public class NewUserBean extends AbstractBean implements Serializable {
 	}
 
 	public String createCustomer() {
-		if (isBillingSameAsShippingAddress()){
+		if (isBillingSameAsShippingAddress()) {
 			setBillingAddressLine1(getShippingAddressLine1());
 			setBillingAddressLine2(getShippingAddressLine2());
 			setBillingCity(getShippingCity());
 			setBillingPostcode(getShippingPostcode());
 			setBillingState(getShippingState());
+		}
+		
+		if (emailAlreadyRegistered() || this.getPassword() != this.getPassword2()){
+			return "/regiester";
 		}
 		try {
 			long memberId = memberManager.createCustomer(
@@ -217,12 +249,16 @@ public class NewUserBean extends AbstractBean implements Serializable {
 					this.getBillingAddressLine2(),
 					this.getBillingCity(),
 					this.getBillingState(),
-					this.getBillingPostcode()
+					this.getBillingPostcode(),
+					this.isReceiveNewsletter()
 			);
 		} catch (Exception e) {
-			//todo return error page
+			return "/register";
 		}
-		return ("index");
+
+		sessionBean.setUsername(getEmail());
+		sessionBean.setPassword(getPassword());
+		return sessionBean.login();
 	}
 
 	public String createAdmin() {
@@ -234,5 +270,20 @@ public class NewUserBean extends AbstractBean implements Serializable {
 		return ("/admin/add-new-staffmember.xhtml?faces-redirect=true&success=true");
 	}
 
+	public void generateEmailExistsError(){
+		setEmailErrorMessage("A user has already registered with that address.");
+	}
+	public boolean emailAlreadyRegistered() {
+		try {
+			Member user = memberManager.find(email);
+			if (user == null) {
+				return false;
+			} else {
+				return true;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+	}
 
 }
