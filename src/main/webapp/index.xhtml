@@ -70,9 +70,12 @@
 												#{book.title}
 											</div>
 											<div class="rating">
-                                                                                            <ui:repeat value="#{bookReviewBean.getAverageStarList(book)}" var ="book">
-												<i class="fa fa-star golden-star" aria-hidden="true"></i>
-                                                                                            </ui:repeat>
+												<small>
+													<h:outputText value="No customer reviews" rendered="#{bookReviewBean.noReviewsYet(book)}" style="color:#999;height:20px;"></h:outputText>
+												</small>
+												<ui:repeat value="#{bookReviewBean.getAverageStarList(book)}" var ="book">
+													<i class="fa fa-star golden-star" aria-hidden="true"></i>
+												</ui:repeat>
 											</div>
 											<p>
 												<h:form>
@@ -107,9 +110,12 @@
 												#{book.title}
 											</div>
 											<div class="rating">
-                                                                                            <ui:repeat value="#{bookReviewBean.getAverageStarList(book)}" var ="book">
-												<i class="fa fa-star golden-star" aria-hidden="true"></i>
-                                                                                            </ui:repeat>
+												<small>
+													<h:outputText value="No customer reviews" rendered="#{bookReviewBean.noReviewsYet(book)}" style="color:#999;height:20px;"></h:outputText>
+												</small>
+												<ui:repeat value="#{bookReviewBean.getAverageStarList(book)}" var ="book">
+													<i class="fa fa-star golden-star" aria-hidden="true"></i>
+												</ui:repeat>
 											</div>
 											<p>
 												<h:form>

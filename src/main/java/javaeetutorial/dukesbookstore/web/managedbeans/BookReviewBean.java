@@ -104,4 +104,9 @@ public class BookReviewBean extends AbstractBean implements Serializable{
         
         return getIntListFromMToN(1, (int) Math.floor(avgRating));
     }
+	
+	public boolean noReviewsYet(Book b){
+		List<BookReview> bookReviews = bookReviewManager.getReviews(b);
+		return bookReviews.size() == 0;
+	}
 }

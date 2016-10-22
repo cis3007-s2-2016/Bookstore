@@ -59,10 +59,12 @@
 													#{book.title}
 												</div>
 												<div class="rating">
-													<c:forEach var="i" begin="1" end="4">
+													<small>
+														<h:outputText value="No customer reviews" rendered="#{bookReviewBean.noReviewsYet(book)}" style="color:#999;height:20px;"></h:outputText>
+													</small>
+													<ui:repeat value="#{bookReviewBean.getAverageStarList(book)}" var ="book">
 														<i class="fa fa-star golden-star" aria-hidden="true"></i>
-													</c:forEach>
-													<i class="fa fa-star-o golden-star" aria-hidden="true"></i>
+													</ui:repeat>
 												</div>
 												<h5 class="text-center" >
 													<h:outputText value="#{book.retailPrice}">
