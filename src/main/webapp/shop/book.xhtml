@@ -40,11 +40,10 @@
                     </ui:repeat>
                 </h5>
                 <div class="rating average-rating-summary">
-                    <c:forEach var="i" begin="1" end="4">
+                    <ui:repeat value="#{bookReviewBean.getAverageStarList(shop.selectedBook)}" var="i">
                         <i class="fa fa-star golden-star" aria-hidden="true"></i>
-                    </c:forEach>
-                    <i class="fa fa-star-o golden-star" aria-hidden="true"></i>
-                    <small> Average rating by 8 customers </small>
+                    </ui:repeat>
+                    <small> Average rating from a total of <h:outputText value="#{bookReviewBean.getReviews(shop.selectedBook).size()}" /> reviews</small>
                 </div>
                 <p>#{shop.selectedBook.description}</p>
                 <br />
