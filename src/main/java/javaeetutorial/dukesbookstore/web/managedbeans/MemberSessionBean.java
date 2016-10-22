@@ -93,7 +93,7 @@ public class MemberSessionBean implements Serializable{
             }
             if (isCustomer()){
                 logger.info("Authenticated user is Customer. Returning customer dashboard");
-                return "/dashboard";
+                return "/user/dashboard";
             }
 
 

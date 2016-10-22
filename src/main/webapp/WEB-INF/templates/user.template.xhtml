@@ -18,19 +18,20 @@
 
 
 
-		<header>
-			<nav class="navbar navbar-inverse navbar-fixed-top">
+        <header>
+            <nav class="navbar navbar-inverse navbar-fixed-top">
                 <ui:include src="navbar.xhtml"/>
-			</nav>
-		</header>
-
+            </nav>
+        </header>
+        
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-3 col-md-2 sidebar">
                     <ul class="nav nav-sidebar">
-                        <li class="active"><a href="#">Recent Activity <span class="sr-only">(current)</span></a></li>
-                        <li><a href="#">Profile</a></li>
-                        <li><a href="#">Personal Details</a></li>
+                        <li class=""><a href="#">Recent Activity <span class="sr-only">(current)</span></a></li>
+                        <li class="#{view.viewId.equals('/user/details.xhtml')? 'active' : ''}">
+                            <h:link value='Account' outcome="details" />
+                        </li>
                         <li><a href="#">Wishlist</a></li>
                     </ul>
                     <ul class="nav nav-sidebar">
@@ -53,20 +54,20 @@
                     </ul>
                 </div>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 dashboard-main">
-					<div id="content">
-						<br /> <br />
+                    <div id="content">
+                        <br /> <br />
                         <div class="container-fluid">
-							<ui:insert name='content' />
+                            <ui:insert name='content' />
                         </div>
 
 
                     </div>
-				</div>
-			</div>
-		</div>
-	</h:body>
-	<!-- SCRIPTS -->
-	<ui:include src="scripts.xhtml"/>
+                </div>
+            </div>
+        </div>
+    </h:body>
+    <!-- SCRIPTS -->
+    <ui:include src="scripts.xhtml"/>
 
 
 </html>
