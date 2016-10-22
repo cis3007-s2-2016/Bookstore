@@ -61,6 +61,7 @@ public class ConfigBean {
         customer.setBillingCity("Darwin");
         customer.setBillingState("Northern Territory");
         customer.setBillingPostcode("7654");
+		customer.setReceiveNewletter(true);
         this.getEm().persist(customer);
         
 //        preferenceRequest.createPreference("pref.notify.auction.complete",

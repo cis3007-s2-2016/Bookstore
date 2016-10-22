@@ -11,8 +11,10 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,35 +27,30 @@ import javax.persistence.Table;
  *
  * @author matt
  */
-@Table(name="sales_new")
+@Table(name = "sales_new")
 @Entity
 public class SaleNew implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
-	@Column(name ="PURCHASE_DATE", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable = false, updatable = false)
+
+	@Column(name = "PURCHASE_DATE", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable = false, updatable = false)
 	private Timestamp purchaseDate;
-	
+
 	@Column(name = "POSTAGE_PRICE", nullable = false, precision = 7, scale = 2)    // Creates the database field with this size.
-		@Basic(optional = false)
-	private BigDecimal postagePrice;
-	
 	@Basic(optional = false)
-	@JoinColumn(name = "PURCHASER", referencedColumnName = "ID")
+	private BigDecimal postagePrice;
+
 	@ManyToOne
 	private Member purchaser;
-	
+
 	@Basic(optional = false)
-	@Column(name ="ADDRESS_SHIPPED_TO")
+	@Column(name = "ADDRESS_SHIPPED_TO")
 	private String addressShipped;
 	
-	@Basic(optional = false)
-	@OneToMany
-	private List<PurchasedItem> purchasedItems;
-			
+
 	public Long getId() {
 		return id;
 	}
@@ -94,25 +91,6 @@ public class SaleNew implements Serializable {
 		this.addressShipped = addressShipped;
 	}
 
-	public List<PurchasedItem> getPurchasedItems() {
-		return purchasedItems;
-	}
-
-	public void setPurchasedItems(List<PurchasedItem> purchasedItems) {
-		this.purchasedItems = purchasedItems;
-	}
-
-	public SaleNew() {
-		setPurchasedItems(new ArrayList<>());
-	}
-	
-	public void add(PurchasedItem item){
-		this.getPurchasedItems().add(item);
-	}
-	
-	
-	
-
 	@Override
 	public int hashCode() {
 		int hash = 0;
@@ -137,5 +115,5 @@ public class SaleNew implements Serializable {
 	public String toString() {
 		return "javaeetutorial.dukesbookstore.entity.SaleNew[ id=" + id + " ]";
 	}
-	
+
 }

@@ -39,53 +39,72 @@ public class SalesManagerBean implements SalesManager {
 
 	@Override
 	public void newSale(Member user, ArrayList<CartItem> cartItems) {
-		logger.fine("SalesManager: Creating new SaleNew");
+		logger.severe("SalesManager: Creating new SaleNew");
 		SaleNew sale = new SaleNew();
 
 		if (user == null) {
-			logger.fine("SalesManager: Trying to create new SaleNew:  User is null!");
+			logger.severe("SalesManager: Trying to create new SaleNew:  User is null!");
 		}
-		
+
 		if (cartItems == null) {
-			logger.fine("SalesManager: Trying to create new SaleNew:  Cart is null!");
+			logger.severe("SalesManager: Trying to create new SaleNew:  Cart is null!");
 		}
 		if (cartItems.size() == 0) {
-			logger.fine("SalesManager: Trying to create new SaleNew:  Cart is empty!");
+			logger.severe("SalesManager: Trying to create new SaleNew:  Cart is empty!");
 		}
 
 		try {
+			logger.severe("SalesMangager: persisting sale...");
+			entityManager.persist(sale);
+			logger.severe("SalesMangager: sale persisted.");
+
 			sale.setPurchaser(user);
 			sale.setPostagePrice(new BigDecimal(0));
-			sale.setAddressShipped(user.shippingAddressString());
-			sale.setPurchasedItems(new ArrayList<>());
+			sale.setAddressShipped(shippingAddressString(user));
 
 			for (CartItem item : cartItems) {
-				logger.fine("SalesManager: creating new PurchasedItem...");
+				logger.severe("SalesManager: creating new PurchasedItem...");
 				PurchasedItem purchase = new PurchasedItem();
-				logger.fine("SalesManager: PurchasedItem created. Adding book....");
+				logger.severe("SalesManager: PurchasedItem created. Adding book....");
 				purchase.setItem(item.getBook());
-				logger.fine("SalesManager: Book added. Adding qty...");
+				logger.severe("SalesManager: Book added. Adding qty...");
 
 				purchase.setQuantity(item.getQuantity());
-				logger.fine("SalesManager: Qty added");
+				logger.severe("SalesManager: Qty added");
 
 				purchase.setPriceEach(item.getBook().getRetailPrice());
-				logger.fine("SalesManager:  attempting to add PurchasedItem to SaleNew...");
-				sale.add(purchase);
-				logger.fine("SalesManager: Added purchasedItem to SaleNew");
+				logger.severe("SalesManager:  attempting to add PurchasedItem to SaleNew...");
+				purchase.setSale(sale);
+				logger.severe("SalesManager: Added purchasedItem to SaleNew");
+
+				entityManager.persist(purchase);
 			}
 
 		} catch (Exception e) {
-			logger.warning("SalesManager: Failed to create new SaleNew:  " + e);
+			logger.severe("SalesManager: Failed to create new SaleNew:  " + e);
 			throw e;
 		}
 
 		try {
-			entityManager.persist(sale);
+
 		} catch (Exception e) {
-			logger.warning("SalesManager: Failed persist SaleNew:  " + e);
+			logger.severe("SalesManager: Failed persist SaleNew:  " + e);
 			throw e;
 		}
+	}
+
+	public String shippingAddressString(Member user) {
+		StringBuilder address = new StringBuilder();
+		if (!user.getShippingAddressLine1().isEmpty()) {
+			address.append(user.getShippingAddressLine1()).append("\n");
+		}
+		if (!user.getShippingAddressLine2().isEmpty()) {
+			address.append(user.getShippingAddressLine2()).append("\n");
+		}
+		address.append(user.getShippingCity()).append("\n");
+		address.append(user.getShippingState()).append(" ");
+		address.append(user.getShippingPostcode());
+		return address.toString();
 	}
 
 }

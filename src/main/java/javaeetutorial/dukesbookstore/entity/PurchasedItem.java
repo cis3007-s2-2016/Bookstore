@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -32,12 +33,12 @@ public class PurchasedItem implements Serializable {
 	protected Long id;
 
 	@ManyToOne
-	@Basic(optional = false)
 	private Book item;
 
 	@ManyToOne
+	@JoinColumn(name="SALE_ID", nullable=false)
 	private SaleNew sale;
-
+	
 	@Basic(optional = false)
 	private int quantity;
 

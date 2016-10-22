@@ -73,8 +73,7 @@ public class Member implements Serializable {
 	private String billingState;
 	@Basic(optional = false)
 	private String billingPostcode;
-	@Basic(optional = false)
-	private boolean receiveNewletter = true;
+	private boolean receiveNewletter = false;
 
 	@ManyToMany
 	private List<Interest> userInterests;
@@ -82,7 +81,7 @@ public class Member implements Serializable {
 	@OneToMany
 	private List<AuctionNotificationRequest> auctionNotificationRequest;
 
-	public boolean isReceiveNewletter() {
+	public boolean getReceiveNewletter() {
 		return receiveNewletter;
 	}
 
