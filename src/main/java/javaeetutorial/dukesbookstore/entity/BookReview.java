@@ -6,8 +6,6 @@
 package javaeetutorial.dukesbookstore.entity;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
