@@ -16,7 +16,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.logging.Logger;
 import javaeetutorial.dukesbookstore.entity.Member;
+import javax.annotation.PostConstruct;
+import javax.ejb.BeforeCompletion;
 import javax.ejb.EJB;
+import javax.faces.event.AjaxBehaviorEvent;
 
 
 @Named("newMemberSale")
@@ -28,37 +31,42 @@ public class NewSaleBean implements Serializable{
     @Inject
     MemberSaleManager memberSaleManager;
     
-    private final SaleUsed memberSale = new SaleUsed();
     
-    public NewSaleBean()
-    {
-        memberSale.setSaletype("auction");
-        memberSale.setSaleprice(BigDecimal.ZERO);
-        memberSale.setReserveprice(BigDecimal.ZERO);
-        memberSale.setDuration(0);
-        memberSale.setPaid(false);
-        memberSale.setStartprice(BigDecimal.ZERO);
-        memberSale.setPostage(BigDecimal.ZERO);
-        
-        logger.info(memberSale.toString());
+    @Inject
+    MemberSessionBean memberSession;
+    
+    private SaleUsed memberSale;
+
+    public NewSaleBean() {
     }
     
-
+    @PostConstruct
+    public void postConstruct()
+    {
+        memberSale = new SaleUsed();
+        memberSale.setSelleridId(memberSession.getUser());
+        memberSale.setPostage(BigDecimal.ZERO);
+        memberSale.setReserveprice(BigDecimal.ZERO);
+        memberSale.setSaleprice(BigDecimal.ZERO);
+        memberSale.setStartprice(BigDecimal.ZERO);
+        memberSale.setAmount(BigDecimal.ONE);
+        memberSale.setCommission(BigDecimal.valueOf(0.05));
+        
+        logger.info("MEMBER SALE IS: " + memberSale.toString());
+    }
+    
+    
+    
     public SaleUsed getMemberSale() {
         return this.memberSale;
     }
 
     
-    public void submit(Member member)
+    
+    public void onAjaxSubmit(AjaxBehaviorEvent event)
     {
-        if(null == memberSale)
-        {
-            return;
-        }
-        memberSale.setSelleridId(member);
+        logger.info("AJAX EVENT IN NEW SALE BEAN");
         memberSaleManager.persist(memberSale);
     }
-    
-    
 
 }

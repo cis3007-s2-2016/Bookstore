@@ -278,7 +278,7 @@ public class SaleUsed implements Serializable, Converter {
 
 	@Override
 	public String toString() {
-		return "" + isbn;
+		return "Sale seller is: ";
 	}
 
 	@Override

@@ -23,12 +23,14 @@
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <h4>Sale Details</h4>
+                            
                             <h:form id="create-new-auction">
                                 <div class="input-group">
                                     
                                     <label for="book-to-auction">Book to auction</label>
                                     <h:selectOneMenu id="book-to-auction" styleClass="form-control" value="#{newMemberSale.memberSale.isbn}">
                                         <f:selectItems value="#{shop.books}" var="i" itemLabel="#{i.title}" />
+                                        <f:ajax execute="@this" render="@this" />
                                     </h:selectOneMenu>
                                 </div>
                                 <div class="input-group">
@@ -38,6 +40,7 @@
                                         <f:selectItem itemValue="good" itemLabel="Good"/>
                                         <f:selectItem itemValue="minor" itemLabel="Minor Damage"/>
                                         <f:selectItem itemValue="Poor" itemLabel="Poor"/>
+                                        <f:ajax execute="@this" render="@this" />
                                     </h:selectOneMenu>
                                 </div>
 
@@ -46,6 +49,7 @@
                                     <h:inputText id="auction-postage" styleClass="form-control" value="#{newMemberSale.memberSale.postage}">
                                         <f:passThroughAttribute name="type" value="number" />
                                         <f:passThroughAttribute name="step" value="any" />
+                                        <f:ajax execute="@this" render="@this" />
                                     </h:inputText>
                                 </div>
                                 <div class="input-group">
@@ -63,12 +67,14 @@
                                             <h:inputText id="auction-reserve" styleClass="form-control" value="#{newMemberSale.memberSale.reserveprice}">
                                                 <f:passThroughAttribute name="type" value="number" />
                                                 <f:passThroughAttribute name="step" value="any" />
+                                                <f:ajax execute="@this" render="@this" />
                                             </h:inputText>
                                         </div>
                                         <div class="input-group">
                                             <label >Auction Duration (in days)</label>
                                             <h:inputText id="auction-duration" styleClass="form-control" value="#{newMemberSale.memberSale.duration}">
                                                 <f:passThroughAttribute name="type" value="number" />
+                                                <f:ajax execute="@this" render="@this" />
                                             </h:inputText>
                                         </div>
                                         <div class="input-group">
@@ -76,6 +82,7 @@
                                             <h:inputText id="auction-start-price" styleClass="form-control" value="#{newMemberSale.memberSale.startprice}">
                                                 <f:passThroughAttribute name="type" value="number" />
                                                 <f:passThroughAttribute name="step" value="any" />
+                                                <f:ajax execute="@this" render="@this" />
                                             </h:inputText>
                                         </div>
                                     </c:when>
@@ -85,7 +92,9 @@
                                             <h:inputText id="sale-price" styleClass="form-control" value="#{newMemberSale.memberSale.saleprice}">
                                                 <f:passThroughAttribute name="type" value="number" />
                                                 <f:passThroughAttribute name="step" value="any" />
+                                                <f:ajax execute="@this" render="@this" />
                                             </h:inputText>
+                                            
                                         </div>
                                     </c:when>
                                     
@@ -95,12 +104,12 @@
                                     
                                 </c:choose>
                                 <div class="btn-group">
-                                    <h:link styleClass="btn btn-default" outcome="/user/dashboard">Cancel</h:link>
-                                    <h:commandButton styleClass="btn btn-default" value="Submit">
-                                        <f:ajax event="click" execute="@form" render="@form" listener="#{newMemberSale.submit(memberSession.user)}" />
-                                    </h:commandButton>
+                                    <h:commandLink id="submit-review" styleClass="btn btn-default" value="Submit">
+                                        <f:ajax listener="#{newMemberSale.onAjaxSubmit}" />
+                                    </h:commandLink>
                                 </div>
                             </h:form>
+                            
                         </div>
                     </div>
                 </div>
