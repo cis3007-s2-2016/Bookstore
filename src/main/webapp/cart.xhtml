@@ -77,7 +77,7 @@
 						<td class="text-center">
 							<h:form id="qty#{item.book.ISBN}" >
 								<h:selectOneMenu  value="#{item.quantity}" onchange="submit()">
-									<c:forEach begin="1" end="20" var="i">
+									<c:forEach begin="1" end="#{item.book.stockLevel gt 20 ? 20 : item.book.stockLevel}" var="i">
 										<f:selectItem itemValue="#{i}" itemLabel="#{i}" />
 									</c:forEach>
 								</h:selectOneMenu>
@@ -91,6 +91,7 @@
 								<h4><f:convertNumber currencySymbol="$" type="currency" maxFractionDigits="2" /></h4>	
 							</h:outputText>
 						</td>
+						
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -101,7 +102,7 @@
 						<td colspan="2" class="text-right">
 							<div class="text-center pull-right" style="max-width:300px">
 								<h2>Total Price:  
-									<h:outputText value="#{cart.totalPrice()}">
+									<h:outputText id="grandTotal" value="#{cart.totalPrice()}">
 										<h3><f:convertNumber currencySymbol="$" type="currency" maxFractionDigits="2" /></h3>	
 									</h:outputText>
 								</h2>

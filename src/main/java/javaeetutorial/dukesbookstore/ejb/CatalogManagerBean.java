@@ -101,6 +101,15 @@ public class CatalogManagerBean implements CatalogManager {
 		book.setStockLevel(book.getStockLevel() + qty);
 		entityManager.persist(book);
 	}
+	public void buyBooks(Book book, int qty){
+		if (qty > book.getStockLevel()){
+			logger.severe("Uh oh");
+			book.setStockLevel(0);
+		}
+		book.setStockLevel(book.getStockLevel() - qty);
+		entityManager.merge(book);
+		entityManager.flush();
+	}
 
 	@Override
 	public List<String> getGenres() {

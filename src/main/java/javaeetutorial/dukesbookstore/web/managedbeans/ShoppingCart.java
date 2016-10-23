@@ -36,12 +36,6 @@ public class ShoppingCart implements Serializable {
 		clearCart();
 	}
 
-	@PreDestroy
-	private void putCartItemsBack() {
-		for (CartItem item : getShoppingCart()) {
-			catalogManager.returnBooks(item.getBook().getISBN(), item.getQuantity());
-		}
-	}
 
 	public void clearCart() {
 		setShoppingCart(new ArrayList<>());
@@ -62,9 +56,6 @@ public class ShoppingCart implements Serializable {
 			throw new RuntimeException("Supplied ISBN does not match any in database");
 		}
 
-		
-		//reserve books for purchase
-		catalogManager.decrementStockCount(isbn);
 
 		Ajax.data("cartCount", numberOfItems());
 		Ajax.oncomplete("updateCartCountBadge()");
@@ -100,12 +91,6 @@ public class ShoppingCart implements Serializable {
 			getShoppingCart().remove(removeMe);
 		}
 	}
-
-	public String changeQty() {
-		
-		this.setShoppingCart(shoppingCart);
-		return "/bookshowcart?faces-redirect=true";
-	}
 	
 	public ArrayList<Book> getBooks(){
 		ArrayList<Book> books = new ArrayList<>();
@@ -133,41 +118,5 @@ public class ShoppingCart implements Serializable {
 		return false;
 	}
 	
-	
-	
-	
-	/**
-	 * 
-	 * 
-	 *	todo: updatingcart with select form needs to update database aswell!
-	 * 
-	 * 
-	 * 
-	 * 
-	 */
-	
-	
-	
-//	public int stockCount(String isbn) {
-//		return catalogManager.findBook(isbn).getStockLevel();
-//	}
-//	public int quantityAvailableToAddToCart(String isbn) {
-//		int available = stockCount(isbn);
-//		return available > 20 ? 20 : available;  //assuming max quantity a user can purchase is 20
-//	}
-//	public String changeQty(String isbn) {
-//		int booksAvailable = 0;
-//		for (CartItem cartItem : getShoppingCart()){
-//			if (cartItem.getBook().getISBN().equals(isbn)){
-//				booksAvailable = stockCount(isbn) + cartItem.getQuantity();
-//				if (cartItem.getQuantity() > booksAvailable){
-//					cartItem.setQuantity(booksAvailable);
-//				}
-//				catalogManager.changeStockCount(cartItem.getBook().getISBN(), cartItem.getQuantity());
-//			}
-//		}
-//		
-//		return "/bookshowcart?faces-redirect=true";
-//	}
 
 }

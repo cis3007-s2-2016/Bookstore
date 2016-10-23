@@ -36,6 +36,8 @@ public class CartItem {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+		BigDecimal qty = new BigDecimal(quantity);
+		setTotalPrice(qty.multiply(getBook().getRetailPrice()));
 	}
 
 	public BigDecimal getTotalPrice() {
@@ -52,13 +54,12 @@ public class CartItem {
 		this.setQuantity(0);
 	}
 	public CartItem(Book book){
-		this.setQuantity(1);
 		setBook(book);
-		setTotalPrice(book.getRetailPrice());
+		this.setQuantity(1);
+		
 	}
 	public void increase(){
 		setQuantity(getQuantity() + 1);
-		setTotalPrice(book.getRetailPrice().add(getTotalPrice()));
 	}
 	
 }

@@ -7,6 +7,7 @@ package javaeetutorial.dukesbookstore.web.managedbeans;
 
 import java.io.Serializable;
 import java.util.logging.Logger;
+import javaeetutorial.dukesbookstore.ejb.CatalogManager;
 import javaeetutorial.dukesbookstore.ejb.SalesManager;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -24,6 +25,9 @@ public class Checkout implements Serializable {
 	
 	@EJB
 	private SalesManager salesManager;
+	
+	@EJB
+	private CatalogManager catalogManager;
 	
 	@Inject
 	private ShoppingCart cart;
@@ -106,10 +110,27 @@ public class Checkout implements Serializable {
 		} else {
 			//todo: handle error from 3rd party payment processing
 		}
+		decrementStock();
 		getCart().clearCart();
 		Ajax.data("PaymentSuccess", "true");
 		Ajax.data("cartCount", 0);
 		Ajax.oncomplete("paymentsuccess()");
+	}
+
+	public Checkout(SalesManager salesManager, ShoppingCart cart, MemberSessionBean memberSession, String cardnumber, String expiryMonth, String expiryYear, String csv) {
+		this.salesManager = salesManager;
+		this.cart = cart;
+		this.memberSession = memberSession;
+		this.cardnumber = cardnumber;
+		this.expiryMonth = expiryMonth;
+		this.expiryYear = expiryYear;
+		this.csv = csv;
+	}
+	
+	private void decrementStock(){
+		for (CartItem item : getCart().getShoppingCart()){
+			catalogManager.buyBooks(item.getBook(), item.getQuantity());
+		}
 	}
 	
 	private boolean makeTransaction() {
