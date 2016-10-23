@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:bookstore="http://dukesbookstore"
+                template="/WEB-INF/templates/user.template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:composites="http://xmlns.jcp.org/jsf/composite/composites">
+    <ui:define name="content">
+        <h:form id="filter-users">
+            <h4>Search Users</h4>
+            <div class="input-group">
+                <h:inputText styleClass="form-control" value="#{memberSearchBean.memberSearchString}">
+                    <f:ajax execute="@this" event="change" render="user-panels"/>
+                </h:inputText>
+            </div>
+            
+        </h:form>
+        <h:panelGroup id="user-panels">
+            <ui:repeat value="#{memberSearchBean.usersWithNameLike}" var="nameLikeMem">
+                <composites:person-panel bookStoreMember="#{nameLikeMem}" shouldAllowReview="#{true}" revBean="#{memberReviewBean}"/>
+            </ui:repeat>
+        </h:panelGroup>
+        <h:outputScript library="javascripts" name="bookReviewStars.js" />
+    </ui:define>
+    
+</ui:composition>

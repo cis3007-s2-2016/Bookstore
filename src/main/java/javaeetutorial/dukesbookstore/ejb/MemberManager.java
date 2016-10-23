@@ -42,8 +42,11 @@ public interface MemberManager {
      * @return list of members who are bookstore staff members
      */
     public List<Member> getStaff();
+    public List<Member> getCustomers();
 	
 	public void updateUser(Member user);
 	
 	public void changePassword(Member user, String password);
+
+    public void persist(Member user);
 }

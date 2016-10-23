@@ -10,7 +10,8 @@
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:o="http://omnifaces.org/ui"
                 xmlns:of="http://omnifaces.org/functions"
-                xmlns:jsf="http://xmlns.jcp.org/jsf">
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:composites="http://xmlns.jcp.org/jsf/composite/composites">
 
     <ui:define name="top"></ui:define>
     <ui:define name="content">
@@ -40,10 +41,8 @@
                     </ui:repeat>
                 </h5>
                 <div class="rating average-rating-summary">
-                    <ui:repeat value="#{bookReviewBean.getAverageStarList(shop.selectedBook)}" var="i">
-                        <i class="fa fa-star golden-star" aria-hidden="true"></i>
-                    </ui:repeat>
-                    <small> Average rating from a total of <h:outputText value="#{bookReviewBean.getReviews(shop.selectedBook).size()}" /> reviews</small>
+                    <composites:avg-book-rating id='avg-book-rating' forBook="#{shop.selectedBook}"></composites:avg-book-rating>
+                    <!--<small> Average rating from a total of <h:outputText value="#{bookReviewBean.getReviews(shop.selectedBook).size()}" /> reviews</small>-->
                 </div>
                 <p>#{shop.selectedBook.description}</p>
                 <br />
@@ -135,7 +134,7 @@
 											<f:ajax render="add-review-form" listener="#{bookReviewBean.onCancelLinkAjax}" />
 										</h:commandButton> 
 										<h:commandButton id="submit-review" styleClass="button btn btn-default" value="Submit Review">
-											<f:ajax execute="@form" render="add-review-form existing-customer-reviews" listener="#{bookReviewBean.onSubmitReviewLinkAjax}" />
+											<f:ajax execute="@form avg-book-rating" render="add-review-form existing-customer-reviews" listener="#{bookReviewBean.onSubmitReviewLinkAjax}" />
 										</h:commandButton>
 									</div>
 								</div>
@@ -163,9 +162,7 @@
 
 						<div class='row'>
 							<div class="rating" style="display: inline-block;">
-								<ui:repeat value="#{bookReviewBean.getStarList(bookReview)}" var="i">
-									<i class="fa fa-star golden-star" aria-hidden="true"></i>
-								</ui:repeat>
+                                                            <composites:book-review-rating forBookReview="#{bookReview}" />
 							</div>
 							<h5 style="display: inline-block;">
 								<h:outputText value="#{bookReview.review.substring(0, 5)}..." />
