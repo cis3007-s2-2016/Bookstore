@@ -8,78 +8,54 @@
     <ui:define name="content">
 
 		<div class="page-header">
-			<h1>Out of Stock</h1>
+			<h1>Stock report</h1>
 			<br />
-			
-			
-			<!--
-   
-   
-			
-			todo: ajax get stock level lower than value entered by user
-   
-   
-   
-   
-			<div class="row">
-				<div class="form-group">
-                    <label for="stockCount" class="col-sm-2 control-label">Number in Stock:</label>
-                    <div class="col-sm-2">
+		</div>
+
+
+
+
+
+
+
+
+
+		<div class="row">
+			<div class="form-group">
+				<label for="stockCount" class="col-sm-2 control-label">Number in Stock:</label>
+				<div class="col-sm-2">
+					<h:form>
                         <h:inputText id="stockCount" styleClass="form-control" value="#{catalog.stock}" required="true">
-                            <f:passThroughAttribute name="placeholder" value="Number in stock"/>
+                            <f:passThroughAttribute name="placeholder" value="Max stock number:"/>
                             <f:passThroughAttribute name="type" value="number" />
                             <f:passThroughAttribute name="step" value="1" />
                             <f:passThroughAttribute name="min" value="0" />
-							<f:ajax event="keyup"
+							<f:ajax event="change" render="stockReport" />
+							<f:ajax event="keyup" render="stockReport" />
+
                         </h:inputText>
-                    </div>
-                </div>
+					</h:form>
+				</div>
 			</div>
-			-->
 		</div>
-		<div class="row">
 
-			<table class="table">
 
-				<thead>
-					<tr>
-						<th>
-							#
-						</th>
-						<th>
-							ISBN
-						</th>
-						<th>
-							Title
-						</th>
-						<th>
-							Number In stock
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<ui:repeat value="#{catalog.lowStockBooks()}" var="book" varStatus="status">
-						<tr>
-							<td>
-								#{status.index + 1}
-							</td>
-							<td>
-								#{book.ISBN}
-							</td>
-							<td>
-								#{book.title}
-							</td>
-							<td>
-								#{book.stockLevel}
-							</td>
-						</tr>
-					</ui:repeat>
+		<h:dataTable value="#{catalog.lowStockBooks()}" var="book" id="stockReport" styleClass="table cart-table">
 
-				</tbody>
-				<tr>
 
-				</tr>
-			</table>
-		</div>
+			<h:column>
+				<f:facet name="header">ISBN</f:facet>
+					#{book.ISBN}
+			</h:column>
+			<h:column>
+				<f:facet name="header">Title</f:facet>
+					#{book.title}
+			</h:column>
+			<h:column>
+				<f:facet name="header">Number In Stock</f:facet>
+					#{book.stockLevel}
+			</h:column>
+
+		</h:dataTable>
     </ui:define>
 </ui:composition>

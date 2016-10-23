@@ -48,7 +48,7 @@
 								<small>
 									<h:outputText value="No customer reviews" rendered="#{bookReviewBean.noReviewsYet(book)}" style="color:#999;height:20px;"></h:outputText>
 								</small>
-								<ui:repeat value="#{bookReviewBean.getAverageStarList(book)}" var ="book">
+								<ui:repeat value="#{bookReviewBean.getAverageStarList(book)}" var ="b">
 									<i class="fa fa-star golden-star" aria-hidden="true"></i>
 								</ui:repeat>
 							</div>
