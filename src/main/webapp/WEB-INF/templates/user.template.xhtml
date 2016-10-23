@@ -28,29 +28,25 @@
             <div class="row">
                 <div class="col-sm-3 col-md-2 sidebar">
                     <ul class="nav nav-sidebar">
-                        <li class="active"><a href="#">Recent Activity <span class="sr-only">(current)</span></a></li>
-                        <li><a href="#">Profile</a></li>
-                        <li><a href="#">Personal Details</a></li>
-                        <li><a href="#">Wishlist</a></li>
+                        <li class="#{view.viewId == '/user/index.xhtml' ? 'active':''}"><h:link outcome="/user/index" value="Activity Summary"/></li>
                     </ul>
                     <ul class="nav nav-sidebar">
                         <li class='nav-divider'></li>
-                        <li><a href="">Sell a book</a></li>
-                        <li><a href="">Books im selling</a></li>
-                        <li><a href="">Books I've sold</a></li>
+                        <li class="#{view.viewId == '/user/sell-book.xhtml' ? 'active':''}"><h:link outcome="/user/sell-book" value="Sell a book"/></li>
+                        <li class="#{view.viewId == '/user/edit-sale.xhtml' ? 'active':''}"><h:link outcome="/user/edit-sale" value="Books I'm selling"/></li>
+                        <li class="#{view.viewId == '/user/sold-books.xhtml' ? 'active':''}"><h:link outcome="/user/sold-books" value="Books I've sold"/></li>
                     </ul>
                     <ul class="nav nav-sidebar">
                         <li class='nav-divider'></li>
-                        <li><a href="">Auctions I'm Watching</a></li>
-                        <li><a href="">Auctions I'm Bidding On</a></li>
-                        <li><a href="">Auctions I've Won</a></li>
+                        <li class="#{view.viewId == '/user/purchase-history.xhtml' ? 'active':''}"><h:link outcome="/user/purchase-history" value="New Purchases" /></li>
+						<li class="#{view.viewId == '/user/auction-purchase-history.xhtml' ? 'active':''}"><h:link outcome="/user/auction-purchase-history" value="Auction Purchases" /></li>
                     </ul>
-                    <ul class="nav nav-sidebar">
+					<ul class="nav nav-sidebar">
                         <li class='nav-divider'></li>
-                        <li><a href="#">Reports</a></li>
-                        <li><a href="#">Analytics</a></li>
-                        <li><a href="#">Export</a></li>
-                    </ul>
+						<li class="#{view.viewId == '/user/details.xhtml' ? 'active':''}"><h:link outcome="/user/details" value="My Details"/></li>
+                        <li class="#{view.viewId == '/user/change-password.xhtml' ? 'active':''}"><h:link outcome="/user/change-password" value="Change Password"/></li>
+
+					</ul>
                 </div>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 dashboard-main">
 					<div id="content">
