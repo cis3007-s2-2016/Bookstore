@@ -21,6 +21,7 @@ public class AuthFilter implements Filter {
     private final String[][] protectedUrls =  {
             {"/admin/(.*)", "admin"},
             {"/rest/(.*)", "admin,customer"},
+			{"/user/(.*)", "customer"},
             {"/checkout\\.xhtml", "customer"}
     };
 

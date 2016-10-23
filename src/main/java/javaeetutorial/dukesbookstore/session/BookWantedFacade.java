@@ -5,7 +5,7 @@
  */
 package javaeetutorial.dukesbookstore.session;
 
-import javaeetutorial.dukesbookstore.entity.BookWanted;
+import javaeetutorial.dukesbookstore.entity.WishlistItem;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author amanda hugnkiss
  */
 @Stateless
-public class BookWantedFacade extends AbstractFacade<BookWanted> {
+public class BookWantedFacade extends AbstractFacade<WishlistItem> {
 
     @PersistenceContext(unitName = "bookstorePU")
     private EntityManager em;
@@ -26,7 +26,7 @@ public class BookWantedFacade extends AbstractFacade<BookWanted> {
     }
 
     public BookWantedFacade() {
-        super(BookWanted.class);
+        super(WishlistItem.class);
     }
     
 }

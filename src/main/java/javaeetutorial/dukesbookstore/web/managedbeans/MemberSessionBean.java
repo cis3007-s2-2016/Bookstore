@@ -15,6 +15,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.commons.lang.exception.ExceptionUtils;
 
@@ -28,6 +29,8 @@ public class MemberSessionBean implements Serializable {
 
 	@EJB
 	MemberManager memberManager;
+	@Inject
+	Wishlist wishlist;
 	private static final Logger logger = Logger.getLogger("dukesbookstore.web.managedbeans.ShoppingCart");
 	private String username;
 	private String password;
@@ -126,6 +129,7 @@ public class MemberSessionBean implements Serializable {
 			this.setLoginAttemptCount(0);
 			logger.info(this.getUser().getFirstName() + " logged in.");
 			this.setNewEmail(user().getEmail());
+			wishlist.updateWishlists();
 
 			if (isAdmin()) {
 				logger.info("Authenticated user is Admin. Returning admin panel");

@@ -79,8 +79,13 @@
                             <h:form>
                                 <h:commandLink>
                                     <button class="btn btn-primary" role="button"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                    <f:ajax listener="#{cart.add(shop.selectedBook.ISBN)}"/>
+                                    <f:ajax listener="#{cart.add(shop.selectedBook.ISBN)}" render="@form"/>
                                 </h:commandLink>
+								<h:commandButton styleClass="btn btn-primary disabled" value="Out of stock" rendered="#{book.stockLevel == 0}" />
+								<h:commandLink styleClass="btn btn-primary" action="#{wishlist.toggle(book.ISBN)}" rendered="#{memberSession.loggedIn}">
+									<h:panelGroup class="#{wishlist.wishlist.contains(book.ISBN) ? 'fa fa-heart text-danger' : 'fa fa-heart-o' }" />
+									<f:ajax listener="#{wishlist.toggle(book)}" render="@this"/>
+								</h:commandLink>
                             </h:form>
 
                         </c:if>

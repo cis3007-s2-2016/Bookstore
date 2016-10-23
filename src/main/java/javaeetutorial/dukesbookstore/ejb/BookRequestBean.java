@@ -1,11 +1,8 @@
 package javaeetutorial.dukesbookstore.ejb;
 
-import com.sun.istack.Nullable;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,14 +18,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Root;
-import org.eclipse.persistence.internal.oxm.schema.model.Restriction;
-import org.eclipse.persistence.jpa.jpql.parser.LikeExpression;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Restrictions;
 
 /**
  * <p>Stateful session bean for the bookstore example.</p>

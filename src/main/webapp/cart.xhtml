@@ -53,7 +53,7 @@
 						<td>
 							<h4><h:outputText value="#{item.book.title}" /></h4>
 							<h6 class="text-capitalize" >by 
-								<c:forEach items="#{shop.selectedBook.bookAuthors}" var="author" varStatus="status">
+								<c:forEach items="#{item.book.bookAuthors}" var="author" varStatus="status">
 						#{ author.givenNames.toLowerCase()} #{author.surname.toLowerCase()}#{status.last ? "" : ", "}
 								</c:forEach>
 							</h6>

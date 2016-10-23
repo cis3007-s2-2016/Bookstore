@@ -6,7 +6,7 @@
 package javaeetutorial.dukesbookstore.service;
 
 import java.util.List;
-import javaeetutorial.dukesbookstore.entity.BookWanted;
+import javaeetutorial.dukesbookstore.entity.WishlistItem;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,26 +26,26 @@ import javax.ws.rs.core.MediaType;
  */
 @Stateless
 @Path("/entity/bookwanted")
-public class BookWantedFacadeREST extends AbstractFacade<BookWanted> {
+public class BookWantedFacadeREST extends AbstractFacade<WishlistItem> {
 
     @PersistenceContext(unitName = "bookstorePU")
     private EntityManager em;
 
     public BookWantedFacadeREST() {
-        super(BookWanted.class);
+        super(WishlistItem.class);
     }
 
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(BookWanted entity) {
+    public void create(WishlistItem entity) {
         super.create(entity);
     }
 
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Long id, BookWanted entity) {
+    public void edit(@PathParam("id") Long id, WishlistItem entity) {
         super.edit(entity);
     }
 
@@ -58,21 +58,21 @@ public class BookWantedFacadeREST extends AbstractFacade<BookWanted> {
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public BookWanted find(@PathParam("id") Long id) {
+    public WishlistItem find(@PathParam("id") Long id) {
         return super.find(id);
     }
 
     @GET
     @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<BookWanted> findAll() {
+    public List<WishlistItem> findAll() {
         return super.findAll();
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<BookWanted> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
+    public List<WishlistItem> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return super.findRange(new int[]{from, to});
     }
 
