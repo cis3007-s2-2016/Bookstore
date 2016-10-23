@@ -40,14 +40,20 @@ public class CatalogManagerBean implements CatalogManager {
 	}
 
 	@Override
-	public Book createBook(String isbn, String title, BigDecimal costPrice, BigDecimal retailPrice, Date publishedYear, String description, Integer stockLevel, String publisher, String genre, String format, List<Author> bookAuthors, byte[] thumbnail) {
+	public Book createBook(String isbn, String title, BigDecimal costPrice, BigDecimal retailPrice, Date publishedYear, String description, Integer stockLevel, String publisher, String genre, String format, List<Author> bookAuthors, byte[] thumbnail) throws RuntimeException{
 		//todo: validate given data against business rules
 		if (simplifyISBN(isbn).length() != 13) {
 			throw new RuntimeException("Invalid ISBN. Must be 13 digits.");
 		}
-		Book book = new Book(simplifyISBN(isbn), title, costPrice, retailPrice, publishedYear, description, stockLevel, publisher, genre, format, bookAuthors, thumbnail);
-		entityManager.persist(book);
-		return book;
+		
+		try {
+			Book book = new Book(simplifyISBN(isbn), title, costPrice, retailPrice, publishedYear, description, stockLevel, publisher, genre, format, bookAuthors, thumbnail);
+			entityManager.persist(book);
+			return book;
+		} catch(Exception e) {
+			logger.severe("Error creating new book!");
+			throw e;
+		}
 	}
 
 	@Override

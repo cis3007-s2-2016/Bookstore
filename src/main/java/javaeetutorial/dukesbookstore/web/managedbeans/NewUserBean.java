@@ -57,7 +57,6 @@ public class NewUserBean extends AbstractBean implements Serializable {
 		this.emailErrorMessage = emailErrorMessage;
 	}
 
-	
 	public MemberManager getMemberManager() {
 		return memberManager;
 	}
@@ -229,8 +228,8 @@ public class NewUserBean extends AbstractBean implements Serializable {
 			setBillingPostcode(getShippingPostcode());
 			setBillingState(getShippingState());
 		}
-		
-		if (emailAlreadyRegistered() || this.getPassword() != this.getPassword2()){
+
+		if (emailAlreadyRegistered() || this.getPassword() != this.getPassword2()) {
 			return "/regiester";
 		}
 		try {
@@ -270,9 +269,14 @@ public class NewUserBean extends AbstractBean implements Serializable {
 		return ("/admin/add-new-staffmember.xhtml?faces-redirect=true&success=true");
 	}
 
-	public void generateEmailExistsError(){
-		setEmailErrorMessage("A user has already registered with that address.");
+	public void generateEmailExistsError() {
+		if (emailAlreadyRegistered()) {
+			setEmailErrorMessage("A user has already registered with that address.");
+		} else {
+			setEmailErrorMessage("");
+		}
 	}
+
 	public boolean emailAlreadyRegistered() {
 		try {
 			Member user = memberManager.find(email);

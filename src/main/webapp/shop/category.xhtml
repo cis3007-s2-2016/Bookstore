@@ -41,7 +41,7 @@
 									<h4>#{book.title}</h4>
 								</h:commandLink>
 							</h:form >
-							<ui:repeat value="#{book.bookAuthors}" var="author" varStatus="status">
+							<ui:repeat value="#{book.bookAuthors}" var="author" varStatus="status" >
 								<h5 class="text-capitalize">#{ author.givenNames.toLowerCase()} #{author.surname.toLowerCase()}#{status.last ? "" : ", "}</h5>
 							</ui:repeat>
 							<div class="rating">

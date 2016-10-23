@@ -171,12 +171,11 @@ public class CatalogBean implements Serializable {
 			return "/admin/add-new-book.xhtml?faces-redirect=true&book-exists=true";
 		}
 		try {
-
 			processAuthors();
 			getCatalogManager().createBook(getIsbn(), getTitle(), BigDecimal.valueOf(getCostPrice()), BigDecimal.valueOf(getRetailPrice()), sqlPublishedDate(), getSynopsis(), getStock(), getPublisher(), getCategory(), getFormat(), getAuthorsList(), this.thumbnail());
 		} catch (Exception e) {
 			System.out.println("Failed to add new Book:  " + e.getMessage());
-			//todo: handle exception
+			return "/admin/add-new-book.xhtml?faces-redirect=true&data-invalid=true";
 		}
 		return "/admin/add-new-book.xhtml?success=true&faces-redirect=true&includeViewParams=true";
 	}

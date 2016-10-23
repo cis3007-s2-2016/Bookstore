@@ -6,17 +6,18 @@
 package javaeetutorial.dukesbookstore.ejb;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
+import javaeetutorial.dukesbookstore.entity.Book;
 import javaeetutorial.dukesbookstore.entity.Member;
 import javaeetutorial.dukesbookstore.entity.PurchasedItem;
 import javaeetutorial.dukesbookstore.entity.SaleNew;
 import javaeetutorial.dukesbookstore.web.managedbeans.CartItem;
-import javaeetutorial.dukesbookstore.web.managedbeans.ShoppingCart;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -105,6 +106,22 @@ public class SalesManagerBean implements SalesManager {
 		address.append(user.getShippingState()).append(" ");
 		address.append(user.getShippingPostcode());
 		return address.toString();
+	}
+
+	@Override
+	public List<PurchasedItem> getPurchasedItems(SaleNew sale) {
+		TypedQuery<PurchasedItem> query;
+		query = entityManager.createQuery("SELECT p FROM PurchasedItem p WHERE p.sale = :sale", PurchasedItem.class);
+		query.setParameter("sale", sale);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<SaleNew> getPurchases(Member user) {
+		TypedQuery<SaleNew> query;
+		query = entityManager.createQuery("SELECT s FROM SaleNew s WHERE s.purchaser = :user ORDER BY s.purchaseDate DESC", SaleNew.class);
+		query.setParameter("user", user);
+		return query.getResultList();
 	}
 
 }

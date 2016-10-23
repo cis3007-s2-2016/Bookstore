@@ -19,7 +19,14 @@
                         <br />
                         <c:if test="#{param['book-exists'] == 'true'}">
                             <div class="alert alert-danger">
-                                <strong>Book already exists!</strong> Do you want to edit this book instead?
+                                <strong>Book already exists!</strong> Do you want to 
+								<h:link outcome="/admin/modify-book">edit</h:link>
+								this book instead?
+                            </div>
+                        </c:if>
+						<c:if test="#{param['data-invalid'] == 'true'}">
+                            <div class="alert alert-danger">
+                                <strong>Uh oh:</strong> Please check all fields are correct and try again.
                             </div>
                         </c:if>
                         <c:if test="#{param['success'] == 'true'}">
@@ -27,6 +34,7 @@
                                 <strong>Successfully added book to catalog.</strong>
                             </div>
                         </c:if>
+						
                         <hr />
                     </div>
                 </div>

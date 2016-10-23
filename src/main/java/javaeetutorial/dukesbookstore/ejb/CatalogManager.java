@@ -35,7 +35,7 @@ public interface CatalogManager {
 			String format,
 			List< Author> bookAuthors,
 			byte[] thumbnail
-	);
+	) throws RuntimeException;
 
 	public Author createAuthor(String firstnames, String lastname);
 

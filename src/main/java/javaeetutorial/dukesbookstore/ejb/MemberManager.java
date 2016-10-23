@@ -43,5 +43,7 @@ public interface MemberManager {
      */
     public List<Member> getStaff();
 	
-	public void persist(Member user);
+	public void updateUser(Member user);
+	
+	public void changePassword(Member user, String password);
 }

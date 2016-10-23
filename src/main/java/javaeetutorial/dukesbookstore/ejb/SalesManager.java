@@ -6,7 +6,10 @@
 package javaeetutorial.dukesbookstore.ejb;
 
 import java.util.ArrayList;
+import java.util.List;
 import javaeetutorial.dukesbookstore.entity.Member;
+import javaeetutorial.dukesbookstore.entity.PurchasedItem;
+import javaeetutorial.dukesbookstore.entity.SaleNew;
 import javaeetutorial.dukesbookstore.web.managedbeans.CartItem;
 import javaeetutorial.dukesbookstore.web.managedbeans.ShoppingCart;
 import javax.ejb.Remote;
@@ -19,6 +22,10 @@ import javax.ejb.Remote;
 public interface SalesManager {
 
 	public void newSale(Member user, ArrayList<CartItem> cart);
+
+	public List<PurchasedItem> getPurchasedItems(SaleNew sale);
+
+	public List<SaleNew> getPurchases(Member user);
 	
 	
 }
