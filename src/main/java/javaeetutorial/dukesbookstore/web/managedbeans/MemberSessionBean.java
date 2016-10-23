@@ -8,6 +8,7 @@ package javaeetutorial.dukesbookstore.web.managedbeans;
 import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.logging.Logger;
 import javaeetutorial.dukesbookstore.ejb.MemberManager;
 import javaeetutorial.dukesbookstore.entity.Member;
@@ -16,6 +17,8 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import org.apache.commons.lang.exception.ExceptionUtils;
 
 /**

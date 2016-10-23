@@ -18,12 +18,12 @@
 
 
 
-		<header>
-			<nav class="navbar navbar-inverse navbar-fixed-top">
+        <header>
+            <nav class="navbar navbar-inverse navbar-fixed-top">
                 <ui:include src="navbar.xhtml"/>
-			</nav>
-		</header>
-
+            </nav>
+        </header>
+        
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-3 col-md-2 sidebar">
@@ -39,30 +39,32 @@
                     <ul class="nav nav-sidebar">
                         <li class='nav-divider'></li>
                         <li class="#{view.viewId == '/user/purchase-history.xhtml' ? 'active':''}"><h:link outcome="/user/purchase-history" value="New Purchases" /></li>
-						<li class="#{view.viewId == '/user/auction-purchase-history.xhtml' ? 'active':''}"><h:link outcome="/user/auction-purchase-history" value="Auction Purchases" /></li>
+                        <li class="#{view.viewId == '/user/auction-purchase-history.xhtml' ? 'active':''}"><h:link outcome="/user/auction-purchase-history" value="Auction Purchases" /></li>
                     </ul>
-					<ul class="nav nav-sidebar">
+                    <ul class="nav nav-sidebar">
                         <li class='nav-divider'></li>
-						<li class="#{view.viewId == '/user/details.xhtml' ? 'active':''}"><h:link outcome="/user/details" value="My Details"/></li>
+                        <li class="#{view.viewId == '/user/details.xhtml' ? 'active':''}"><h:link outcome="/user/details" value="My Details"/></li>
+                        <li class="#{view.viewId.equals('/user/view-users.xhtml')? 'active' : ''}">
+                            <h:link value="Search Users" outcome="view-users" />
+                        </li>
                         <li class="#{view.viewId == '/user/change-password.xhtml' ? 'active':''}"><h:link outcome="/user/change-password" value="Change Password"/></li>
-
-					</ul>
+                    </ul>
                 </div>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 dashboard-main">
-					<div id="content">
-						<br /> <br />
+                    <div id="content">
+                        <br /> <br />
                         <div class="container-fluid">
-							<ui:insert name='content' />
+                            <ui:insert name='content' />
                         </div>
 
 
                     </div>
-				</div>
-			</div>
-		</div>
-	</h:body>
-	<!-- SCRIPTS -->
-	<ui:include src="scripts.xhtml"/>
+                </div>
+            </div>
+        </div>
+    </h:body>
+    <!-- SCRIPTS -->
+    <ui:include src="scripts.xhtml"/>
 
 
 </html>

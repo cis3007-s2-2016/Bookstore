@@ -52,9 +52,7 @@ public class BookReviewBean extends AbstractBean implements Serializable{
     
     public void onReviewLinkAjax(AjaxBehaviorEvent event)
     {
-        logger.info("OI M8");
         showReview = true;
-        logger.info("Show review");
         bookReview = new BookReview();
         bookReview.setReviewer(memberSession.user());
         bookReview.setReviewed(store.getSelectedBook());
@@ -105,8 +103,19 @@ public class BookReviewBean extends AbstractBean implements Serializable{
         return getIntListFromMToN(1, (int) Math.floor(avgRating));
     }
 	
-	public boolean noReviewsYet(Book b){
-		List<BookReview> bookReviews = bookReviewManager.getReviews(b);
-		return bookReviews.size() == 0;
-	}
+    public boolean noReviewsYet(Book b){
+            List<BookReview> bookReviews = bookReviewManager.getReviews(b);
+            return bookReviews.size() == 0;
+    }
+    
+    public List<Integer> getRemainingStars(BookReview b)
+    {
+        int remaining = 5 - (int) Math.floor(b.getRating());
+        return getIntListFromMToN(1, remaining);
+    }
+    
+    public List<Integer> getRemainingAvgStars(Book b)
+    {
+        return getIntListFromMToN(1, 5 - getAverageStarList(b).size());
+    }
 }

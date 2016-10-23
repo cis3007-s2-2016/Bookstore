@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -7,122 +7,105 @@
       xmlns:bookstore="http://dukesbookstore"
       template="WEB-INF/templates/bookstore.template.xhtml"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	  xmlns:p="http://primefaces.org/ui"
+      xmlns:p="http://primefaces.org/ui"
       xmlns:jsf="http://xmlns.jcp.org/jsf">
-	<div class="container">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#navbar-collapsible">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <h:link class="navbar-brand" outcome="/index" value="Dukes Bookstore" />
+        </div>
 
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target="#navbar-collapsible">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<h:link class="navbar-brand" outcome="/index" value="Dukes Bookstore" />
-		</div>
+        <div class="navbar-collapse collapse" id="navbar-collapsible">
 
-		<div class="navbar-collapse collapse" id="navbar-collapsible">
+            <ul class="nav navbar-nav navbar-left">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false">Shop <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><h:link outcome="/shop" value="Shop All" /></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="dropdown-header">Categories</li>
+                        <ui:repeat value="#{shop.genres}" var="genre">
+                            <h:form>
+                                <li><h:commandLink action="#{shop.viewGenre(genre)}">#{genre}</h:commandLink></li>
+                            </h:form>
+                        </ui:repeat>
+                    </ul>
+                </li>
+                <li><a href="sales/List.xhtml">Member Sales</a></li>
+                <li style="min-width: 500px;">
+                    <h:form class="navbar-form navbar-nav">
 
-			<ul class="nav navbar-nav navbar-left">
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-					   aria-haspopup="true" aria-expanded="false">Shop <span class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li><h:link outcome="/shop" value="Shop All" /></li>
-						<li role="separator" class="divider"></li>
-						<li class="dropdown-header">Categories</li>
-						<ui:repeat value="#{shop.genres}" var="genre">
-							<h:form>
-								<li><h:commandLink action="#{shop.viewGenre(genre)}">#{genre}</h:commandLink></li>
-							</h:form>
-						</ui:repeat>
-					</ul>
-				</li>
-				<li><a href="sales/List.xhtml">Member Sales</a></li>
-				<li style="min-width: 500px;">
-					<h:form class="navbar-form navbar-nav">
+                        <div class="input-group">
+                            <h:inputText id="nav-search" class="form-control" style="width:400px;"
+                                         value="#{shop.searchString}">
+                                <f:passThroughAttribute name="list" value="navsearchentries"/>
+                                <f:passThroughAttribute name="placeholder" value="Search book titles..." />
+                            </h:inputText>
 
-						<div class="input-group">
-							<h:inputText id="nav-search" class="form-control" style="width:400px;"
-										 value="#{shop.searchString}">
-								<f:passThroughAttribute name="list" value="navsearchentries"/>
-								<f:passThroughAttribute name="placeholder" value="Search book titles..." />
-							</h:inputText>
+                            <datalist id="navsearchentries">
+                                <c:forEach items="#{shop.bookList}" var ="book">
+                                    <option value="#{book.title}" />
+                                </c:forEach>
+                            </datalist>
 
-							<datalist id="navsearchentries">
-								<c:forEach items="#{shop.bookList}" var ="book">
-									<option value="#{book.title}" />
-								</c:forEach>
-							</datalist>
+                            <span class="input-group-addon">
+                                <h:commandLink id="search-action" action="${shop.searchPage()}" type="submit" >
+                                    <i class="fa fa-fw fa-lg fa-search" aria-hidden="true"></i>
+                                </h:commandLink>
 
-							<span class="input-group-addon">
-								<h:commandLink id="search-action" action="${shop.searchPage()}" type="submit" >
-									<i class="fa fa-fw fa-lg fa-search" aria-hidden="true"></i>
-								</h:commandLink>
+                            </span>
 
-							</span>
+                        </div>
+                    </h:form>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <h:link outcome="/cart" rendered="#{!memberSession.admin}">
+                        <i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i>
+                        <span class="badge" id="cart-item-count">
+                            #{cart.numberOfItems()}
 
-						</div>
-					</h:form>
+                        </span>
+                    </h:link>
+                </li>
+                <li>
+                    <h:link outcome="/login" rendered="#{!memberSession.loggedIn}"><i class="fa fa-sign-in"
+                                                                                      aria-hidden="true"></i> Login
+                    </h:link>
+                </li>
+                <c:if test="#{memberSession.loggedIn}">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-haspopup="true" aria-expanded="false">
+                            #{memberSession.firstname}  <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <h:link outcome="/user/index" rendered="#{memberSession.customer}"><i
+                                        class="fa fa-dashboard" aria-hidden="true"></i> Dashboard</h:link>
+                                <h:link outcome="/admin/activity-summary" rendered="#{memberSession.admin}"><i
+                                        class="fa fa-dashboard" aria-hidden="true"></i> Admin</h:link>
+                            </li>
+                            <h:form>
+                                <li>
 
-
-
-
-				</li>
-			</ul>
-
-
-
-
-
-
-
-
-			<ul class="nav navbar-nav navbar-right">
-				<li>
-					<h:link outcome="/cart" rendered="#{!memberSession.admin}">
-						<i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i>
-						<span class="badge" id="cart-item-count">
-							#{cart.numberOfItems()}
-
-						</span>
-					</h:link>
-				</li>
-
-				<li>
-					<h:link outcome="/login" rendered="#{!memberSession.loggedIn}"><i class="fa fa-sign-in"
-																					  aria-hidden="true"></i> Login
-					</h:link>
-				</li>
-
-
-				<c:if test="#{memberSession.loggedIn}">
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-						   aria-haspopup="true" aria-expanded="false">
-							#{memberSession.firstname}  <span class="caret"></span>
-						</a>
-						<ul class="dropdown-menu">
-							<li>
-								<h:link outcome="/user/index" rendered="#{memberSession.customer}"><i
-										class="fa fa-dashboard" aria-hidden="true"></i> Dashboard</h:link>
-								<h:link outcome="/admin/activity-summary" rendered="#{memberSession.admin}"><i
-										class="fa fa-dashboard" aria-hidden="true"></i> Admin</h:link>
-							</li>
-							<h:form>
-								<li>
-
-									<h:commandLink action="#{memberSession.logout}"><i
-											class="fa fa-sign-out"
-											aria-hidden="true"></i> Logout</h:commandLink>
-								</li>
-							</h:form>
-						</ul>
-					</li>
-				</c:if>
-			</ul>
-		</div>
-
-	</div>
+                                    <h:commandLink action="#{memberSession.logout}"><i
+                                            class="fa fa-sign-out"
+                                            aria-hidden="true"></i> Logout</h:commandLink>
+                                </li>
+                            </h:form>
+                        </ul>
+                    </li>
+                </c:if>
+            </ul>
+        </div>
+    </div>
 </html>

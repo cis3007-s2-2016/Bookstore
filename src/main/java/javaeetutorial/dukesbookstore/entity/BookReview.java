@@ -42,7 +42,7 @@ public class BookReview implements Serializable {
 
 
     private String review;
-    private Float rating;
+    private Float rating = 0f;
 
     public Float getRating() {
         return rating;
