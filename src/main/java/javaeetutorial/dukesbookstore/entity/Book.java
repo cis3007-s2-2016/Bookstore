@@ -76,7 +76,7 @@ public class Book implements Serializable {
 	private String format;
 	
 	@Lob
-	@Basic(optional = false)
+//	@Basic(optional = false)
 	private byte[] thumbnail;
 
 	@ManyToMany(fetch = FetchType.EAGER, targetEntity = Author.class)

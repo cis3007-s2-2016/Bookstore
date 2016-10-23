@@ -40,9 +40,9 @@ import javax.faces.convert.Converter;
 @NamedQueries({
 	@NamedQuery(name = "Sale.findAll", query = "SELECT s FROM SaleUsed s"),
 	@NamedQuery(name = "Sale.findById", query = "SELECT s FROM SaleUsed s WHERE s.id = :id"),
-	@NamedQuery(name = "Sale.findByDatelisted", query = "SELECT s FROM SaleUsed s WHERE s.datelisted = :datelisted"),
+	@NamedQuery(name = "Sale.findByDatelisted", query = "SELECT s FROM SaleUsed s WHERE s.dateListed = :dateListed"),
 	@NamedQuery(name = "Sale.findByDuration", query = "SELECT s FROM SaleUsed s WHERE s.duration = :duration"),
-	@NamedQuery(name = "Sale.findByItemcondition", query = "SELECT s FROM SaleUsed s WHERE s.itemcondition = :itemcondition")
+	@NamedQuery(name = "Sale.findByItemcondition", query = "SELECT s FROM SaleUsed s WHERE s.itemCondition = :itemCondition")
 })
 public class SaleUsed implements Serializable, Converter {
 
@@ -57,31 +57,31 @@ public class SaleUsed implements Serializable, Converter {
 	@Column(name = "DATELISTED", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable = false, updatable = false)
 	@Basic(optional = false)
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date datelisted;
+	private Date dateListed;
 
 	@Column(name = "DURATION")
 	private Integer duration;
 
 	@Size(max = 255)
 	@Column(name = "ITEMCONDITION")
-	private String itemcondition;
+	private String itemCondition;
 
 	// @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
 	@Column(name = "POSTAGE", nullable = false, precision = 7, scale = 2)    // Creates the database field with this size.
 	private BigDecimal postage;
 
 	@Column(name = "RESERVEPRICE", nullable = false, precision = 7, scale = 2)    // Creates the database field with this size.
-	private BigDecimal reserveprice;
+	private BigDecimal reservePrice;
 
 	@Column(name = "SALEPRICE", nullable = false, precision = 7, scale = 2)    // Creates the database field with this size.
-	private BigDecimal saleprice;
+	private BigDecimal salePrice;
 
 	@Size(max = 255)
 	@Column(name = "SALETYPE")
-	private String saletype;
+	private String saleType;
 
 	@Column(name = "STARTPRICE", nullable = false, precision = 7, scale = 2)    // Creates the database field with this size.
-	private BigDecimal startprice;
+	private BigDecimal startPrice;
 
 	@OneToMany(mappedBy = "saleidId")
 	private Collection<AuctionBid> auctionBidsCollection;
@@ -125,11 +125,11 @@ public class SaleUsed implements Serializable, Converter {
 	}
 
 	public Date getDatelisted() {
-		return datelisted;
+		return dateListed;
 	}
 
-	public void setDatelisted(Date datelisted) {
-		this.datelisted = datelisted;
+	public void setDatelisted(Date dateListed) {
+		this.dateListed = dateListed;
 	}
 
 	public Integer getDuration() {
@@ -140,12 +140,12 @@ public class SaleUsed implements Serializable, Converter {
 		this.duration = duration;
 	}
 
-	public String getItemcondition() {
-		return itemcondition;
+	public String getItemCondition() {
+		return itemCondition;
 	}
 
-	public void setItemcondition(String itemcondition) {
-		this.itemcondition = itemcondition;
+	public void setItemCondition(String itemCondition) {
+		this.itemCondition = itemCondition;
 	}
 
 	public BigDecimal getPostage() {
@@ -157,35 +157,35 @@ public class SaleUsed implements Serializable, Converter {
 	}
 
 	public BigDecimal getReserveprice() {
-		return reserveprice;
+		return reservePrice;
 	}
 
 	public void setReserveprice(BigDecimal reserveprice) {
-		this.reserveprice = reserveprice;
+		this.reservePrice = reserveprice;
 	}
 
 	public BigDecimal getSaleprice() {
-		return saleprice;
+		return salePrice;
 	}
 
 	public void setSaleprice(BigDecimal saleprice) {
-		this.saleprice = saleprice;
+		this.salePrice = saleprice;
 	}
 
 	public String getSaletype() {
-		return saletype;
+		return saleType;
 	}
 
 	public void setSaletype(String saletype) {
-		this.saletype = saletype;
+		this.saleType = saletype;
 	}
 
 	public BigDecimal getStartprice() {
-		return startprice;
+		return startPrice;
 	}
 
 	public void setStartprice(BigDecimal startprice) {
-		this.startprice = startprice;
+		this.startPrice = startprice;
 	}
 
 	@XmlTransient

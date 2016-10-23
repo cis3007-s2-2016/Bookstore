@@ -44,9 +44,9 @@ public class Member implements Serializable {
 	private String password;
 	@Basic(optional = false)
 	private String permissionGroup;
-	@Basic(optional = false)
+//	@Basic(optional = false)
 	private String firstName;
-	@Basic(optional = false)
+//	@Basic(optional = false)
 	private String surname;
 
 	@Column(unique = true)
@@ -55,25 +55,25 @@ public class Member implements Serializable {
 
 	@Column(name = "JOINDATE", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable = false, updatable = false)
 	private Timestamp joinDate;
-	@Basic(optional = false)
+//	@Basic(optional = false)
 	private String shippingAddressLine1;
 	private String shippingAddressLine2;
-	@Basic(optional = false)
+//	@Basic(optional = false)
 	private String shippingPostcode;
-	@Basic(optional = false)
+//	@Basic(optional = false)
 	private String shippingCity;
-	@Basic(optional = false)
+//	@Basic(optional = false)
 	private String shippingState;
-	@Basic(optional = false)
+//	@Basic(optional = false)
 	private String billingAddressLine1;
 	private String billingAddressLine2;
-	@Basic(optional = false)
+//	@Basic(optional = false)
 	private String billingCity;
-	@Basic(optional = false)
+//	@Basic(optional = false)
 	private String billingState;
-	@Basic(optional = false)
+//	@Basic(optional = false)
 	private String billingPostcode;
-	@Basic(optional = false)
+//	@Basic(optional = false)
 	private boolean receiveNewletter = true;
 
 	@ManyToMany

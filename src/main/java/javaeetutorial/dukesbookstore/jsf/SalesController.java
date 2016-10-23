@@ -7,9 +7,11 @@ package javaeetutorial.dukesbookstore.jsf;
  * 
  */
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.ResourceBundle;
+import javaeetutorial.dukesbookstore.entity.Member;
 import javaeetutorial.dukesbookstore.entity.SaleUsed;
 import javaeetutorial.dukesbookstore.session.SaleFacade;
 import javaeetutorial.dukesbookstore.util.JsfUtil;
@@ -25,6 +27,8 @@ import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
         
 @Named//("salesController")
@@ -39,6 +43,7 @@ public class SalesController implements Serializable {
     private int selectedItemIndex;    
     private Date date = new Date();    
     private ResourceBundle resourceBundle = ResourceBundle.getBundle("javaeetutorial.dukesbookstore.web.messages.Messages");
+    private HttpSession session;
     private EntityManager em;
     
     public SalesController() {
@@ -76,28 +81,85 @@ public class SalesController implements Serializable {
 
     public String prepareList() {
         recreateModel();
-        return "List";
+        return "salesList";
+    }
+
+    public SaleUsed getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(SaleUsed current) {
+        this.current = current;
+    }
+
+    public SaleFacade getEjbFacade() {
+        return ejbFacade;
+    }
+
+    public void setEjbFacade(SaleFacade ejbFacade) {
+        this.ejbFacade = ejbFacade;
+    }
+
+    public int getSelectedItemIndex() {
+        return selectedItemIndex;
+    }
+
+    public void setSelectedItemIndex(int selectedItemIndex) {
+        this.selectedItemIndex = selectedItemIndex;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public ResourceBundle getResourceBundle() {
+        return resourceBundle;
+    }
+
+    public void setResourceBundle(ResourceBundle resourceBundle) {
+        this.resourceBundle = resourceBundle;
+    }
+
+    public HttpSession getSession() {
+        return session;
+    }
+
+    public void setSession(HttpSession session) {
+        this.session = session;
+    }
+
+    public EntityManager getEm() {
+        return em;
+    }
+
+    public void setEm(EntityManager em) {
+        this.em = em;
     }
 
     public String prepareView() {
         current = (SaleUsed) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "View";
+        return "salesView";
     }
 
     public String prepareCreateFixed() { //after written to database before new add sale page displayed
         current = new SaleUsed();
         selectedItemIndex = -1;
-        return "CreateFixed";
+        return "salesCreateFixed";
     }
 
     public String prepareCreateAuction() {
         current = new SaleUsed();
         selectedItemIndex = -1;
-        return "CreateAuction";
+        return "salesCreateAuction";
     }
 
     public String createFixed() {
+        
         current.setSaletype("Fixed Sale");
         current.setDatelisted(new Timestamp(date.getTime()));
         String successMessage= (resourceBundle.getString("SalesCreated"));
@@ -113,14 +175,27 @@ public class SalesController implements Serializable {
     }
     
     public String createAuction() {
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        this.setSession(request.getSession());
+        Member member = new Member();           
+        member = (Member) session.getAttribute("user");  
+        
+        current.setSelleridId(member);        
         current.setSaletype("Auction");
-        current.setDatelisted(new Timestamp(date.getTime()));        
+        current.setDatelisted(new Timestamp(date.getTime())); 
+        current.setSaleprice(BigDecimal.ZERO);
+        current.setCommission(BigDecimal.TEN);
+        current.setAmount(BigDecimal.ZERO);
+        current.setPaid(false);
+        
         String successMessage= (resourceBundle.getString("AuctionCreated"));
         successMessage = (current.toString()) + " " + successMessage;
         try {
-            getFacade().create(current);
+//            SaleFacade test = new SaleFacade();
+//            test.create(current);
+            getFacade().create(current); //this is where data is written to the table
             JsfUtil.addSuccessMessage(successMessage);            
-            return prepareCreateAuction();
+            return prepareCreateAuction(); //current destroyed and re-created
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, resourceBundle.getString("PersistenceErrorOccured"));
             return null;
@@ -131,7 +206,7 @@ public class SalesController implements Serializable {
         try {
             getFacade().edit(current);
             JsfUtil.addSuccessMessage(resourceBundle.getString("SalesUpdated"));
-            return "View";
+            return "salesView";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, resourceBundle.getString("PersistenceErrorOccured"));
             return null;
@@ -156,13 +231,13 @@ public class SalesController implements Serializable {
     public String next() {
         getPagination().nextPage();
         recreateModel();
-        return "List";
+        return "salesList";
     }
 
     public String previous() {
         getPagination().previousPage();
         recreateModel();
-        return "List";
+        return "salesList";
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {
@@ -225,7 +300,7 @@ public class SalesController implements Serializable {
     public String prepareEdit() {
         current = (SaleUsed) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "Edit";
+        return "salesEdit";
     }
    
     public String destroy() {
@@ -234,7 +309,7 @@ public class SalesController implements Serializable {
         performDestroy();
         recreatePagination();
         recreateModel();
-        return "List";
+        return "salesList";
     }
 
     public String destroyAndView() {
@@ -242,11 +317,11 @@ public class SalesController implements Serializable {
         recreateModel();
         updateCurrentItem();
         if (selectedItemIndex >= 0) {
-            return "View";
+            return "salesView";
         } else {
             // all items were removed - go back to list
             recreateModel();
-            return "List";
+            return "salesList";
         }
     }
 

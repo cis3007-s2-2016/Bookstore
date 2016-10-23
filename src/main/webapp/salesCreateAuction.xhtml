@@ -1,0 +1,197 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:bookstore="http://dukesbookstore"
+                template="/WEB-INF/templates/bookstore.template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:v-on="http://www.vue.com"
+                xmlns:v-bind="http://www.vue.com"
+                xmlns:v-show="http://www.vue.com">
+    
+<!-- @author amanda hugnkiss -->
+
+    <ui:define name="top"></ui:define>
+    <ui:define name="content">
+        <div class="container register-form-container" id="app">
+            <div id="app" class="row">
+                <div>
+                    
+                <!-- FORM HEADER -->
+                    <div class="sale-form-top">
+                        <div class="row vertical-align">
+                            <div class="col-sm-10">
+                                <span class="h3">#{bundle.CreateAuctionTitle}</span>
+                            </div>
+                            <div clas="col-sm-2">
+                                <i class="fa fa-gavel fa-5x login-form-icon hide-when-small" 
+                                   aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div> 
+                
+                    <!-- FORM CONTENT -->
+                    <div class="sale-form-bottom">                        
+                        <f:view>
+                        <h:form class="form-horizontal">                                  
+                            <h:panelGroup id="messagePanel" 
+                                          layout="block">
+                                <h:messages errorStyle="color: red" 
+                                            infoStyle="color: green" 
+                                            layout="table">
+                                </h:messages>
+                            </h:panelGroup>
+
+                            <!-- ISBN: -->
+                            <div class="form-group">                                
+                                <h:outputLabel value="#{bundle.CreateAuctionLabel_isbnIsbn}" 
+                                               for="isbnIsbn" 
+                                               class="col-sm-3 control-label">
+                                </h:outputLabel>
+                                <div class="col-sm-8"> 
+                                    <h:selectOneMenu id="isbnIsbn" 
+                                                     class="form-control" 
+                                                     required="required"                                                      
+                                                     value="#{salesController.selected.isbn}" 
+                                                     title="#{bundle.CreateAuctionTitle_isbnIsbn}" >
+                                        <f:selectItems value="#{booksController.itemsAvailableSelectOne}"/>
+                                    </h:selectOneMenu>
+                                    <span class="form-control-feedback"><i v-bind:class='isbnFeedback' aria-hidden="true"></i></span>
+                                </div> 
+                            </div>
+                            
+                            <!-- itemcondition -->
+                            <div class="form-group">                                
+                                <h:outputLabel value="#{bundle.CreateAuctionLabel_itemcondition}" 
+                                               for="itemcondition" 
+                                               class="col-sm-3 control-label">
+                                </h:outputLabel>
+                                <div class="col-sm-2">
+                                    <h:selectOneListbox value="#{salesController.selected.itemCondition}" 
+                                                        class="form-control" 
+                                                        required="required" 
+                                                        title="#{bundle.CreateSalesTitle_itemcondition}" >
+                                        <f:selectItem itemValue="Very Poor" itemLabel="Very Poor" />
+                                        <f:selectItem itemValue="Poor" itemLabel="Poor" />
+                                        <f:selectItem itemValue="Good" itemLabel="Good" />
+                                        <f:selectItem itemValue="Very Good" itemLabel="Very Good" />
+                                        <f:selectItem itemValue="Never Read" itemLabel="Never Read" />
+                                    </h:selectOneListbox>
+                                </div> 
+                            </div>   
+                            
+                            <!-- duration -->
+                            <div class="form-group">                                
+                                <h:outputLabel value="#{bundle.CreateAuctionLabel_duration}" 
+                                               for="duration" 
+                                               class="col-sm-3 control-label">
+                                </h:outputLabel>
+                                <div class="col-sm-3">
+                                    <h:inputText id="duration" 
+                                                 class="form-control" 
+                                                 value="#{salesController.selected.duration}" 
+                                                 title="#{bundle.CreateAuctionTitle_duration}" 
+                                                 converterMessage="Please enter digits only.">
+                                    </h:inputText>
+                                </div> 
+                            </div>
+                            
+                            <!-- postage -->
+                            <div class="form-group">                                
+                                <h:outputLabel value="#{bundle.CreateAuctionLabel_postage}" 
+                                               for="postage" 
+                                               class="col-sm-3 control-label">
+                                </h:outputLabel>
+                                <div class="col-sm-2">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">$</div>
+                                        <h:inputText id="postage" 
+                                                     required="required" 
+                                                     class="form-control" 
+                                                     value="#{salesController.selected.postage}" 
+                                                     title="#{bundle.CreateAuctionTitle_postage}">
+                                        </h:inputText>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- reservePrice -->
+                            <div class="form-group">                                
+                                <h:outputLabel value="#{bundle.CreateAuctionLabel_reserveprice}" 
+                                               for="reservePrice" 
+                                               class="col-sm-3 control-label">
+                                </h:outputLabel>
+                                <div class="col-sm-2">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">$</div>
+                                        <h:inputText class="form-control"
+                                                     value="#{salesController.selected.reserveprice}" 
+                                                     title="#{bundle.CreateAuctionTitle_reserveprice}">
+                                        </h:inputText>
+                                    </div>
+                                </div> 
+                            </div>                                
+                            
+                            <!-- startPrice -->
+                            <div class="form-group">                                
+                                <h:outputLabel value="#{bundle.CreateAuctionLabel_startprice}" 
+                                               for="startPrice" 
+                                               class="col-sm-3 control-label">
+                                </h:outputLabel>
+                                <div class="col-sm-2">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">$</div>
+                                        <h:inputText id="startprice"
+                                                     required="required"
+                                                     class="form-control"
+                                                     value="#{salesController.selected.startprice}" 
+                                                     title="#{bundle.CreateAuctionTitle_startprice}">
+                                        </h:inputText>
+                                    </div>                                        
+                                    <span class="form-control-feedback">
+                                        <i v-bind:class='startPriceFeedback' 
+                                           aria-hidden="true">
+                                        </i>
+                                    </span>
+                                </div> 
+                            </div>
+                                
+                            <hr />
+                            <!--buttons-->  
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-2"></div>
+                                        <div class="col-sm-2">
+                                            <h:commandLink action="#{salesController.createAuction}" 
+                                                           value="#{bundle.CreateAuctionSaveLink}" 
+                                                           class="btn btn-primary"
+                                                           style="width:100%;">
+                                            </h:commandLink>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <h:commandLink action="#{salesController.prepareList}" 
+                                                           value="#{bundle.CreateAuctionShowAllLink}" 
+                                                           immediate="true" 
+                                                           class="btn btn-primary"
+                                                           style="width:100%;">
+                                            </h:commandLink>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <h:link outcome="/index" 
+                                                    value="#{bundle.CreateAuctionIndexLink}" 
+                                                    class="btn btn-primary"
+                                                    style="width:100%;">
+                                            </h:link>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                        </h:form>
+                        </f:view>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

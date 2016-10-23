@@ -16,24 +16,35 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.exception.ExceptionUtils;
+
 /**
  *
  * @author matt
  */
 @Named("memberSession")
 @SessionScoped
-public class MemberSessionBean implements Serializable{
+public class MemberSessionBean implements Serializable {
 
     @EJB
     MemberManager memberManager;
-	private static final Logger logger = Logger.getLogger("dukesbookstore.web.managedbeans.ShoppingCart");
+    private Logger logger = Logger.getLogger("dukesbookstore.web.managedbeans.ShoppingCart");
     private String username;
     private String password;
     private Member user;
     private int loginAttemptCount;
+    private HttpSession session;
 
+    public HttpSession getSession() {
+        return session;
+    }
 
+    public void setSession(HttpSession session) {
+        this.session = session;
+    }
+    
     public String getUsername() {
         return this.username;
     }
@@ -66,98 +77,94 @@ public class MemberSessionBean implements Serializable{
         this.loginAttemptCount = loginAttemptCount;
     }
 
-    public MemberSessionBean(){
+    public MemberSessionBean() {
         setLoginAttemptCount(0);
     }
 
-
-
-    
-
-    
-    public String login(){
+    public String login() {
         try {
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();            
             this.setUser(memberManager.find(this.getUsername()));
+            this.setSession(request.getSession());
+            this.getSession().setAttribute("user", this.getUser());
+            
             String password = this.hashedPassword(this.getPassword());
+            
             System.out.println(this.getPassword() + ",  " + password + "     " + getUser().getPassword());
             if (!password.equals(this.getUser().getPassword())) {
                 throw new RuntimeException("Incorrect password");
             }
+
             this.setLoginAttemptCount(0);
             logger.info(this.getUser().getFirstName() + " logged in.");
 
-
-            if (isAdmin()){
+            if (isAdmin()) {
                 logger.info("Authenticated user is Admin. Returning admin panel");
                 return "/admin/activity-summary";
             }
-            if (isCustomer()){
+            if (isCustomer()) {
                 logger.info("Authenticated user is Customer. Returning customer dashboard");
                 return "/dashboard";
             }
 
+        } catch (Exception e) {
+            logger.info("memberSession.info() : Error logging in:");
+            logger.info(e.toString());
+            logger.info(ExceptionUtils.getStackTrace(e));
 
-        } catch (Exception e){
-			logger.info("memberSession.info() : Error logging in:");
-			logger.info(e.toString());
-			logger.info(ExceptionUtils.getStackTrace(e));
-			
-			
             this.setUser(null);
             this.setUsername(null);
             this.setPassword(null);
             this.setLoginAttemptCount(this.getLoginAttemptCount() + 1);
 
             try {
-                if (this.getLoginAttemptCount() > 5){
+                if (this.getLoginAttemptCount() > 5) {
                     Thread.sleep(10000);
                 }
                 Thread.sleep(2000);
             } catch (InterruptedException e1) {
-                logger.info("memberSessionBean.login():  Sleep thread interupted!"+ e1);
+                logger.info("memberSessionBean.login():  Sleep thread interupted!" + e1);
                 return "/login.xhtml?faces-redirect=true&error=true";
             }
         }
         return "/login.xhtml?faces-redirect=true&error=true";
 
     }
-    
-    
+
     public void logout() {
-        try{
+        try {
             ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
             context.invalidateSession();
             context.redirect(context.getRequestContextPath() + "/index.xhtml");
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Failed to log out! " + e.getMessage());
         }
     }
 
-    
     public boolean isAdmin() {
         return this.getUser() != null && this.getUser().getPermissionGroup().equalsIgnoreCase("admin");
     }
 
-    public boolean isCustomer(){
+    public boolean isCustomer() {
         return this.getUser() != null && this.getUser().getPermissionGroup().equalsIgnoreCase("customer");
     }
 
-    public boolean hasPermissionGroup(String groupName){
-        if (groupName.equalsIgnoreCase("admin")){
+    public boolean hasPermissionGroup(String groupName) {
+        if (groupName.equalsIgnoreCase("admin")) {
             return this.isAdmin();
         }
-        if (groupName.equalsIgnoreCase("customer")){
+        if (groupName.equalsIgnoreCase("customer")) {
             return this.isCustomer();
         }
         return false;
     }
 
-    public Member user(){
+    public Member user() {
         return this.getUser();
     }
 
-    public String getFirstname(){
-        if (this.getUser() == null){
+    public String getFirstname() {
+        if (this.getUser() == null) {
             return null;
         }
         return this.user().getFirstName();
@@ -166,13 +173,13 @@ public class MemberSessionBean implements Serializable{
     public boolean isLoggedIn() {
         return this.getUser() != null;
     }
-	
-	public String editUser(){
-		memberManager.persist(getUser());
-		return "/index";
-	}
 
-    private String hashedPassword(String password){
+    public String editUser() {
+        memberManager.persist(getUser());
+        return "/index";
+    }
+
+    private String hashedPassword(String password) {
         byte byteData[];
         try {
 
@@ -185,17 +192,16 @@ public class MemberSessionBean implements Serializable{
             return "";
         }
 
-
         StringBuilder hexString = new StringBuilder();
-        for (int i=0;i<byteData.length;i++) {
-                String hex=Integer.toHexString(0xff & byteData[i]);
-                if(hex.length()==1) hexString.append('0');
-                hexString.append(hex);
+        for (int i = 0; i < byteData.length; i++) {
+            String hex = Integer.toHexString(0xff & byteData[i]);
+            if (hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
         }
         return hexString.toString();
 
     }
 
-
 }
- 
