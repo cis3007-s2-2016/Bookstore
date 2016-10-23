@@ -69,7 +69,9 @@ public class BookstoreBean implements Serializable {
 			return new ArrayList<Book>();
 		}
 	}
-
+        public List<Book> getAllBooks(){
+            return catalog.getAllBooks();
+        }
 	public String viewBook(String isbn) {
 		try {
 			setSelectedBook(getCatalog().findBook(isbn));

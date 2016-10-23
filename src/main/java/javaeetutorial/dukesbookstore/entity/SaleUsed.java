@@ -67,13 +67,13 @@ public class SaleUsed implements Serializable, Converter {
 	private String itemcondition;
 
 	// @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-	@Column(name = "POSTAGE", nullable = false, precision = 7, scale = 2)    // Creates the database field with this size.
+	@Column(name = "POSTAGE", nullable = true, precision = 7, scale = 2)    // Creates the database field with this size.
 	private BigDecimal postage;
 
-	@Column(name = "RESERVEPRICE", nullable = false, precision = 7, scale = 2)    // Creates the database field with this size.
+	@Column(name = "RESERVEPRICE", nullable = true, precision = 7, scale = 2)    // Creates the database field with this size.
 	private BigDecimal reserveprice;
 
-	@Column(name = "SALEPRICE", nullable = false, precision = 7, scale = 2)    // Creates the database field with this size.
+	@Column(name = "SALEPRICE", nullable = true, precision = 7, scale = 2)    // Creates the database field with this size.
 	private BigDecimal saleprice;
 
 	@Size(max = 255)
