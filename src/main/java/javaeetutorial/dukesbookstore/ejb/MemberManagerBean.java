@@ -92,20 +92,31 @@ public class MemberManagerBean implements MemberManager {
         return query.getSingleResult();
     }
     
-    
+    @Override
+    public List<Member> getCustomers()
+    {
+        String customerGroup = "customer";
+        TypedQuery<Member> query = entityManager.createQuery("SELECT m FROM Member m WHERE m.permissionGroup = :perm", Member.class);
+        query.setParameter("perm", customerGroup);
+        
+        return query.getResultList();
+    }
+    @Override
     public List<Member> getStaff()
     {
       String adminPermissionGroup = "admin";
-      TypedQuery<Member> query = entityManager.createQuery("SELECT m FROM Member m WHERE m.permissionGroup = :permissionGroup", Member.class);
-      query.setParameter("permissionGroup", adminPermissionGroup);
+      TypedQuery<Member> query = entityManager.createQuery("SELECT m FROM Member m WHERE m.permissionGroup = :perm", Member.class);
+      query.setParameter("perm", adminPermissionGroup);
       return query.getResultList();
     }
+    
     public MemberManagerBean(){
 
     }
 
 	@Override
 	public void persist(Member user) {
+            
 		entityManager.persist(user);
 	}
     

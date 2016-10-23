@@ -41,6 +41,7 @@ public interface MemberManager {
      * @return list of members who are bookstore staff members
      */
     public List<Member> getStaff();
+    public List<Member> getCustomers();
 	
 	public void persist(Member user);
 }

@@ -32,6 +32,9 @@
                         <li class="#{view.viewId.equals('/user/details.xhtml')? 'active' : ''}">
                             <h:link value='Account' outcome="details" />
                         </li>
+                        <li class="#{view.viewId.equals('/user/view-users.xhtml')? 'active' : ''}">
+                            <h:link value="Search Users" outcome="view-users" />
+                        </li>
                         <li><a href="#">Wishlist</a></li>
                     </ul>
                     <ul class="nav nav-sidebar">
