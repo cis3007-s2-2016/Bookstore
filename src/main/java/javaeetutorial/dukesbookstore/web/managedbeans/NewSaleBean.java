@@ -8,17 +8,12 @@ package javaeetutorial.dukesbookstore.web.managedbeans;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import javaeetutorial.dukesbookstore.ejb.MemberSaleManager;
-import javaeetutorial.dukesbookstore.entity.Book;
 import javaeetutorial.dukesbookstore.entity.SaleUsed;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.logging.Logger;
-import javaeetutorial.dukesbookstore.entity.Member;
 import javax.annotation.PostConstruct;
-import javax.ejb.BeforeCompletion;
-import javax.ejb.EJB;
 import javax.faces.event.AjaxBehaviorEvent;
 
 
@@ -36,6 +31,17 @@ public class NewSaleBean implements Serializable{
     MemberSessionBean memberSession;
     
     private SaleUsed memberSale;
+	private boolean myBookIsntListed = false;
+
+	public boolean getMyBookIsntListed() {
+		return myBookIsntListed;
+	}
+
+	public void setMyBookIsntListed(boolean myBookIsntListed) {
+		this.myBookIsntListed = myBookIsntListed;
+	}
+	
+	
 
     public NewSaleBean() {
     }

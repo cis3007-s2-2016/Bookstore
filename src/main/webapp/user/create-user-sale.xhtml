@@ -29,10 +29,13 @@
                                     
                                     <label for="book-to-auction">Book to auction</label>
                                     <h:selectOneMenu id="book-to-auction" styleClass="form-control" value="#{newMemberSale.memberSale.isbn}">
-                                        <f:selectItems value="#{shop.books}" var="i" itemLabel="#{i.title}" />
+                                        <f:selectItems value="#{shop.allBooks}" var="i" itemLabel="#{i.title}" />
                                         <f:ajax execute="@this" render="@this" />
                                     </h:selectOneMenu>
                                 </div>
+								<div style="margin:20px 5px;">
+								Book not listed? <h:link outcome="add-user-book">Add your book<i class="fa fa-fw fa-arrow-right"></i></h:link>
+								</div>
                                 <div class="input-group">
                                     <label >Book Condition</label>
                                         <h:selectOneMenu id="condition" styleClass="form-control ">
