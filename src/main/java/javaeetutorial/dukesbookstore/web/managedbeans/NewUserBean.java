@@ -229,8 +229,8 @@ public class NewUserBean extends AbstractBean implements Serializable {
 			setBillingState(getShippingState());
 		}
 
-		if (emailAlreadyRegistered() || this.getPassword() != this.getPassword2()) {
-			return "/regiester";
+		if (emailAlreadyRegistered() || ! this.getPassword().equals(this.getPassword2())) {
+			return "/register";
 		}
 		try {
 			long memberId = memberManager.createCustomer(
@@ -279,7 +279,7 @@ public class NewUserBean extends AbstractBean implements Serializable {
 
 	public boolean emailAlreadyRegistered() {
 		try {
-			Member user = memberManager.find(email);
+			Member user = memberManager.find(email.toLowerCase());
 			if (user == null) {
 				return false;
 			} else {

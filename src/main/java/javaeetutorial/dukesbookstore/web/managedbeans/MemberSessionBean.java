@@ -250,7 +250,7 @@ public class MemberSessionBean implements Serializable {
 
 	private boolean emailAlreadyRegistered() {
 		try {
-			Member user = memberManager.find(getNewEmail());
+			Member user = memberManager.find(getNewEmail().toLowerCase());
 			if (user == null) {
 				return false;
 			} else {

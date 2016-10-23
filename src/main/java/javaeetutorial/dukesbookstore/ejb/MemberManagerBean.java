@@ -33,7 +33,7 @@ public class MemberManagerBean implements MemberManager {
 		if (!password1.equals(password2)) {
 			throw new RuntimeException("Passwords do no match.");
 		}
-		Member member = new Member(email, password1, "admin");
+		Member member = new Member(email.toLowerCase(), password1, "admin");
 		member.setFirstName(firstname);
 		member.setSurname(lastname);
 		entityManager.persist(member);
@@ -68,7 +68,7 @@ public class MemberManagerBean implements MemberManager {
 		if (!password1.equals(password2)) {
 			throw new RuntimeException("Passwords do no match.");
 		}
-		Member member = new Member(email, password1, "customer");
+		Member member = new Member(email.toLowerCase(), password1, "customer");
 		member.setFirstName(firstname);
 		member.setSurname(lastname);
 		member.setShippingAddressLine1(shippingLine1);
