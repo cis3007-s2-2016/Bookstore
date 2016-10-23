@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javaeetutorial.dukesbookstore.ejb.CatalogManager;
 import javaeetutorial.dukesbookstore.entity.Author;
+import javaeetutorial.dukesbookstore.entity.Book;
 
 /**
  * Created by matt on 15/10/2016.
@@ -257,6 +258,10 @@ public class CatalogBean implements Serializable {
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to add authors:  " + e.getMessage());
 		}
+	}
+	
+	public List<Book> lowStockBooks(){
+		return catalogManager.booksWithStockLowerThan(0);
 	}
 
 

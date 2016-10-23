@@ -25,10 +25,8 @@
                 <div class="col-sm-3 col-md-2 sidebar">
                     <ul class="nav nav-sidebar">
                         <li class="#{view.viewId.equals('/admin/activity-summary.xhtml') ? 'active' : '' }">
-                            
                             <h:link value="Activity Summary" outcome="activity-summary" />
                         </li>
-                        <li><a href="#">Staff Profile</a></li>
                     </ul>
                     <ul class="nav nav-sidebar">
                         <li class="nav-divider"></li>
@@ -36,7 +34,7 @@
                         <li class="#{view.viewId.equals('/admin/add-new-book.xhtml') ? 'active' : '' }">
                             <h:link value="Add Book" outcome="add-new-book" />
                         </li>
-                        <li class="#{view.viewId.equals('/admin/modify-book.xhtml') ? 'active' : ''}}">
+                        <li class="#{view.viewId.equals('/admin/modify-book.xhtml') ? 'active' : ''}">
                             <h:link value="Modify Book" outcome="modify-book.xhtml" />
                         </li>
                     </ul>
@@ -56,9 +54,9 @@
                         <li class="#{view.viewId.equals('/admin/sales-report.xhtml') ? 'active' : '' }">
                             <h:link value="Sales" outcome="sales-report" />
                         </li>
-                        <li><a href="">Stock</a></li>
-                        <li><a href="">Books</a></li>
-                        <li><a href="">Site Activity</a></li>
+                        <li class="#{view.viewId.equals('/admin/sales-report.xhtml') ? 'active' : '' }">
+							<h:link value="Out of Stock" outcome="stock-report" />
+						</li>
                     </ul>
                 </div>
                 

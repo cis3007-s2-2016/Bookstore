@@ -134,4 +134,11 @@ public class CatalogManagerBean implements CatalogManager {
 		return query.getResultList();
 	}
 
+	@Override
+	public List<Book> booksWithStockLowerThan(int count) {
+		TypedQuery<Book> query = entityManager.createQuery("SELECT b FROM Book b WHERE b.stockLevel <= :count ORDER BY b.stockLevel", Book.class);
+		query.setParameter("count", count);
+		return query.getResultList();
+	}
+
 }
