@@ -10,9 +10,13 @@ import java.math.BigDecimal;
 import javaeetutorial.dukesbookstore.ejb.MemberSaleManager;
 import javaeetutorial.dukesbookstore.entity.SaleUsed;
 import javax.faces.view.ViewScoped;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.logging.Logger;
+import javaeetutorial.dukesbookstore.ejb.BookRequestBean;
+import javaeetutorial.dukesbookstore.entity.Book;
+import javaeetutorial.dukesbookstore.exception.BookNotFoundException;
 import javax.annotation.PostConstruct;
 import javax.faces.event.AjaxBehaviorEvent;
 
@@ -26,7 +30,8 @@ public class NewSaleBean implements Serializable{
     @Inject
     MemberSaleManager memberSaleManager;
     
-    
+    @Inject
+    BookRequestBean bookRequest;
     @Inject
     MemberSessionBean memberSession;
     
@@ -41,7 +46,17 @@ public class NewSaleBean implements Serializable{
 		this.myBookIsntListed = myBookIsntListed;
 	}
 	
-	
+    private String bookISBN = "";
+
+    public String getBookISBN() {
+        return bookISBN;
+    }
+
+    public void setBookISBN(String bookISBN) {
+        this.bookISBN = bookISBN;
+    }
+    
+    
 
     public NewSaleBean() {
     }
@@ -57,8 +72,6 @@ public class NewSaleBean implements Serializable{
         memberSale.setStartprice(BigDecimal.ZERO);
         memberSale.setAmount(BigDecimal.ONE);
         memberSale.setCommission(BigDecimal.valueOf(0.05));
-        
-        logger.info("MEMBER SALE IS: " + memberSale.toString());
     }
     
     
@@ -66,13 +79,24 @@ public class NewSaleBean implements Serializable{
     public SaleUsed getMemberSale() {
         return this.memberSale;
     }
-
-    
     
     public void onAjaxSubmit(AjaxBehaviorEvent event)
     {
-        logger.info("AJAX EVENT IN NEW SALE BEAN");
+        logger.info("Submitting new user sale");
         memberSaleManager.persist(memberSale);
+    }
+    
+    public void debugOnAjax(AjaxBehaviorEvent event)
+    {
+        logger.info("Yes ajax was actually called.");
+    }
+    
+    public void updateBookFromBookISBN(AjaxBehaviorEvent event) throws BookNotFoundException
+    {
+        Book toSell = bookRequest.getBook(bookISBN);
+        memberSale.setIsbn(toSell);
+        
+        logger.info("Updated book based on book isbn");
     }
 
 }

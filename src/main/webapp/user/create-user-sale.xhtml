@@ -28,9 +28,12 @@
                                 <div class="input-group">
                                     
                                     <label for="book-to-auction">Book to auction</label>
-                                    <h:selectOneMenu id="book-to-auction" styleClass="form-control" value="#{newMemberSale.memberSale.isbn}">
-                                        <f:selectItems value="#{shop.allBooks}" var="i" itemLabel="#{i.title}" />
-                                        <f:ajax execute="@this" render="@this" />
+                                    <h:selectOneMenu id="book-to-auction" styleClass="form-control" value="#{newMemberSale.bookISBN}">
+                                        <f:selectItems value="#{shop.allBooks}"
+                                                       var="i" itemValue="#{i.ISBN}"
+                                                       itemLabel="#{i.title}"
+                                                       noSelectionValue="#{shop.allBooks.get(0)}"/>
+                                        <f:ajax event="valueChange"  execute="@this" render="@this" listener="#{newMemberSale.updateBookFromBookISBN}" />
                                     </h:selectOneMenu>
                                 </div>
 								<div style="margin:20px 5px;">
@@ -38,12 +41,12 @@
 								</div>
                                 <div class="input-group">
                                     <label >Book Condition</label>
-                                        <h:selectOneMenu id="condition" styleClass="form-control ">
+                                    <h:selectOneMenu id="condition" value="#{newMemberSale.memberSale.itemcondition}" styleClass="form-control ">
                                         <f:selectItem itemValue="new" itemLabel="New"/>
                                         <f:selectItem itemValue="good" itemLabel="Good"/>
                                         <f:selectItem itemValue="minor" itemLabel="Minor Damage"/>
                                         <f:selectItem itemValue="Poor" itemLabel="Poor"/>
-                                        <f:ajax execute="@this" render="@this" />
+                                        <f:ajax event="change" execute="@this" render="@this" />
                                     </h:selectOneMenu>
                                 </div>
 
