@@ -29,6 +29,7 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.faces.convert.Converter;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -104,7 +105,6 @@ public class SaleUsed implements Serializable, Converter {
 	
 	@Column(name = "COMMISSION", nullable = false, precision = 7, scale = 2)    // Creates the database field with this size.
 	private BigDecimal commission;
-	@Size(max = 255)
 	
 	@Column(name = "PAID")
 	private boolean paid;
