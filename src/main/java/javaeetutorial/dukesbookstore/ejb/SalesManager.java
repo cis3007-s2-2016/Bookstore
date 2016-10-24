@@ -13,6 +13,7 @@ import javaeetutorial.dukesbookstore.entity.SaleNew;
 import javaeetutorial.dukesbookstore.web.managedbeans.CartItem;
 import javaeetutorial.dukesbookstore.web.managedbeans.ShoppingCart;
 import javax.ejb.Remote;
+import javax.persistence.EntityManager;
 
 /**
  *
@@ -21,11 +22,17 @@ import javax.ejb.Remote;
 @Remote
 public interface SalesManager {
 
-	public void newSale(Member user, ArrayList<CartItem> cart);
+    public void newSale(Member user, ArrayList<CartItem> cart);
 
-	public List<PurchasedItem> getPurchasedItems(SaleNew sale);
+    public List<PurchasedItem> getPurchasedItems(SaleNew sale);
 
-	public List<SaleNew> getPurchases(Member user);
+    public List<SaleNew> getPurchases(Member user);
+
+    public String shippingAddressString(Member user);
+
+    public EntityManager getEntityManager();
+
+    public void setEntityManager(EntityManager entityManager);
 	
 	
 }

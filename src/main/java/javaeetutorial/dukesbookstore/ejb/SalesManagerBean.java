@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-import javaeetutorial.dukesbookstore.entity.Book;
 import javaeetutorial.dukesbookstore.entity.Member;
 import javaeetutorial.dukesbookstore.entity.PurchasedItem;
 import javaeetutorial.dukesbookstore.entity.SaleNew;
@@ -28,12 +27,15 @@ public class SalesManagerBean implements SalesManager {
 
 	@PersistenceContext(unitName = "bookstorePU")
 	private EntityManager entityManager;
-	private static final Logger logger = Logger.getLogger("dukesbookstore.ejb.SalesManagerBean");
-
+	
+        private static final Logger logger = Logger.getLogger("dukesbookstore.ejb.SalesManagerBean");
+        
+        @Override
 	public EntityManager getEntityManager() {
 		return entityManager;
 	}
-
+        
+        @Override
 	public void setEntityManager(EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
@@ -93,7 +95,8 @@ public class SalesManagerBean implements SalesManager {
 			throw e;
 		}
 	}
-
+        
+        @Override
 	public String shippingAddressString(Member user) {
 		StringBuilder address = new StringBuilder();
 		if (!user.getShippingAddressLine1().isEmpty()) {

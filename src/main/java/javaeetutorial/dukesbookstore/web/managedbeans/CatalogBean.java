@@ -17,6 +17,7 @@ import java.util.List;
 import javaeetutorial.dukesbookstore.ejb.CatalogManager;
 import javaeetutorial.dukesbookstore.entity.Author;
 import javaeetutorial.dukesbookstore.entity.Book;
+import javax.inject.Inject;
 
 /**
  * Created by matt on 15/10/2016.
@@ -26,6 +27,8 @@ import javaeetutorial.dukesbookstore.entity.Book;
 public class CatalogBean implements Serializable {
 	@EJB
 	CatalogManager catalogManager;
+	@Inject
+	NewSaleBean saleBean;
 	private String isbn;
 	private String title;
 	private String authors;
@@ -262,6 +265,25 @@ public class CatalogBean implements Serializable {
 	
 	public List<Book> lowStockBooks(){
 		return catalogManager.booksWithStockLowerThan(0);
+	}
+	
+	public String addUserBook(){
+		if (catalogManager.bookExists(getIsbn())) {
+			return "/user/add-user-book.xhtml?faces-redirect=true&book-exists=true";
+		}
+		try {
+			processAuthors();
+			setStock(0);
+			setRetailPrice(0);
+			setCostPrice(0);
+			Book book = getCatalogManager().createBook(getIsbn(), getTitle(), BigDecimal.valueOf(getCostPrice()), BigDecimal.valueOf(getRetailPrice()), sqlPublishedDate(), getSynopsis(), getStock(), getPublisher(), getCategory(), getFormat(), getAuthorsList(), this.thumbnail());
+			saleBean.getMemberSale().setIsbn(book);
+		} catch (Exception e) {
+			System.out.println("Failed to add new Book:  " + e.getMessage());
+			return "/user/add-user-book.xhtml?faces-redirect=true&data-invalid=true";
+		}
+		
+		return "/user/create-user-sale";
 	}
 
 

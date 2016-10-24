@@ -149,5 +149,13 @@ public class CatalogManagerBean implements CatalogManager {
 		query.setParameter("count", count);
 		return query.getResultList();
 	}
+        
+        @Override
+        public List<Book> getAllBooks()
+        {
+            TypedQuery<Book> query;
+            query = entityManager.createQuery("SELECT b FROM Book b ORDER BY b.created DESC", Book.class);
+            return query.getResultList();
+        }
 
 }

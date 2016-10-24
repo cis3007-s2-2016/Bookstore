@@ -29,6 +29,7 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.faces.convert.Converter;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -67,13 +68,13 @@ public class SaleUsed implements Serializable, Converter {
 	private String itemcondition;
 
 	// @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-	@Column(name = "POSTAGE", nullable = false, precision = 7, scale = 2)    // Creates the database field with this size.
+	@Column(name = "POSTAGE", nullable = true, precision = 7, scale = 2)    // Creates the database field with this size.
 	private BigDecimal postage;
 
-	@Column(name = "RESERVEPRICE", nullable = false, precision = 7, scale = 2)    // Creates the database field with this size.
+	@Column(name = "RESERVEPRICE", nullable = true, precision = 7, scale = 2)    // Creates the database field with this size.
 	private BigDecimal reserveprice;
 
-	@Column(name = "SALEPRICE", nullable = false, precision = 7, scale = 2)    // Creates the database field with this size.
+	@Column(name = "SALEPRICE", nullable = true, precision = 7, scale = 2)    // Creates the database field with this size.
 	private BigDecimal saleprice;
 
 	@Size(max = 255)
@@ -104,7 +105,6 @@ public class SaleUsed implements Serializable, Converter {
 	
 	@Column(name = "COMMISSION", nullable = false, precision = 7, scale = 2)    // Creates the database field with this size.
 	private BigDecimal commission;
-	@Size(max = 255)
 	
 	@Column(name = "PAID")
 	private boolean paid;
@@ -278,7 +278,7 @@ public class SaleUsed implements Serializable, Converter {
 
 	@Override
 	public String toString() {
-		return "" + isbn;
+		return "Sale seller is: ";
 	}
 
 	@Override

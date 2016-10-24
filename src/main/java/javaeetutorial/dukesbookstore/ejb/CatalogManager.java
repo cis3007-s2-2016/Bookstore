@@ -53,7 +53,7 @@ public interface CatalogManager {
 	public void returnBooks(String isbn, int qty);
 
 	public List<Book> booksWithStockLowerThan(int count);
-	
 	public void buyBooks(Book book, int qty);
+        public List<Book> getAllBooks();
 
 }
