@@ -1,0 +1,57 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:bookstore="http://dukesbookstore"
+                template="/WEB-INF/templates/user.template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <ui:define name="top"></ui:define> 
+    <ui:define name="content">
+        <div class="container">
+            <div class="col-md-11">
+                <div class="row">
+                    <div class="panel panel-default">
+                        <div class="panel-body" >
+                            <h3>Sold Items</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+<!--                    <div class="panel panel-default">
+                        <div class="panel-body" >-->
+                            <ui:repeat value="#{auctionListingsBean.getUserCompleteSales(memberSession.user)}" var="completeSale">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <h:outputText styleClass="badge pull-right" value="#{(completeSale.paymentstatus)? 'Funds Recieved': 'Unpaid'}" />
+                                            <h4><h:outputText value="Sold #{completeSale.isbn.title} to #{completeSale.buyeridId.firstName} #{completeSale.buyeridId.surname}"/></h4>
+                                            
+                                                <em>Send Product To: </em>
+                                                <div class="well">
+                                                    <p><h:outputText value="#{completeSale.buyeridId.billingAddressLine1}" /></p>
+                                                    <p><h:outputText value="#{completeSale.buyeridId.billingAddressLine2}" /></p>
+                                                    <p>
+                                                        <h:outputText value="#{completeSale.buyeridId.shippingCity} #{completeSale.buyeridId.shippingPostcode}  #{completeSale.buyeridId.shippingState}" />
+                                                    </p>
+                                                </div>
+                                            
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </ui:repeat>
+                            <c:if test="#{auctionListingsBean.getUserCompleteSales(memberSession.user).size() == 0}">
+                                <div class="container">
+                                    <h3 style="color:#999;">You haven't sold anything yet</h3>
+                                </div>
+                            </c:if>
+<!--                        </div>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
