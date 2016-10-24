@@ -26,33 +26,39 @@
 						</h:column>
 						<h:column>
 							<f:facet name="header">
-								Win Price
+								Sale Price
 							</f:facet>
-							#{won.amount}
+
+							<h:outputText value="#{won.saleprice}">
+								<h4><f:convertNumber currencySymbol="$" type="currency" maxFractionDigits="2" /></h4>	
+							</h:outputText>
 						</h:column>
 						<h:column>
 							<f:facet name="header">
 								Postage Cost
 							</f:facet>
-							#{won.postage}
+							<h:outputText value="#{won.postage}">
+								<h4><f:convertNumber currencySymbol="$" type="currency" maxFractionDigits="2" /></h4>	
+							</h:outputText>
 						</h:column>
 						<h:column>
 							<f:facet name="header">
 								Paid Status
 							</f:facet>
-							<c:if test="#{!won.paymentstatus}">
-							<h5>I need to for this item</h5>
-							<h:commandButton styleClass="btn btn-success" value="Pay for item" action="#{itemsWonBean.payFor(won)}" />
-							</c:if>
-							<c:if test="#{won.paymentstatus}">
-								<h5 class="text-success">
-									Item Paid
-								</h5>
-							</c:if>
+
+							<h:outputText value="Item Paid" rendered="#{won.paymentstatus eq true}" styleClass="text-success"/>
+							<h:panelGroup layout="block" rendered="#{won.paymentstatus eq false}">
+								<h5>I need to for this item</h5>
+								<h:form>
+									<h:commandButton styleClass="btn btn-success" value="Pay for item" action="#{itemsWonBean.payFor(won)}" />
+								</h:form>
+
+							</h:panelGroup>
+
 						</h:column>
 					</h:dataTable>
-					
-					
+
+
 				</div>
 			</div>
 		</div>

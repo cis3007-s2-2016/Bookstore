@@ -121,4 +121,9 @@ public class MemberSaleManager{
         sale.setComplete(true);
         entityManager.merge(sale);
     }
+	
+	public void buyFixedPrice(SaleUsed sale, Member buyer){
+		sale.setBuyeridId(buyer);
+		completeSale(sale);
+	}
 }

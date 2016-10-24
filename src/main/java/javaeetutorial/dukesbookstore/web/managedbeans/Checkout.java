@@ -6,6 +6,7 @@
 package javaeetutorial.dukesbookstore.web.managedbeans;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.logging.Logger;
 import javaeetutorial.dukesbookstore.ejb.CatalogManager;
 import javaeetutorial.dukesbookstore.ejb.SalesManager;
@@ -121,12 +122,15 @@ public class Checkout implements Serializable {
 	}
 	
 	public void paySeller(){
+		BigDecimal commision = winBean.getSelectedSale().getCommission().multiply(winBean.getSelectedSale().getSaleprice());
 		try {
-			sendPaymentToSeller();
+			sendPaymentToSeller(winBean.getSelectedSale().getSaleprice().subtract(commision));
 		} catch(Exception e){
 			//todo: handle error from 3rd party payment processing
 		}
+		
 		destroyPrivateData();
+		winBean.getSelectedSale().setPaid(true);
 		getSalesManager().markAsPaymentSent(winBean.getSelectedSale());
 		Ajax.data("PaymentSuccess", "true");
 		Ajax.oncomplete("auctionpaymentsuccess()");
@@ -163,7 +167,7 @@ public class Checkout implements Serializable {
 		
 		return true;
 	}
-	private void sendPaymentToSeller(){
+	private void sendPaymentToSeller(BigDecimal amountSellerReceives){
 		// Make transaction and send to seller
 		return;
 	}

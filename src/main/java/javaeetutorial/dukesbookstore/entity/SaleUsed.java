@@ -8,7 +8,6 @@ package javaeetutorial.dukesbookstore.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
-import java.sql.Date;
 import java.util.Calendar;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -30,7 +29,6 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.faces.convert.Converter;
-import javax.validation.constraints.NotNull;
 
 /**
  *
