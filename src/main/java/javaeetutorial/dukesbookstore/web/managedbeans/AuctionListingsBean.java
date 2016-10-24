@@ -5,21 +5,67 @@
  */
 package javaeetutorial.dukesbookstore.web.managedbeans;
 
+import java.util.List;
+import java.util.logging.Logger;
+import javaeetutorial.dukesbookstore.ejb.MemberSaleManager;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
-
+import javaeetutorial.dukesbookstore.entity.SaleUsed;
+import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
 /**
  *
  * @author matt
  */
 @Named(value = "auctionListingsBean")
-@Dependent
-public class AuctionListingsBean {
+@ViewScoped
+public class AuctionListingsBean extends AbstractBean{
+    Logger logger = Logger.getLogger(AuctionListingsBean.class.getTypeName());
+        
+    @Inject
+    MemberSaleManager saleManager;
+    
+    @Inject
+    UserSaleBean saleBean;
+    /**
+     * Creates a new instance of AuctionListingsBean
+     */
 
-	/**
-	 * Creates a new instance of AuctionListingsBean
-	 */
-	public AuctionListingsBean() {
-	}
+    private boolean filterFixedSaleOnly = false;
+    private boolean filterAuctionsOnly = false;
+
+    public boolean isFilterFixedSaleOnly() {
+        return filterFixedSaleOnly;
+    }
+
+    public void setFilterFixedSaleOnly(boolean filterFixedSaleOnly) {
+        this.filterFixedSaleOnly = filterFixedSaleOnly;
+    }
+
+    public boolean isFilterAuctionsOnly() {
+        return filterAuctionsOnly;
+    }
+
+    public void setFilterAuctionsOnly(boolean filterAuctionsOnly) {
+        this.filterAuctionsOnly = filterAuctionsOnly;
+    }
+        
+    public AuctionListingsBean() {
+    }
+
+
+    public List<SaleUsed> getActiveMemberSales()
+    {
+        
+        return saleManager.getActiveSales();
+    }
+    
+    public String bidOrBuy()
+    {
+            logger.info("bid or buy ....................................");
+            return "/auctions/bid-or-buy.xhtml";
+    }
+
+        
 	
 }

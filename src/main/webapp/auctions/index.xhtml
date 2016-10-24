@@ -13,8 +13,69 @@
 
     <ui:define name="top"></ui:define> 
     <ui:define name="content">
-		
-		
-		
+        <div class="container">
+            <div class="col-md-11">
+                <div class="row">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <h3>View Member Sales</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <h:form styleClass="form-horizontal" enctype="multipart/form-data">
+                            <ui:repeat value="#{auctionListingsBean.activeMemberSales}" var="activeSale">
+                                
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <div class="col-md-6">
+                                        <h4>
+                                            <h:outputText value="Auction of " rendered='#{activeSale.saletype eq "auction"}' />
+                                            <h:outputText value="Fixed sale of " rendered='#{activeSale.saletype eq "fixed"}' />
+                                            <h:outputText value="#{activeSale.isbn.title}" />
+                                        </h4>
+                                        
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                            <h4>
+                                                <h:outputText value='#{(activeSale.saletype eq "auction")? "Latest Bid: $" : "Price: $"}' />
+                                                <h:outputText value="#{activeSale.saleprice}" rendered="#{(activeSale.saletype eq 'fixed') or  activeSale.saleprice gt 0}" />
+                                                <h:outputText value="#{activeSale.startprice}" rendered="#{(activeSale.saletype eq 'auction') and activeSale.saleprice eq 0}" />
+                                            </h4>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <h4>
+                                                    <h:outputText value="Postage: "/><br/><h:outputText value="$ #{activeSale.postage}" />
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="btn-group">
+                                                <h:commandLink styleClass="btn btn-default" 
+                                                               value="#{(activeSale.saletype eq 'auction')? 'Bid' : 'Purchase'}" 
+                                                               action="#{auctionListingsBean.bidOrBuy}">
+                                                    <f:setPropertyActionListener target="#{userSale.selectedSale}" value="#{activeSale}" />
+                                                </h:commandLink>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                                <h5>Book Description</h5>
+                                            <div class="row">
+                                                <h:outputText value="#{activeSale.isbn.description}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ui:repeat>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>        		
 	</ui:define>
 </ui:composition>
