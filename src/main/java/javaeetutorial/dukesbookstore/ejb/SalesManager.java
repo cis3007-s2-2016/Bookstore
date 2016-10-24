@@ -36,6 +36,8 @@ public interface SalesManager {
     public void setEntityManager(EntityManager entityManager);
 
 	public List<SaleUsed> getItemsWon(Member user);
+
+	public void markAsPaymentSent(SaleUsed selectedSale);
 	
 	
 }
