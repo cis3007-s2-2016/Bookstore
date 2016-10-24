@@ -109,8 +109,16 @@ public class MemberSaleManager{
         
         SaleUsed theSale = entityManager.find(SaleUsed.class, bid.getSaleidId().getId());
         theSale.setSaleprice(bidValue);
+        theSale.setBuyeridId(bid.getMemberidId());
         entityManager.merge(theSale);
         entityManager.persist(bid);
         return true;
+    }
+    
+    public void completeSale(SaleUsed sale)
+    {
+        logger.info("Completing auction");
+        sale.setComplete(true);
+        entityManager.merge(sale);
     }
 }
