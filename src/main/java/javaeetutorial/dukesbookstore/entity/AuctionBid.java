@@ -6,9 +6,12 @@
 package javaeetutorial.dukesbookstore.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -34,13 +37,12 @@ public class AuctionBid implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Lob
-    @Column(name = "BIDTIME")
-    private byte[] bidtime;
+    
+    @Column(name = "BIDTIME", insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Timestamp bidtime;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "BIDVALUE")
     private Float bidvalue;
@@ -66,13 +68,15 @@ public class AuctionBid implements Serializable {
         this.id = id;
     }
 
-    public byte[] getBidtime() {
+    public Timestamp getBidtime() {
         return bidtime;
     }
 
-    public void setBidtime(byte[] bidtime) {
+    public void setBidtime(Timestamp bidtime) {
         this.bidtime = bidtime;
     }
+
+    
 
     public Float getBidvalue() {
         return bidvalue;

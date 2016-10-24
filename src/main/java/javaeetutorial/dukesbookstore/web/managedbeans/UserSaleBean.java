@@ -48,7 +48,7 @@ public class UserSaleBean extends AbstractBean implements Serializable{
         this.selectedSale = selectedSale;
     }
 
-    public String checkout(SaleUsed selectedSale){
+    public String checkout(){
         if(selectedSale.getSaletype().equals("auction"))
         {
             AuctionBid b = new AuctionBid();
