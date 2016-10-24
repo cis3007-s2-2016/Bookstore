@@ -39,5 +39,6 @@ public interface SalesManager {
 
 	public void markAsPaymentSent(SaleUsed selectedSale);
 	
+	public void buyFixedPrice(SaleUsed sale, Member user);
 	
 }

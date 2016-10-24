@@ -49,9 +49,9 @@
 							<h:outputText value="Item Paid" rendered="#{won.paymentstatus eq true}" styleClass="text-success"/>
 							<h:panelGroup layout="block" rendered="#{won.paymentstatus eq false}">
 							<h5>I need to for this item</h5>
+								<h:form>
 							<h:commandButton styleClass="btn btn-success" value="Pay for item" action="#{itemsWonBean.payFor(won)}" />
 								</h:form>
-
 							</h:panelGroup>
 
 						</h:column>

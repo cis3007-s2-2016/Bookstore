@@ -141,6 +141,12 @@ public class SalesManagerBean implements SalesManager {
 		selectedSale.setPaid(true);
 		entityManager.merge(selectedSale);
 	}
+
+	@Override
+	public void buyFixedPrice(SaleUsed sale, Member user) {
+		sale.setBuyeridId(user);
+		markAsPaymentSent(sale);
+	}
 	
 }
 

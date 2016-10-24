@@ -165,7 +165,8 @@ public class Checkout implements Serializable {
 		return true;
 	}
 	private void sendPaymentToSeller(){
-		// Make transaction and send to seller
+		// 1) Retain commision
+		// 2) Make transaction and send to seller
 		return;
 	}
 	

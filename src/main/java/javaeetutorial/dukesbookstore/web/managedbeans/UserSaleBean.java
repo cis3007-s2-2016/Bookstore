@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 import javaeetutorial.dukesbookstore.ejb.MemberSaleManager;
 import javaeetutorial.dukesbookstore.entity.AuctionBid;
 import javaeetutorial.dukesbookstore.entity.SaleUsed;
-import javax.enterprise.context.Dependent;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -66,7 +65,9 @@ public class UserSaleBean extends AbstractBean implements Serializable{
         
 		
 		//otherwise fixed sale...
-		saleManager.buyFixedPrice(selectedSale, memberSession.getUser());
+		getSelectedSale().setComplete(true);
+		getSelectedSale().setBuyeridId(memberSession.getUser());
+		saleManager.completeSale(getSelectedSale());
 		return "/user/items-won";
 		
     }
