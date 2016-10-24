@@ -8,6 +8,7 @@ package javaeetutorial.dukesbookstore.web.managedbeans;
 import java.util.List;
 import java.util.logging.Logger;
 import javaeetutorial.dukesbookstore.ejb.MemberSaleManager;
+import javaeetutorial.dukesbookstore.entity.Member;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import javaeetutorial.dukesbookstore.entity.SaleUsed;
@@ -60,6 +61,11 @@ public class AuctionListingsBean extends AbstractBean{
         return saleManager.getActiveSales();
     }
     
+    public List<SaleUsed> getUserCompleteSales(Member m)
+    {
+        List<SaleUsed> s = saleManager.getCompleteSalesBy(m);
+        return s;
+    }
     public String bidOrBuy()
     {
             logger.info("bid or buy ....................................");

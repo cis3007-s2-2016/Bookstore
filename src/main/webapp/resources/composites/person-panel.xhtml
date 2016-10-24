@@ -19,17 +19,15 @@
     <cc:implementation>
         <h:form>
         <div class="row">
-            <div class="col-md-11">
-                <div class="panel panel-primary">
+            <div class="col-md-12">
+                <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4>
                             
                             <h:outputText value="#{cc.attrs.bookStoreMember.firstName} #{cc.attrs.bookStoreMember.surname}" />
-                        </h4></div>
+                    </h4></div>
                     <div class="panel-body">
-                        <h4 style="display: inline-block;"><span class='label label-default'>Selling # Books</span></h4>
-                        <h4 style="display: inline-block;"><span class='label label-default'>Auctioning # Books</span></h4>
-                        <h4 style="display: inline-block;"><span class='label label-default'>Has # Reviews</span></h4>
+                        <div class='row' style='padding:1em;'>
                         <div class="btn-group pull-right">
                             <!--                            <h:commandLink styleClass="btn btn-default" value="Show Ratings">
                                                            
@@ -40,6 +38,7 @@
                                     <f:ajax event="click" render="@all" listener="#{cc.attrs.revBean.onOpenReviewForm(cc.attrs.bookStoreMember)}"/>
                                 </h:commandLink>
                             
+                        </div>
                         </div>
                         <!-- create rating -->
                         <div id="review-wrapper-#{cc.attrs.bookStoreMember.id}">

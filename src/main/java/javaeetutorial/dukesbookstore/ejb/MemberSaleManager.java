@@ -121,4 +121,11 @@ public class MemberSaleManager{
         sale.setComplete(true);
         entityManager.merge(sale);
     }
+    
+    public List<SaleUsed> getCompleteSalesBy(Member m)
+    {
+        TypedQuery<SaleUsed> query;
+        query = entityManager.createQuery("SELECT s FROM SaleUsed s WHERE s.complete = TRUE", SaleUsed.class);
+        return query.getResultList();
+    }
 }
