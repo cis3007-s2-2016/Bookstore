@@ -6,15 +6,22 @@
 package javaeetutorial.dukesbookstore.ejb;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.logging.Logger;
+import javaeetutorial.dukesbookstore.entity.AuctionBid;
 import javaeetutorial.dukesbookstore.entity.Member;
 import javaeetutorial.dukesbookstore.entity.SaleUsed;
+import javaeetutorial.dukesbookstore.entity.SaleUsed_;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -76,5 +83,34 @@ public class MemberSaleManager{
         }
         return true;
                 
+    }
+    
+    public boolean createBid(AuctionBid bid)
+    {
+//        TypedQuery<SaleUsed> query;
+//        query = entityManager.createQuery("SELECT COUNT(ms) FROM SaleUsed ms WHERE ms.startprice < :bidval AND ms.saleprice < :bidval", Integer.class);
+//        query.setParameter("bidval", bid.getBidvalue());
+//        query.setParameter("bidval", bid.getBidvalue());
+//        if()
+//        return false;
+        BigDecimal bidValue = BigDecimal.valueOf(bid.getBidvalue());
+        CriteriaBuilder qb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = qb.createQuery(Long.class);
+        Root<SaleUsed> sale = cq.from(SaleUsed.class);
+        Path<BigDecimal> startPrice = sale.get(SaleUsed_.startprice);
+        Path<BigDecimal> salePrice = sale.get(SaleUsed_.saleprice);
+        cq.select(qb.count(sale))
+            .where(qb.and( qb.gt(startPrice, bidValue), qb.gt(salePrice, bidValue)));
+        
+        if(entityManager.createQuery(cq).getSingleResult() > 0)
+        {
+            return false;
+        }
+        
+        SaleUsed theSale = entityManager.find(SaleUsed.class, bid.getSaleidId().getId());
+        theSale.setSaleprice(bidValue);
+        entityManager.merge(theSale);
+        entityManager.persist(bid);
+        return true;
     }
 }

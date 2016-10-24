@@ -7,9 +7,12 @@ package javaeetutorial.dukesbookstore.web.managedbeans;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import javaeetutorial.dukesbookstore.ejb.MemberSaleManager;
+import javaeetutorial.dukesbookstore.entity.AuctionBid;
 import javaeetutorial.dukesbookstore.entity.SaleUsed;
 import javax.enterprise.context.Dependent;
 import javax.faces.bean.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -20,9 +23,15 @@ import javax.inject.Named;
 @SessionScoped
 public class UserSaleBean extends AbstractBean implements Serializable{
     
+    @Inject
+    MemberSaleManager saleManager;
+    @Inject
+    MemberSessionBean memberSession;
+    
     private SaleUsed selectedSale;
+    
     private double bidValue = 0.0;
-
+    private boolean bidFailed = false;
     public double getBidValue() {
         return bidValue;
     }
@@ -40,7 +49,20 @@ public class UserSaleBean extends AbstractBean implements Serializable{
     }
 
     public String checkout(SaleUsed selectedSale){
-        return null;
+        if(selectedSale.getSaletype().equals("auction"))
+        {
+            AuctionBid b = new AuctionBid();
+            b.setMemberidId(memberSession.getUser());
+            b.setSaleidId(selectedSale);
+            b.setBidvalue((float) bidValue);
+            if(saleManager.createBid(b))
+            {
+                return cancelPurchase();
+            }
+            else bidFailed = true;
+            return null;
+        }
+        return cancelPurchase();
     }
     
     public String cancelPurchase()
@@ -94,5 +116,6 @@ public class UserSaleBean extends AbstractBean implements Serializable{
         return selectedSale.getSaleprice().add(selectedSale.getPostage());
         
     }
+    
 
 }
