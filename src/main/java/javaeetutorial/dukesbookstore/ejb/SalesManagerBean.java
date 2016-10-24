@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javaeetutorial.dukesbookstore.entity.Member;
 import javaeetutorial.dukesbookstore.entity.PurchasedItem;
 import javaeetutorial.dukesbookstore.entity.SaleNew;
+import javaeetutorial.dukesbookstore.entity.SaleUsed;
 import javaeetutorial.dukesbookstore.web.managedbeans.CartItem;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -127,4 +128,19 @@ public class SalesManagerBean implements SalesManager {
 		return query.getResultList();
 	}
 
+	@Override
+	public List<SaleUsed> getItemsWon(Member user) {
+		TypedQuery<SaleUsed> query;
+		query = entityManager.createQuery("SELECT s FROM SaleUsed s WHERE s.buyeridId = :user AND s.complete = true ORDER BY s.paid", SaleUsed.class);
+		return query.getResultList();
+	}
+
+	@Override
+	public void markAsPaymentSent(SaleUsed selectedSale) {
+		selectedSale.setPaid(true);
+		entityManager.merge(selectedSale);
+	}
+	
 }
+
+

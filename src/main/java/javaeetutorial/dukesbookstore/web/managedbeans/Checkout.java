@@ -35,6 +35,9 @@ public class Checkout implements Serializable {
 	@Inject
 	private MemberSessionBean memberSession;
 	
+	@Inject
+	private ItemsWonBean winBean;
+	
 	private String cardnumber;
 	private String expiryMonth;
 	private String expiryYear;
@@ -116,6 +119,18 @@ public class Checkout implements Serializable {
 		Ajax.data("cartCount", 0);
 		Ajax.oncomplete("paymentsuccess()");
 	}
+	
+	public void paySeller(){
+		try {
+			sendPaymentToSeller();
+		} catch(Exception e){
+			//todo: handle error from 3rd party payment processing
+		}
+		destroyPrivateData();
+		getSalesManager().markAsPaymentSent(winBean.getSelectedSale());
+		Ajax.data("PaymentSuccess", "true");
+		Ajax.oncomplete("auctionpaymentsuccess()");
+	}
 
 	public Checkout(SalesManager salesManager, ShoppingCart cart, MemberSessionBean memberSession, String cardnumber, String expiryMonth, String expiryYear, String csv) {
 		this.salesManager = salesManager;
@@ -147,6 +162,10 @@ public class Checkout implements Serializable {
 		}
 		
 		return true;
+	}
+	private void sendPaymentToSeller(){
+		// Make transaction and send to seller
+		return;
 	}
 	
 	private void destroyPrivateData() {

@@ -41,18 +41,6 @@ public class PurchaseHistoryBean {
 	
 	
 	
-	/**
-	 * 
-	 * 
-	 * 
-	 *			TO DO:   Make this work. List is empty
-	 * 
-	 * 
-	 * 
-	 * 
-	 * @param sale
-	 * @return 
-	 */
 	public BigDecimal totalSalePrice(SaleNew sale){
 		BigDecimal total = new BigDecimal(0);
 		List<PurchasedItem> purchases = getPurchasedItems(sale);

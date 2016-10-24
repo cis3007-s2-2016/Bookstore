@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:bookstore="http://dukesbookstore"
+                template="/WEB-INF/templates/user.template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+				xmlns:o="http://omnifaces.org/ui"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:v-on="http://www.vue.com"
+                xmlns:v-bind="http://www.vue.com"
+                xmlns:v-show="http://www.vue.com">
+
+    <ui:define name="top"></ui:define> 
+    <ui:define name="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9 col-md-offset-1">
+
+					<h:dataTable value="#{itemsWonBean.itemsWon}" var="won" styleClass="table" >
+						<h:column>
+							<f:facet name="header">
+								Item Description
+							</f:facet>
+							#{won.isbn.title}
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								Win Price
+							</f:facet>
+							#{won.amount}
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								Postage Cost
+							</f:facet>
+							#{won.postage}
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								Paid Status
+							</f:facet>
+							<c:if test="#{!won.paymentstatus}">
+							<h5>I need to for this item</h5>
+							<h:commandButton styleClass="btn btn-success" value="Pay for item" action="#{itemsWonBean.payFor(won)}" />
+							</c:if>
+							<c:if test="#{won.paymentstatus}">
+								<h5 class="text-success">
+									Item Paid
+								</h5>
+							</c:if>
+						</h:column>
+					</h:dataTable>
+					
+					
+				</div>
+			</div>
+		</div>
+    </ui:define>
+</ui:composition>

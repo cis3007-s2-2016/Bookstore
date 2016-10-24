@@ -22,7 +22,8 @@ public class AuthFilter implements Filter {
             {"/admin/(.*)", "admin"},
             {"/rest/(.*)", "admin,customer"},
 			{"/user/(.*)", "customer"},
-            {"/checkout\\.xhtml", "customer"}
+            {"/checkout\\.xhtml", "customer"},
+			{"/auction/bid-or-buy\\.xhtml", "customer"}
     };
 
 

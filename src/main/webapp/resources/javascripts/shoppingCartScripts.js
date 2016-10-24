@@ -40,5 +40,13 @@ function paymentsuccess(){
 	setTimeout(function() { 
     window.location.href = "/dukes/index.xhtml"; 
  }, 3000);
-}
-;
+};
+
+
+function auctionpaymentsuccess(){
+	$('#payment-success').removeClass("hidden");
+	$('#payment-form').addClass("hidden");
+	setTimeout(function() { 
+    window.location.href = "/dukes/user/items-won.xhtml"; 
+ }, 3000);
+};
