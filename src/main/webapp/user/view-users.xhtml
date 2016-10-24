@@ -8,21 +8,36 @@
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:composites="http://xmlns.jcp.org/jsf/composite/composites">
     <ui:define name="content">
-        <h:form id="filter-users">
-            <h4>Search Users</h4>
-            <div class="input-group">
-                <h:inputText styleClass="form-control" value="#{memberSearchBean.memberSearchString}">
-                    <f:ajax execute="@this" event="change" render="user-panels"/>
-                </h:inputText>
-            </div>
+        
             
-        </h:form>
-        <h:panelGroup id="user-panels">
-            <ui:repeat value="#{memberSearchBean.usersWithNameLike}" var="nameLikeMem">
-                <composites:person-panel bookStoreMember="#{nameLikeMem}" shouldAllowReview="#{true}" revBean="#{memberReviewBean}"/>
-            </ui:repeat>
-        </h:panelGroup>
+            <div class='container'>
+                <div class='col-md-11'>
+                    <h:form id="filter-users" styleClass="form-horizontal">
+                    <div class='panel panel-default'>
+                        <div class='panel-body'>
+                        <h4>Search Users</h4>
+                        <div class="col-md-11">
+                        <div class="input-group">
+                        
+                            <h:inputText styleClass="form-control" value="#{memberSearchBean.memberSearchString}">
+                                <f:ajax execute="@this" event="change" render="user-panels"/>
+                            </h:inputText>
+                        </div>
+                        </div>
+                        </div>
+                    </div>
+                    </h:form>
+            
+                    <h:panelGroup id="user-panels">
+                        <ui:repeat value="#{memberSearchBean.usersWithNameLike}" var="nameLikeMem">
+                            <composites:person-panel bookStoreMember="#{nameLikeMem}" shouldAllowReview="#{true}" revBean="#{memberReviewBean}"/>
+                        </ui:repeat>
+                    </h:panelGroup>
+                </div>
+            </div>
         <h:outputScript library="javascripts" name="bookReviewStars.js" />
+        
     </ui:define>
+    
     
 </ui:composition>
