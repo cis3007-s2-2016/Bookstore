@@ -132,6 +132,7 @@ public class SalesManagerBean implements SalesManager {
 	public List<SaleUsed> getItemsWon(Member user) {
 		TypedQuery<SaleUsed> query;
 		query = entityManager.createQuery("SELECT s FROM SaleUsed s WHERE s.buyeridId = :user AND s.complete = true ORDER BY s.paid", SaleUsed.class);
+		query.setParameter("user", user);
 		return query.getResultList();
 	}
 

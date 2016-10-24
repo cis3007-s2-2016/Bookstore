@@ -58,9 +58,7 @@
 																	   action="#{auctionListingsBean.bidOrBuy}" rendered="#{memberSession.loggedIn}">
 															<f:setPropertyActionListener target="#{userSale.selectedSale}" value="#{activeSale}" />
 														</h:commandLink>
-														<h:link outcome="/login" rendered="#{!memberSession.loggedIn}">
-															<button class="btn btn-default">Login to place a bid</button>
-														</h:link>
+														<h:outputText rendered="#{!memberSession.loggedIn}" value="Sign in to buy and bid"/>
 													</div>
 												</div>
 											</div>

@@ -127,6 +127,7 @@ public class Checkout implements Serializable {
 			//todo: handle error from 3rd party payment processing
 		}
 		destroyPrivateData();
+		winBean.getSelectedSale().setPaid(true);
 		getSalesManager().markAsPaymentSent(winBean.getSelectedSale());
 		Ajax.data("PaymentSuccess", "true");
 		Ajax.oncomplete("auctionpaymentsuccess()");

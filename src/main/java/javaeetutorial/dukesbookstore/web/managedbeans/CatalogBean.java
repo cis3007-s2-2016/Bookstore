@@ -264,7 +264,7 @@ public class CatalogBean implements Serializable {
 	}
 	
 	public List<Book> lowStockBooks(){
-		return catalogManager.booksWithStockLowerThan(0);
+		return catalogManager.booksWithStockLowerThan(getStock());
 	}
 	
 	public String addUserBook(){

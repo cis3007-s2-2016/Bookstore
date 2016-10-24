@@ -10,9 +10,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-import javaeetutorial.dukesbookstore.ejb.CatalogManager;
 import javaeetutorial.dukesbookstore.ejb.SalesManager;
-import javaeetutorial.dukesbookstore.entity.Member;
 import javaeetutorial.dukesbookstore.entity.SaleUsed;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -58,13 +56,15 @@ public class ItemsWonBean implements Serializable {
 		try{
 		return salesManager.getItemsWon(memberSession.getUser());
 		} catch(Exception e){
+			logger.severe("ItemsWonBean:  error getting items won: " + e.toString());
 			return new ArrayList<>();
 		}
 	}
 	
 	public String payFor(SaleUsed sale){
 		setSelectedSale(sale);
-		return "pay-for-item";
+		logger.severe("ItemsWonBean:  Sale set: " + getSelectedSale().getSaletype());
+		return "pay-for-item?faces-redirect=true";
 	}
 	
 	public BigDecimal totalPriceSelectedItem(){

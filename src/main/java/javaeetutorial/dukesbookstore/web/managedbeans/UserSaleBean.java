@@ -27,7 +27,8 @@ public class UserSaleBean extends AbstractBean implements Serializable{
     MemberSaleManager saleManager;
     @Inject
     MemberSessionBean memberSession;
-    
+    @Inject
+	ItemsWonBean winBean;
     private SaleUsed selectedSale;
     
     private double bidValue = 0.0;
@@ -62,7 +63,12 @@ public class UserSaleBean extends AbstractBean implements Serializable{
             else bidFailed = true;
             return null;
         }
-        return cancelPurchase();
+        
+		
+		//otherwise fixed sale...
+		saleManager.buyFixedPrice(selectedSale, memberSession.getUser());
+		return "/user/items-won";
+		
     }
     
     public String cancelPurchase()

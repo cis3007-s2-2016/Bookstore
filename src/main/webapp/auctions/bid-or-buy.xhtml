@@ -65,7 +65,7 @@
                             </c:if>
                             <div class="btn-group">
                                 <h:commandLink action="#{userSale.cancelPurchase()}" value="Cancel" styleClass="btn btn-default" />
-                                <h:commandLink action="#{userSale.checkout}" value="#{(userSale.selectedSale.saletype eq 'auction')? 'Place Bid' : 'Checkout'}" styleClass="btn btn-success" />
+                                <h:commandLink action="#{userSale.checkout}" value="#{(userSale.selectedSale.saletype eq 'auction')? 'Place Bid' : 'Buy Item'}" styleClass="btn btn-success" />
                             </div>
                         </div>
                     </div>
